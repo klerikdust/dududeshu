@@ -7,5 +7,12 @@
     <PackageProjectUrl>https://github.com/klerikdust/dududeshu</PackageProjectUrl>
     <PackageLicenseExpression>AGPL-3.0-or-later</PackageLicenseExpression>
     <IsPackable>false</IsPackable>
+
+  <ItemGroup>
+    <Content Include="..\Data\dudu.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Visible>false</Visible>
+    </Content>
+  </ItemGroup>
   </PropertyGroup>
 </Project>
