@@ -9,9 +9,9 @@
   "DalamudApiLevel": 15,
   "RepoUrl": "https://github.com/klerikdust/dududeshu",
   "IconUrl": "https://raw.githubusercontent.com/klerikdust/dududeshu/master/Data/dudu.png",
-  "DownloadLinkInstall": "https://github.com/klerikdust/dududeshu/releases/latest/download/dududeshu.zip",
-  "DownloadLinkUpdate": "https://github.com/klerikdust/dududeshu/releases/latest/download/dududeshu.zip",
-  "DownloadLinkTesting": "https://github.com/klerikdust/dududeshu/releases/latest/download/dududeshu.zip",
+  "DownloadLinkInstall": "https://github.com/klerikdust/dududeshu/releases/download/v0.1.0.0/dududeshu.zip",
+  "DownloadLinkUpdate": "https://github.com/klerikdust/dududeshu/releases/download/v0.1.0.0/dududeshu.zip",
+  "DownloadLinkTesting": "https://github.com/klerikdust/dududeshu/releases/download/v0.1.0.0/dududeshu.zip",
   "Tags": [
     "dudu"
   ],
