@@ -37,12 +37,22 @@ public static class Localization
                 "On: the translated text is sent on the active channel automatically.\n" +
                 "Off: the translation is copied to your clipboard and previewed in chat,\n" +
                 "so you can paste it yourself with Ctrl+V before pressing Enter.",
+            ["enable.useEcho"]            = "Print translations on the Echo channel",
+            ["tooltip.useEcho"] =
+                "On: translated lines print on the Echo channel (neutral grey).\n" +
+                "Off: translated lines print on the same channel as the source,\n" +
+                "so FFXIV's chat-log colour for that channel applies automatically.",
             ["section.translateInto"]     = "Translate into",
             ["section.translateFrom"]     = "Translate messages written in",
             ["section.channels"]          = "Channels",
             ["lang.en"]                   = "English",
             ["lang.ja"]                   = "Japanese",
             ["lang.zh-TW"]                = "Chinese (Traditional)",
+            ["clipboard.prefix"]          = "[dudu的書] ",
+            ["clipboard.copied"]          = "Copied to clipboard. Paste with Ctrl+V: ",
+            ["clipboard.copyFailed"]      = "Could not copy translation to clipboard: ",
+            ["clipboard.translateFailed"] = "Translation failed for: ",
+            ["clipboard.usage"]           = "Usage: ",
         },
         ["id"] = new()
         {
@@ -57,12 +67,22 @@ public static class Localization
                 "Aktif: terjemahan langsung dikirim ke saluran chat yang sedang aktif.\n" +
                 "Nonaktif: terjemahan disalin ke clipboard dan ditampilkan di chat,\n" +
                 "sehingga kamu bisa menempelnya sendiri dengan Ctrl+V sebelum menekan Enter.",
+            ["enable.useEcho"]            = "Tampilkan terjemahan di saluran Echo",
+            ["tooltip.useEcho"] =
+                "Aktif: terjemahan ditampilkan di saluran Echo (warna abu-abu netral).\n" +
+                "Nonaktif: terjemahan ditampilkan di saluran yang sama dengan pesan asli,\n" +
+                "sehingga warna saluran dari pengaturan FFXIV berlaku otomatis.",
             ["section.translateInto"]     = "Terjemahkan ke",
             ["section.translateFrom"]     = "Terjemahkan pesan dalam bahasa",
             ["section.channels"]          = "Saluran chat",
             ["lang.en"]                   = "Inggris",
             ["lang.ja"]                   = "Jepang",
             ["lang.zh-TW"]                = "Tionghoa (Tradisional)",
+            ["clipboard.prefix"]          = "[dudu的書] ",
+            ["clipboard.copied"]          = "Disalin ke clipboard. Tempel dengan Ctrl+V: ",
+            ["clipboard.copyFailed"]      = "Gagal menyalin terjemahan ke clipboard: ",
+            ["clipboard.translateFailed"] = "Terjemahan gagal untuk: ",
+            ["clipboard.usage"]           = "Cara pakai: ",
         },
         ["zh-TW"] = new()
         {
@@ -77,12 +97,22 @@ public static class Localization
                 "開啟：翻譯後的訊息會直接送到當前頻道。\n" +
                 "關閉：翻譯結果會複製到剪貼簿並在聊天中預覽,\n" +
                 "您可以自行用 Ctrl+V 貼上後再按 Enter 送出。",
+            ["enable.useEcho"]            = "在 Echo 頻道輸出翻譯訊息",
+            ["tooltip.useEcho"] =
+                "開啟：翻譯訊息會顯示在 Echo 頻道（中性灰色）。\n" +
+                "關閉：翻譯訊息會顯示在與原訊息相同的頻道,\n" +
+                "FFXIV 的頻道顏色會自動套用。",
             ["section.translateInto"]     = "翻譯為",
             ["section.translateFrom"]     = "翻譯以下語言的訊息",
             ["section.channels"]          = "頻道",
             ["lang.en"]                   = "英文",
             ["lang.ja"]                   = "日文",
             ["lang.zh-TW"]                = "繁體中文",
+            ["clipboard.prefix"]          = "[dudu的書] ",
+            ["clipboard.copied"]          = "已複製到剪貼簿。請用 Ctrl+V 貼上：",
+            ["clipboard.copyFailed"]      = "無法將翻譯複製到剪貼簿：",
+            ["clipboard.translateFailed"] = "翻譯失敗：",
+            ["clipboard.usage"]           = "用法：",
         },
     };
 }

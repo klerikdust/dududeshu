@@ -15,7 +15,11 @@ public class Configuration : IPluginConfiguration
     public bool Enabled { get; set; } = true;
     public bool IgnoreOwnMessages { get; set; } = true;
     public bool ShowTransliteration { get; set; } = true;
-    public bool AutoSendTranslatedCommands { get; set; } = true;
+
+    // When true, translated echoes go to XivChatType.Echo (neutral colour).
+    // When false (default), they go to the source channel so FFXIV tints the
+    // line with the user's own per-channel chat colour.
+    public bool UseEchoChannel { get; set; } = false;
 
     public string UiLanguage { get; set; } = "en";
 

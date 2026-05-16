@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Dalamud.Game.Chat;
@@ -28,6 +29,7 @@ public sealed class Plugin : IDalamudPlugin
     private static readonly string[] CommandNames = { "/ducfg", "/duconfig", "/duduconfig" };
     private const string SendJaCommand = "/jp";
     private const string SendZhCommand = "/zh";
+    private const string SendEnCommand = "/en";
 
     public Configuration Configuration { get; }
     public WindowSystem WindowSystem { get; } = new("DuduBook");
@@ -59,13 +61,17 @@ public sealed class Plugin : IDalamudPlugin
             });
         }
 
-        CommandManager.AddHandler(SendJaCommand, new CommandInfo(OnTranslateAndSend)
+        CommandManager.AddHandler(SendJaCommand, new CommandInfo(OnTranslateAndCopy)
         {
-            HelpMessage = "Translate the rest of the line into Japanese and send it.",
+            HelpMessage = "Translate the rest of the line into Japanese and copy it to the clipboard.",
         });
-        CommandManager.AddHandler(SendZhCommand, new CommandInfo(OnTranslateAndSend)
+        CommandManager.AddHandler(SendZhCommand, new CommandInfo(OnTranslateAndCopy)
         {
-            HelpMessage = "Translate the rest of the line into Traditional Chinese and send it.",
+            HelpMessage = "Translate the rest of the line into Traditional Chinese and copy it to the clipboard.",
+        });
+        CommandManager.AddHandler(SendEnCommand, new CommandInfo(OnTranslateAndCopy)
+        {
+            HelpMessage = "Translate the rest of the line into English and copy it to the clipboard.",
         });
 
         PluginInterface.UiBuilder.Draw += WindowSystem.Draw;
@@ -90,6 +96,7 @@ public sealed class Plugin : IDalamudPlugin
             CommandManager.RemoveHandler(CommandNames[i]);
         CommandManager.RemoveHandler(SendJaCommand);
         CommandManager.RemoveHandler(SendZhCommand);
+        CommandManager.RemoveHandler(SendEnCommand);
 
         try { cts.Cancel(); } catch { /* ignore */ }
         cts.Dispose();
@@ -100,12 +107,12 @@ public sealed class Plugin : IDalamudPlugin
 
     private void OnCommand(string command, string args) => ToggleConfigUi();
 
-    private void OnTranslateAndSend(string command, string args)
+    private void OnTranslateAndCopy(string command, string args)
     {
         var text = (args ?? string.Empty).Trim();
         if (string.IsNullOrEmpty(text))
         {
-            ChatGui.PrintError($"[dudu的書] Usage: {command} <message>");
+            ChatGui.PrintError($"{T("clipboard.prefix")}{T("clipboard.usage")}{command} <message>");
             return;
         }
 
@@ -113,7 +120,8 @@ public sealed class Plugin : IDalamudPlugin
         {
             SendJaCommand => "ja",
             SendZhCommand => "zh-TW",
-            _ => "ja",
+            SendEnCommand => "en",
+            _ => "en",
         };
 
         var detected = LanguageDetector.Detect(text);
@@ -131,41 +139,40 @@ public sealed class Plugin : IDalamudPlugin
                 if (string.IsNullOrWhiteSpace(translated))
                 {
                     await Framework.RunOnFrameworkThread(() =>
-                        ChatGui.PrintError($"[dudu的書] Translation failed for: {text}"));
+                        ChatGui.PrintError($"{T("clipboard.prefix")}{T("clipboard.translateFailed")}{text}"));
                     return;
                 }
 
+                // Clipboard work isn't framework-thread sensitive and may block
+                // briefly waiting for the OS clipboard, so do it before we
+                // marshal back to the framework thread for the chat echo.
+                var copied = TryCopyToClipboard(translated);
+
                 await Framework.RunOnFrameworkThread(() =>
                 {
-                    if (Configuration.AutoSendTranslatedCommands)
+                    if (!copied)
                     {
-                        if (!ChatSender.Send(translated))
-                            ChatGui.PrintError("[dudu的書] Could not send the translated message.");
+                        ChatGui.PrintError($"{T("clipboard.prefix")}{T("clipboard.copyFailed")}{translated}");
                         return;
                     }
 
-                    if (TryCopyToClipboard(translated))
-                    {
-                        var preview = new SeStringBuilder()
-                            .AddUiForeground("[dudu的書] ", 52)
-                            .AddText("Copied to clipboard. Paste with Ctrl+V: ")
-                            .AddUiForeground(translated, 60)
-                            .Build();
-                        ChatGui.Print(new XivChatEntry { Type = XivChatType.Echo, Message = preview });
-                    }
-                    else
-                    {
-                        ChatGui.PrintError($"[dudu的書] Could not copy translation to clipboard: {translated}");
-                    }
+                    var preview = new SeStringBuilder()
+                        .AddUiForeground(T("clipboard.prefix"), 52)
+                        .AddText(T("clipboard.copied"))
+                        .AddUiForeground(translated, 60)
+                        .Build();
+                    ChatGui.Print(new XivChatEntry { Type = XivChatType.Echo, Message = preview });
                 });
             }
             catch (OperationCanceledException) { }
             catch (Exception ex)
             {
-                Log.Warning($"[dudu的書] /jp or /zh failed: {ex.Message}");
+                Log.Warning($"[dudu的書] {command} failed: {ex.Message}");
             }
         }, ct);
     }
+
+    private string T(string key) => Localization.Get(Configuration.UiLanguage, key);
 
     private void OnChatMessage(IHandleableChatMessage message)
     {
@@ -173,37 +180,39 @@ public sealed class Plugin : IDalamudPlugin
             return;
 
         var type = message.LogKind;
-        var senderName = message.Sender?.TextValue ?? string.Empty;
+        var senderName = ExtractCleanSenderName(message.Sender);
         var text = ExtractPlainText(message.Message);
 
+        if (string.IsNullOrWhiteSpace(text))
+            return;
+
+        // Defensive: don't recurse on our own translated output. Our echoes
+        // either set Name to "[XX] Sender" or prefix the message body with
+        // "[XX] ". Either pattern starting with [LANG] is enough to skip.
+        if (LooksLikeOurEcho(senderName, text))
+            return;
+
         var preview = text.Length > 60 ? text[..60] + "…" : text;
-        Log.Information(
-            $"[dudu的書] in: type={type} sender='{senderName}' textLen={text.Length} '{preview}'");
+        Log.Debug($"[dudu的書] in: type={type} sender='{senderName}' textLen={text.Length} '{preview}'");
 
         if (!Configuration.EnabledChannels.Contains(type))
         {
-            Log.Information($"[dudu的書] skip: channel {type} not enabled");
+            Log.Debug($"[dudu的書] skip: channel {type} not enabled");
             return;
         }
 
         if (Configuration.IgnoreOwnMessages && IsLocalPlayer(senderName))
         {
-            Log.Information($"[dudu的書] skip: own message from '{senderName}'");
-            return;
-        }
-
-        if (string.IsNullOrWhiteSpace(text))
-        {
-            Log.Information("[dudu的書] skip: empty text after payload extraction");
+            Log.Debug($"[dudu的書] skip: own message from '{senderName}'");
             return;
         }
 
         var detected = LanguageDetector.Detect(text);
-        Log.Information($"[dudu的書] detected={detected} for '{preview}'");
+        Log.Debug($"[dudu的書] detected={detected} for '{preview}'");
 
         if (!Configuration.EnabledSourceLanguages.Contains(detected))
         {
-            Log.Information(
+            Log.Debug(
                 $"[dudu的書] skip: source language '{detected}' not in enabled set " +
                 $"[{string.Join(",", Configuration.EnabledSourceLanguages)}]");
             return;
@@ -212,7 +221,7 @@ public sealed class Plugin : IDalamudPlugin
         var target = Configuration.TargetLanguage;
         if (string.Equals(detected, target, StringComparison.OrdinalIgnoreCase))
         {
-            Log.Information($"[dudu的書] skip: detected==target ({detected})");
+            Log.Debug($"[dudu的書] skip: detected==target ({detected})");
             return;
         }
 
@@ -239,7 +248,7 @@ public sealed class Plugin : IDalamudPlugin
                     capturedText, detected, capturedTarget, wantSourceTranslit, ct).ConfigureAwait(false);
                 if (result == null)
                 {
-                    Log.Information($"[dudu的書] no result. detected={detected} target={capturedTarget} text={capturedText}");
+                    Log.Debug($"[dudu的書] no result. detected={detected} target={capturedTarget} text={capturedText}");
                     return;
                 }
 
@@ -250,7 +259,7 @@ public sealed class Plugin : IDalamudPlugin
                         result.Translated, capturedTarget, ct).ConfigureAwait(false) ?? string.Empty;
                 }
 
-                Log.Information(
+                Log.Debug(
                     $"[dudu的書] detected={detected} target={capturedTarget} " +
                     $"trans='{result.Translated}' translit='{translit}'");
 
@@ -258,7 +267,7 @@ public sealed class Plugin : IDalamudPlugin
                 var showTranslit = !string.IsNullOrWhiteSpace(translit);
 
                 await Framework.RunOnFrameworkThread(() =>
-                    PrintTranslation(capturedType, capturedSender, finalResult, showTranslit));
+                    PrintTranslation(capturedType, capturedSender, finalResult, showTranslit, detected));
             }
             catch (OperationCanceledException) { }
             catch (Exception ex)
@@ -269,7 +278,7 @@ public sealed class Plugin : IDalamudPlugin
     }
 
     private void PrintTranslation(
-        XivChatType origin, string senderName, TranslationResult result, bool wantTranslit)
+        XivChatType origin, string senderName, TranslationResult result, bool wantTranslit, string sourceLang)
     {
         var body = result.Translated;
         if (wantTranslit && !string.IsNullOrWhiteSpace(result.Transliteration))
@@ -277,51 +286,84 @@ public sealed class Plugin : IDalamudPlugin
         if (string.IsNullOrWhiteSpace(body))
             return;
 
-        var prefix = string.IsNullOrEmpty(senderName)
-            ? $"[{ChannelTag(origin)}] "
-            : $"[{ChannelTag(origin)}] {senderName}: ";
+        var langTag = LanguageTag(sourceLang);
 
-        var line = new SeStringBuilder()
-            .AddText(prefix)
+        if (Configuration.UseEchoChannel)
+        {
+            // Echo channel has no built-in sender slot, so we inline the
+            // language tag and sender name into the message itself:
+            //     "[EN] Napu D'catto: 測試 (Cèshì)"
+            var prefix = string.IsNullOrEmpty(senderName)
+                ? $"[{langTag}] "
+                : $"[{langTag}] {senderName}: ";
+            var line = new SeStringBuilder()
+                .AddText(prefix)
+                .AddText(body)
+                .Build();
+
+            ChatGui.Print(new XivChatEntry
+            {
+                Type = XivChatType.Echo,
+                Message = line,
+            });
+            return;
+        }
+
+        // Source-channel path: FFXIV draws the channel marker ([CWLS3], etc.)
+        // and fills the sender slot from Name. Tucking the language tag into
+        // the sender slot gives "[CWLS3]<[EN] Napu D'catto> body" while
+        // letting FFXIV's per-channel chat colour apply.
+        var displayName = string.IsNullOrEmpty(senderName)
+            ? $"[{langTag}]"
+            : $"[{langTag}] {senderName}";
+
+        var fullMessage = new SeStringBuilder()
             .AddText(body)
             .Build();
 
         ChatGui.Print(new XivChatEntry
         {
-            Type = XivChatType.Echo,
-            Message = line,
+            Type = origin,
+            Name = displayName,
+            Message = fullMessage,
         });
     }
 
-    private static string ChannelTag(XivChatType type) => type switch
+    private static string LanguageTag(string lang) => lang switch
     {
-        XivChatType.Say => "Say",
-        XivChatType.Yell => "Yell",
-        XivChatType.Shout => "Shout",
-        XivChatType.Party => "Party",
-        XivChatType.Alliance => "Alliance",
-        XivChatType.FreeCompany => "FC",
-        XivChatType.TellIncoming => "Tell",
-        XivChatType.NoviceNetwork => "NN",
-        XivChatType.PvPTeam => "PvP",
-        XivChatType.CrossLinkShell1 => "CWLS1",
-        XivChatType.CrossLinkShell2 => "CWLS2",
-        XivChatType.CrossLinkShell3 => "CWLS3",
-        XivChatType.CrossLinkShell4 => "CWLS4",
-        XivChatType.CrossLinkShell5 => "CWLS5",
-        XivChatType.CrossLinkShell6 => "CWLS6",
-        XivChatType.CrossLinkShell7 => "CWLS7",
-        XivChatType.CrossLinkShell8 => "CWLS8",
-        XivChatType.Ls1 => "LS1",
-        XivChatType.Ls2 => "LS2",
-        XivChatType.Ls3 => "LS3",
-        XivChatType.Ls4 => "LS4",
-        XivChatType.Ls5 => "LS5",
-        XivChatType.Ls6 => "LS6",
-        XivChatType.Ls7 => "LS7",
-        XivChatType.Ls8 => "LS8",
-        _ => type.ToString(),
+        "ja"    => "JP",
+        "zh-TW" => "ZH",
+        "zh-CN" => "ZH",
+        "en"    => "EN",
+        "id"    => "ID",
+        "ko"    => "KO",
+        _       => lang.ToUpperInvariant(),
     };
+
+    private static string ExtractCleanSenderName(SeString? sender)
+    {
+        if (sender == null) return string.Empty;
+
+        // Cross-world chat embeds a world-name suffix and a special glyph in
+        // the SeString; the PlayerPayload carries just the bare character
+        // name, which is what we want as the prefix.
+        var playerPayload = sender.Payloads.OfType<PlayerPayload>().FirstOrDefault();
+        if (playerPayload != null && !string.IsNullOrEmpty(playerPayload.PlayerName))
+            return playerPayload.PlayerName;
+
+        // Fallback: strip any leading non-letter glyph (e.g. the FC tag arrow,
+        // party-marker icons) and any " @ World" suffix from the plain text.
+        var raw = sender.TextValue?.Trim() ?? string.Empty;
+        if (string.IsNullOrEmpty(raw)) return string.Empty;
+
+        var atIndex = raw.IndexOf('@');
+        if (atIndex > 0) raw = raw[..atIndex].TrimEnd();
+
+        // Drop a leading run of non-letter characters (icons, glyphs).
+        var i = 0;
+        while (i < raw.Length && !char.IsLetter(raw[i])) i++;
+        return i > 0 ? raw[i..] : raw;
+    }
 
     private static string ExtractPlainText(SeString message)
     {
@@ -354,12 +396,37 @@ public sealed class Plugin : IDalamudPlugin
         }
     }
 
+    private static bool LooksLikeOurEcho(string senderName, string text)
+    {
+        // Our Echo-channel output prefixes the body with "[XX] Sender: ...".
+        if (StartsWithLangTag(text)) return true;
+
+        // Our source-channel output puts "[XX] Sender" into the Name slot,
+        // so the sanitised sender we extracted will start with "[XX]".
+        if (StartsWithLangTag(senderName)) return true;
+
+        return false;
+    }
+
+    private static bool StartsWithLangTag(string s)
+    {
+        if (string.IsNullOrEmpty(s) || s[0] != '[') return false;
+        var close = s.IndexOf(']');
+        if (close < 2 || close > 5) return false; // [XX] or [XYZ]
+        for (var i = 1; i < close; i++)
+            if (!char.IsLetter(s[i])) return false;
+        return true;
+    }
+
     private static bool IsLocalPlayer(string senderName)
     {
         var local = ObjectTable.LocalPlayer;
         if (local == null) return false;
         var localName = local.Name.TextValue;
-        return !string.IsNullOrEmpty(localName) &&
-               senderName.Contains(localName, StringComparison.OrdinalIgnoreCase);
+        if (string.IsNullOrEmpty(localName) || string.IsNullOrEmpty(senderName))
+            return false;
+        // Exact-match (case-insensitive) so a partial-name overlap with another
+        // player doesn't cause us to ignore their messages.
+        return string.Equals(senderName, localName, StringComparison.OrdinalIgnoreCase);
     }
 }

@@ -13,8 +13,6 @@ public static class LanguageDetector
         var hasHan = false;
         var hasHangul = false;
         var hasLatin = false;
-        var traditionalScore = 0;
-        var simplifiedScore = 0;
 
         foreach (var ch in text)
         {
@@ -28,8 +26,6 @@ public static class LanguageDetector
             else if (ch >= 0x4E00 && ch <= 0x9FFF)
             {
                 hasHan = true;
-                if (TraditionalOnly.Contains(ch)) traditionalScore++;
-                if (SimplifiedOnly.Contains(ch)) simplifiedScore++;
             }
             else if (ch >= 0xAC00 && ch <= 0xD7AF)
             {
@@ -56,14 +52,4 @@ public static class LanguageDetector
 
     public static bool NeedsTransliteration(string lang) =>
         lang == "ja" || lang == "zh-TW" || lang == "zh-CN" || lang == "ko";
-
-    // Tiny set of characters that only exist in one script form. Not exhaustive,
-    // but enough to disambiguate most chat lines without shipping a full table.
-    private static readonly System.Collections.Generic.HashSet<char> TraditionalOnly = new(
-        "說話誰時間問題實際應該麼這個們來對沒們從還會給經過點"
-            .Where(c => c >= 0x4E00));
-
-    private static readonly System.Collections.Generic.HashSet<char> SimplifiedOnly = new(
-        "说话谁时间问题实际应该么这个们来对没们从还会给经过点"
-            .Where(c => c >= 0x4E00));
 }

@@ -123,14 +123,14 @@ public sealed class ConfigWindow : Window, IDisposable
             configuration.Save();
         }
 
-        var autoSend = configuration.AutoSendTranslatedCommands;
-        if (ImGui.Checkbox(T("enable.autoSend"), ref autoSend))
+        var useEcho = configuration.UseEchoChannel;
+        if (ImGui.Checkbox(T("enable.useEcho"), ref useEcho))
         {
-            configuration.AutoSendTranslatedCommands = autoSend;
+            configuration.UseEchoChannel = useEcho;
             configuration.Save();
         }
         if (ImGui.IsItemHovered())
-            ImGui.SetTooltip(T("tooltip.autoSend"));
+            ImGui.SetTooltip(T("tooltip.useEcho"));
 
         ImGui.Spacing();
         ImGui.Separator();
