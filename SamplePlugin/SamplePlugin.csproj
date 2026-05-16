@@ -8,17 +8,4 @@
     <PackageLicenseExpression>AGPL-3.0-or-later</PackageLicenseExpression>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Content Include="..\Data\dudu.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Visible>false</Visible>
-    </Content>
-  </ItemGroup>
-
-  <Target Name="CopyPluginIcon" AfterTargets="Build">
-    <Copy SourceFiles="..\Data\dudu.png"
-          DestinationFiles="$(TargetDir)images\icon.png"
-          SkipUnchangedFiles="true" />
-  </Target>
 </Project>
