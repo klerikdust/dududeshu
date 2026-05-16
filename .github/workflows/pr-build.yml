@@ -32,6 +32,9 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: dudu-no-sho
-        path: .\SamplePlugin\bin\x64\Release\dududeshu\*
+        path: |
+          .\SamplePlugin\bin\x64\Release\dududeshu\latest.zip
+          .\SamplePlugin\bin\x64\Release\dududeshu.dll
+          .\SamplePlugin\bin\x64\Release\dududeshu.json
         if-no-files-found: error
         retention-days: 7

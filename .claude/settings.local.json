@@ -15,7 +15,9 @@
       "Bash(\"C:/Program Files/dotnet/dotnet.exe\" /tmp/refltool/bin/refltool.dll \"C:/Users/nabil/AppData/Roaming/XIVLauncher/addon/Hooks/dev/Dalamud.dll\" \"Dalamud.Game.Chat.IHandleableChatMessage\")",
       "Bash(\"C:/Program Files/dotnet/dotnet.exe\" /tmp/refltool/bin/refltool.dll \"C:/Users/nabil/AppData/Roaming/XIVLauncher/addon/Hooks/dev/Dalamud.dll\" \"Dalamud.Plugin.Services.IClientState\")",
       "Bash(curl -s \"https://translate.googleapis.com/translate_a/single?client=gtx&sl=ja&tl=en&dt=t&dt=rm&ie=UTF-8&oe=UTF-8&q=$\\(printf '%s' 'こんにちは、元気ですか？')",
-      "Bash(curl -s \"https://translate.googleapis.com/translate_a/single?client=gtx&sl=zh-CN&tl=en&dt=t&dt=rm&ie=UTF-8&oe=UTF-8&q=$\\(printf '%s' '你好，今天怎么样？')"
+      "Bash(curl -s \"https://translate.googleapis.com/translate_a/single?client=gtx&sl=zh-CN&tl=en&dt=t&dt=rm&ie=UTF-8&oe=UTF-8&q=$\\(printf '%s' '你好，今天怎么样？')",
+      "Bash(\"C:/Program Files/dotnet/dotnet.exe\" build \"D:/Personal/Code/dududeshu/SamplePlugin.sln\" -c Release)",
+      "Bash(unzip -l \"D:/Personal/Code/dududeshu/SamplePlugin/bin/x64/Release/dududeshu/latest.zip\")"
     ]
   }
 }

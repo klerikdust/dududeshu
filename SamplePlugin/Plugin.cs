@@ -43,7 +43,7 @@ public sealed class Plugin : IDalamudPlugin
         Configuration = PluginInterface.GetPluginConfig() as Configuration ?? new Configuration();
 
         DuduImagePath = System.IO.Path.Combine(
-            PluginInterface.AssemblyLocation.Directory?.FullName ?? string.Empty, "dudu的書.png");
+            PluginInterface.AssemblyLocation.Directory?.FullName ?? string.Empty, "dudu.png");
 
         translator = new Translator();
         configWindow = new ConfigWindow(this);

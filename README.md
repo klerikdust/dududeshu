@@ -48,7 +48,7 @@ dudu的書 is **not on the official Dalamud repository**. To install it you add 
 3. Scroll down to **Custom Plugin Repositories**.
 4. Paste the manifest URL into the empty text box and click the **+** button:
    ```
-   https://raw.githubusercontent.com/klerikdust/dududeshu/SamplePlugin/dududeshu.json
+   https://raw.githubusercontent.com/klerikdust/dududeshu/master/repo.json
    ```
 5. Tick the **Enabled** checkbox next to the new row.
 6. Click **Save and Close** at the bottom of the settings window.
@@ -72,8 +72,7 @@ Dalamud will check the custom repo automatically on launch. To force a refresh, 
 
 ## Configuration
 
-
-
+- **UI language** : the language used for this configuration window (English, Bahasa Indonesia, 繁體中文).
 - **Enable translator** : toggle on/off for incoming-chat translation.
 - **Ignore my own messages** : skip messages you sent yourself.
 - **Show romaji / pinyin in parentheses** : append the romanization to the translation.
@@ -81,6 +80,30 @@ Dalamud will check the custom repo automatically on launch. To force a refresh, 
 - **Translate into** : your target language (English, Japanese, Traditional Chinese).
 - **Translate messages written in** : the source languages you want to be translated. Lines in your target language are skipped automatically.
 - **Channels** : which chat channels that plugin should translate.
+
+---
+
+## For maintainers — cutting a release
+
+The repository is set up to publish to its own custom Dalamud repo. The flow is:
+
+1. Bump `<Version>` in `SamplePlugin/SamplePlugin.csproj` (e.g. `0.1.0.0` → `0.2.0.0`).
+2. Commit and push to `master`.
+3. Tag the commit with the same version, prefixed with `v`:
+   ```
+   git tag v0.2.0.0
+   git push --tags
+   ```
+4. The `Release dudu的書` GitHub Action will:
+   - build `SamplePlugin.sln` in `Release` mode (the Dalamud SDK emits a ready-to-publish zip at `SamplePlugin/bin/x64/Release/dududeshu/latest.zip`),
+   - copy that zip out as `dududeshu.zip`,
+   - update `repo.json` so its `AssemblyVersion` matches the new tag,
+   - commit that bump back to `master`,
+   - and create a GitHub release named `dudu的書 <version>` with `dududeshu.zip` attached.
+
+End-users who already have the custom repo enabled will pick up the new build the next time Dalamud refreshes, because `repo.json` points its three `DownloadLink…` fields at GitHub's `releases/latest/download/dududeshu.zip` URL — no manual link bumping needed.
+
+You can also fire the workflow manually from the **Actions** tab using `workflow_dispatch` and providing a version, which is handy for re-publishing after fixing a release zip.
 
 ---
 

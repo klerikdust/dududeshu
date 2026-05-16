@@ -17,6 +17,8 @@ public class Configuration : IPluginConfiguration
     public bool ShowTransliteration { get; set; } = true;
     public bool AutoSendTranslatedCommands { get; set; } = true;
 
+    public string UiLanguage { get; set; } = "en";
+
     private string targetLanguage = "en";
     public string TargetLanguage
     {

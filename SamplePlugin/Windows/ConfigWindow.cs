@@ -6,6 +6,7 @@ using Dalamud.Game.Text;
 using Dalamud.Interface.Utility;
 using Dalamud.Interface.Utility.Raii;
 using Dalamud.Interface.Windowing;
+using SamplePlugin.Services;
 
 namespace SamplePlugin.Windows;
 
@@ -14,12 +15,7 @@ public sealed class ConfigWindow : Window, IDisposable
     private readonly Configuration configuration;
     private readonly Plugin plugin;
 
-    private static readonly (string Code, string Label)[] LanguageOptions =
-    {
-        ("en", "English"),
-        ("ja", "Japanese"),
-        ("zh-TW", "Chinese (Traditional)"),
-    };
+    private static readonly string[] LanguageCodes = { "en", "ja", "zh-TW" };
 
     private static readonly (XivChatType Type, string Label)[] ChannelOptions =
     {
@@ -62,6 +58,8 @@ public sealed class ConfigWindow : Window, IDisposable
 
     public void Dispose() { }
 
+    private string T(string key) => Localization.Get(configuration.UiLanguage, key);
+
     private void DrawHeaderImage()
     {
         var path = plugin.DuduImagePath;
@@ -94,70 +92,95 @@ public sealed class ConfigWindow : Window, IDisposable
     {
         DrawHeaderImage();
 
-        ImGui.TextDisabled("Smart player messages translation tool for FF14;");
+        ImGui.TextDisabled(T("tagline"));
+        ImGui.Spacing();
+        ImGui.Separator();
+
+        ImGui.TextUnformatted(T("section.uiLanguage"));
+        DrawUiLanguageCombo();
+
         ImGui.Spacing();
         ImGui.Separator();
 
         var enabled = configuration.Enabled;
-        if (ImGui.Checkbox("Enable translator", ref enabled))
+        if (ImGui.Checkbox(T("enable.translator"), ref enabled))
         {
             configuration.Enabled = enabled;
             configuration.Save();
         }
 
         var ignoreSelf = configuration.IgnoreOwnMessages;
-        if (ImGui.Checkbox("Ignore my own messages", ref ignoreSelf))
+        if (ImGui.Checkbox(T("enable.ignoreOwn"), ref ignoreSelf))
         {
             configuration.IgnoreOwnMessages = ignoreSelf;
             configuration.Save();
         }
 
         var translit = configuration.ShowTransliteration;
-        if (ImGui.Checkbox("Show romaji / pinyin in parentheses", ref translit))
+        if (ImGui.Checkbox(T("enable.transliteration"), ref translit))
         {
             configuration.ShowTransliteration = translit;
             configuration.Save();
         }
 
         var autoSend = configuration.AutoSendTranslatedCommands;
-        if (ImGui.Checkbox("/jp and /zh auto-send the translation", ref autoSend))
+        if (ImGui.Checkbox(T("enable.autoSend"), ref autoSend))
         {
             configuration.AutoSendTranslatedCommands = autoSend;
             configuration.Save();
         }
         if (ImGui.IsItemHovered())
-            ImGui.SetTooltip(
-                "On: the translated text is sent on the active channel automatically.\n" +
-                "Off: the translation is copied to your clipboard and previewed in chat,\n" +
-                "so you can paste it yourself with Ctrl+V before pressing Enter.");
+            ImGui.SetTooltip(T("tooltip.autoSend"));
 
         ImGui.Spacing();
         ImGui.Separator();
-        ImGui.TextUnformatted("Translate into");
+        ImGui.TextUnformatted(T("section.translateInto"));
         DrawTargetCombo();
 
         ImGui.Spacing();
         ImGui.Separator();
-        ImGui.TextUnformatted("Translate messages written in");
+        ImGui.TextUnformatted(T("section.translateFrom"));
         DrawSourceLanguages();
 
         ImGui.Spacing();
         ImGui.Separator();
-        ImGui.TextUnformatted("Channels");
+        ImGui.TextUnformatted(T("section.channels"));
         DrawChannels();
+    }
+
+    private void DrawUiLanguageCombo()
+    {
+        var currentCode = configuration.UiLanguage;
+        var currentLabel = Localization.AvailableLocales.FirstOrDefault(l => l.Code == currentCode).Label
+                           ?? currentCode;
+
+        if (ImGui.BeginCombo("##uiLang", currentLabel))
+        {
+            foreach (var (code, label) in Localization.AvailableLocales)
+            {
+                var selected = currentCode == code;
+                if (ImGui.Selectable(label, selected))
+                {
+                    configuration.UiLanguage = code;
+                    configuration.Save();
+                }
+                if (selected) ImGui.SetItemDefaultFocus();
+            }
+            ImGui.EndCombo();
+        }
     }
 
     private void DrawTargetCombo()
     {
-        var current = LanguageOptions.FirstOrDefault(l => l.Code == configuration.TargetLanguage);
-        var label = current.Code != null ? current.Label : configuration.TargetLanguage;
+        var current = configuration.TargetLanguage;
+        var label = T($"lang.{current}");
 
         if (ImGui.BeginCombo("##targetLang", label))
         {
-            foreach (var (code, name) in LanguageOptions)
+            foreach (var code in LanguageCodes)
             {
-                var selected = configuration.TargetLanguage == code;
-                if (ImGui.Selectable(name, selected))
+                var selected = current == code;
+                if (ImGui.Selectable(T($"lang.{code}"), selected))
                 {
                     configuration.TargetLanguage = code;
                     configuration.Save();
@@ -170,10 +193,10 @@ public sealed class ConfigWindow : Window, IDisposable
 
     private void DrawSourceLanguages()
     {
-        foreach (var (code, name) in LanguageOptions)
+        foreach (var code in LanguageCodes)
         {
             var on = configuration.EnabledSourceLanguages.Contains(code);
-            if (ImGui.Checkbox($"{name}##src_{code}", ref on))
+            if (ImGui.Checkbox($"{T($"lang.{code}")}##src_{code}", ref on))
             {
                 if (on) configuration.EnabledSourceLanguages.Add(code);
                 else configuration.EnabledSourceLanguages.Remove(code);

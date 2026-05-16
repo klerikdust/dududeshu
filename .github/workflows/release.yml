@@ -1,0 +1,106 @@
+name: Release dudu的書
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to release (e.g. 0.1.0.0). Must match SamplePlugin.csproj <Version>.'
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: windows-2022
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v5
+      with:
+        fetch-depth: 0
+
+    - name: Install .NET
+      uses: actions/setup-dotnet@v5
+      with:
+        dotnet-version: 10.0.x
+
+    - name: Download Dalamud
+      shell: pwsh
+      run: |
+        Invoke-WebRequest -Uri https://goatcorp.github.io/dalamud-distrib/latest.zip -OutFile latest.zip
+        Expand-Archive -Force latest.zip "$env:AppData\XIVLauncher\addon\Hooks\dev"
+
+    - name: Resolve version
+      id: vars
+      shell: pwsh
+      run: |
+        if ($env:GITHUB_REF -like 'refs/tags/v*') {
+          $version = $env:GITHUB_REF -replace 'refs/tags/v',''
+        } else {
+          $version = '${{ github.event.inputs.version }}'
+        }
+        if (-not $version) { throw "Version not provided." }
+        # Pad to four-segment if user only supplied three.
+        $segments = $version.Split('.').Count
+        while ($segments -lt 4) { $version += '.0'; $segments++ }
+        echo "version=$version" >> $env:GITHUB_OUTPUT
+        echo "tag=v$version"     >> $env:GITHUB_OUTPUT
+
+    - name: Build (Release)
+      shell: pwsh
+      run: |
+        dotnet build SamplePlugin.sln -c Release -p:Version=${{ steps.vars.outputs.version }}
+
+    - name: Package plugin
+      id: pkg
+      shell: pwsh
+      run: |
+        # The Dalamud.NET.Sdk emits a ready-to-publish package at this path.
+        $sdkZip = "SamplePlugin\bin\x64\Release\dududeshu\latest.zip"
+        if (-not (Test-Path $sdkZip)) { throw "SDK zip not found at $sdkZip" }
+        New-Item -ItemType Directory -Force -Path dist | Out-Null
+        $zipPath = "dist\dududeshu.zip"
+        Copy-Item $sdkZip $zipPath -Force
+        echo "zip=$zipPath" >> $env:GITHUB_OUTPUT
+
+    - name: Update repo.json
+      shell: pwsh
+      run: |
+        $version = '${{ steps.vars.outputs.version }}'
+        $manifestPath = 'repo.json'
+        $entries = Get-Content $manifestPath -Raw | ConvertFrom-Json
+        foreach ($e in $entries) {
+          if ($e.InternalName -eq 'dududeshu') {
+            $e.AssemblyVersion = $version
+          }
+        }
+        ($entries | ConvertTo-Json -Depth 6) | Set-Content $manifestPath -Encoding utf8
+
+    - name: Commit repo.json bump
+      if: startsWith(github.ref, 'refs/tags/v')
+      shell: pwsh
+      run: |
+        git config user.name  "github-actions[bot]"
+        git config user.email "github-actions[bot]@users.noreply.github.com"
+        git fetch origin master
+        git checkout master
+        git add repo.json
+        if (git diff --cached --quiet) {
+          Write-Host "No repo.json change to commit."
+        } else {
+          git commit -m "chore: bump repo.json to ${{ steps.vars.outputs.version }}"
+          git push origin master
+        }
+
+    - name: Create GitHub release
+      uses: softprops/action-gh-release@v2
+      with:
+        tag_name: ${{ steps.vars.outputs.tag }}
+        name: dudu的書 ${{ steps.vars.outputs.version }}
+        files: |
+          ${{ steps.pkg.outputs.zip }}
+        generate_release_notes: true
