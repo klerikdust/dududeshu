@@ -6,7 +6,7 @@
   "Description": "Smart player messages translation tool for FF14\n\nListens to the chat channels you choose and echoes a translation back in your target language. Japanese gets romaji and Chinese gets pinyin in parentheses. Sends translated messages on your active channel via /jp and /zh. Open settings with /ducfg, /duconfig, or /duduconfig.",
   "ApplicableVersion": "any",
   "RepoUrl": "https://github.com/klerikdust/dududeshu",
-  "IconUrl": "https://raw.githubusercontent.com/klerikdust/dududeshu/SamplePlugin/Data/dudu.png",
+  "IconUrl": "https://raw.githubusercontent.com/klerikdust/dududeshu/master/Data/dudu.png",
   "Tags": [
     "translate"
   ]
