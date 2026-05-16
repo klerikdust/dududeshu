@@ -1,21 +1,19 @@
-[
-  {
-    "Author": "xduduking",
-    "Name": "dudu的書",
-    "InternalName": "dududeshu",
-    "AssemblyVersion": "0.1.0.0",
-    "Punchline": "Smart player messages translation tool for FF14",
-    "Description": "Smart player messages translation tool for FF14.\n\nListens to the chat channels you choose and echoes a translation back in your target language. Japanese gets romaji and Chinese gets pinyin in parentheses. Sends translated messages on your active channel via /jp and /zh. Open settings with /ducfg, /duconfig, or /duduconfig.",
-    "ApplicableVersion": "any",
-    "DalamudApiLevel": 15,
-    "RepoUrl": "https://github.com/klerikdust/dududeshu",
-    "IconUrl": "https://raw.githubusercontent.com/klerikdust/dududeshu/master/Data/dudu.png",
-    "DownloadLinkInstall": "https://github.com/klerikdust/dududeshu/releases/latest/download/dududeshu.zip",
-    "DownloadLinkUpdate": "https://github.com/klerikdust/dududeshu/releases/latest/download/dududeshu.zip",
-    "DownloadLinkTesting": "https://github.com/klerikdust/dududeshu/releases/latest/download/dududeshu.zip",
-    "Tags": [
-      "dudu"
-    ],
-    "DownloadCount": 0
-  }
-]
+{
+  "Author": "xduduking",
+  "Name": "dudu的書",
+  "InternalName": "dududeshu",
+  "AssemblyVersion": "0.1.0.0",
+  "Punchline": "Smart player messages translation tool for FF14",
+  "Description": "Smart player messages translation tool for FF14.\n\nListens to the chat channels you choose and echoes a translation back in your target language. Japanese gets romaji and Chinese gets pinyin in parentheses. Sends translated messages on your active channel via /jp and /zh. Open settings with /ducfg, /duconfig, or /duduconfig.",
+  "ApplicableVersion": "any",
+  "DalamudApiLevel": 15,
+  "RepoUrl": "https://github.com/klerikdust/dududeshu",
+  "IconUrl": "https://raw.githubusercontent.com/klerikdust/dududeshu/master/Data/dudu.png",
+  "DownloadLinkInstall": "https://github.com/klerikdust/dududeshu/releases/latest/download/dududeshu.zip",
+  "DownloadLinkUpdate": "https://github.com/klerikdust/dududeshu/releases/latest/download/dududeshu.zip",
+  "DownloadLinkTesting": "https://github.com/klerikdust/dududeshu/releases/latest/download/dududeshu.zip",
+  "Tags": [
+    "dudu"
+  ],
+  "DownloadCount": 0
+}
