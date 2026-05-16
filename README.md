@@ -1,78 +1,96 @@
-> ⚠️ **Don't click Fork!**
-> 
-> This is a GitHub Template repo. If you want to use this for a plugin, [use this template][new-repo] to make a new repo!
->
-> ![image](https://github.com/goatcorp/SamplePlugin/assets/16760685/d9732094-e1ed-4769-a70b-58ed2b92580c)
+# dudu的書
 
-# SamplePlugin
+Smart player-messages translation tool for FF14, built on top of the Dalamud API.
 
-[![Use This Template badge](https://img.shields.io/badge/Use%20This%20Template-0?logo=github&labelColor=grey)][new-repo]
+dudu的書 listens to the chat channels you choose and echoes a translation back in your target language. Japanese lines get romaji and Chinese lines get pinyin in parentheses. Two extra slash commands, `/jp` and `/zh`, translate the rest of the line into Japanese or Traditional Chinese and send it on your active channel.
+
+> Released under the [AGPL-3.0-or-later](LICENSE.md). This is a Dalamud plugin and runs as a third-party addon to FFXIV; use at your own discretion.
+
+---
+
+## Features
+
+- Auto-translates incoming chat in your enabled channels and echoes the result back in chat.
+- Romaji for Japanese and pinyin for Chinese, shown in parentheses next to the translation. Works whether the source is JP/ZH **or** the target is JP/ZH.
+- `/jp <text>` -> translates the text into Japanese and sends it on your active channel.
+- `/zh <text>` -> translates into Traditional Chinese and sends it on your active channel.
+- Auto-send toggle: instead of sending, the plugin can copy the translation to your clipboard and preview it in chat so you can paste it yourself with `Ctrl+V`.
+- Source-language filter (English / Japanese / Traditional Chinese).
+- Tiny config window (`/ducfg`, `/duconfig`, or `/duduconfig`)
+
+---
+
+## Commands
+
+| Command | What it does |
+|---|---|
+| `/ducfg`, `/duconfig`, `/duduconfig` | Open the dudu的書 settings window. |
+| `/jp <message>` | Translate `<message>` into Japanese and send it on the currently active chat channel. |
+| `/zh <message>` | Translate `<message>` into Traditional Chinese and send it on the currently active chat channel. |
+
+You can prefix the message with another channel command if you want to override your active channel. For example: `/jp /p let's pull` translates "let's pull" into japanese and sends it to party.
+
+---
+
+## Installation
+
+dudu的書 is **not on the official Dalamud repository**. To install it you add this repo's manifest URL as a custom Dalamud plugin source. This is sometimes called a "third-party repo" or "experimental repo" in Dalamud.
+
+### Step 1 : Make sure Dalamud is up and running
+
+1. Install [XIVLauncher](https://goatcorp.github.io/) and use it to launch FFXIV at least once with Dalamud enabled.
+2. Once you're in the game, type `/xlsettings` in chat to confirm Dalamud is alive.
+
+### Step 2 : Add the dudu的書 custom repository
+
+1. In game, type `/xlsettings`.
+2. Go to the **Experimental** tab.
+3. Scroll down to **Custom Plugin Repositories**.
+4. Paste the manifest URL into the empty text box and click the **+** button:
+   ```
+   https://raw.githubusercontent.com/klerikdust/dududeshu/master/repo.json
+   ```
+5. Tick the **Enabled** checkbox next to the new row.
+6. Click **Save and Close** at the bottom of the settings window.
+
+### Step 3 — install the plugin
+
+1. Type `/xlplugins` in chat.
+2. Go to the **All Plugins** tab and search for `dudu的書` (or just `dudu` should pop up).
+3. Click **Install**.
+4. After it installs, click it in the list and hit **Open Configuration** or type `/ducfg` in chat to set your channels and target language.
+
+### Updating
+
+Dalamud will check the custom repo automatically on launch. To force a refresh, open `/xlplugins`, hit the refresh icon at the top, and any newer version will install on next game start.
+
+### Uninstalling
+
+`/xlplugins` -> **Installed Plugins** -> find `dudu的書` -> **Uninstall**. To stop pulling updates entirely, remove the custom repo URL from `/xlsettings → Experimental`.
+
+---
+
+## Configuration
 
 
-Simple example plugin for Dalamud.
 
-This is not designed to be the simplest possible example, but it is also not designed to cover everything you might want to do. For more detailed questions, come ask in [the Discord](https://discord.gg/holdshift).
+- **Enable translator** : toggle on/off for incoming-chat translation.
+- **Ignore my own messages** : skip messages you sent yourself.
+- **Show romaji / pinyin in parentheses** : append the romanization to the translation.
+- **/jp and /zh auto-send the translation** : when on, the translated text is sent immediately on your active channel. When off, it's copied to your clipboard and previewed in an Echo line so you can paste with `Ctrl+V` and confirm before pressing Enter.
+- **Translate into** : your target language (English, Japanese, Traditional Chinese).
+- **Translate messages written in** : the source languages you want to be translated. Lines in your target language are skipped automatically.
+- **Channels** : which chat channels that plugin should translate.
 
-## Main Points
+---
 
-* Simple functional plugin
-  * Slash command
-  * Main UI
-  * Settings UI
-  * Image loading
-  * Plugin json
-* Simple, slightly-improved plugin configuration handling
-* Project organization
-  * Copies all necessary plugin files to the output directory
-    * Does not copy dependencies that are provided by dalamud
-    * Output directory can be zipped directly and have exactly what is required
-  * Hides data files from visual studio to reduce clutter
-    * Also allows having data files in different paths than VS would usually allow if done in the IDE directly
+## Notes and limitations
 
+- **Translation backend.** Translations come from Google's public `translate.googleapis.com/translate_a/single` endpoint. It works without an API key but is unofficial; if it ever rate-limits or changes shape, swap `SamplePlugin/Services/Translator.cs` for DeepL, Azure, or self-hosted LibreTranslate.
+- **Game ToS.** Square Enix officially prohibits all third-party tools; running Dalamud already accepts that risk. dudu的書 does not send anything to the FFXIV server that the game wouldn't normally produce, `/jp` and `/zh` go through the same `RaptureShellModule.ExecuteCommandInner` path as anything you type into the chat box yourself.
 
-The intention is less that any of this is used directly in other projects, and more to show how similar things can be done.
+---
 
-## How To Use
+## License
 
-### Getting Started
-
-To begin, [clone this template repository][new-repo] to your own GitHub account. This will automatically bring in everything you need to get a jumpstart on development. You do not need to fork this repository unless you intend to contribute modifications to it.
-
-Be sure to also check out the [Dalamud Developer Docs][dalamud-docs] for helpful information about building your own plugin. The Developer Docs includes helpful information about all sorts of things, including [how to submit][submit] your newly-created plugin to the official repository. Assuming you use this template repository, the provided project build configuration and license are already chosen to make everything a breeze.
-
-[new-repo]: https://github.com/new?template_name=SamplePlugin&template_owner=goatcorp
-[dalamud-docs]: https://dalamud.dev
-[submit]: https://dalamud.dev/plugin-publishing/submission
-
-### Prerequisites
-
-SamplePlugin assumes all the following prerequisites are met:
-
-* XIVLauncher, FINAL FANTASY XIV, and Dalamud have all been installed and the game has been run with Dalamud at least once.
-* XIVLauncher is installed to its default directories and configurations.
-  * If a custom path is required for Dalamud's dev directory, it must be set with the `DALAMUD_HOME` environment variable.
-* A .NET Core 8 SDK has been installed and configured, or is otherwise available. (In most cases, the IDE will take care of this.)
-
-### Building
-
-1. Open up `SamplePlugin.sln` in your C# editor of choice (likely [Visual Studio](https://visualstudio.microsoft.com) or [JetBrains Rider](https://www.jetbrains.com/rider/)).
-2. Build the solution. By default, this will build a `Debug` build, but you can switch to `Release` in your IDE.
-3. The resulting plugin can be found at `SamplePlugin/bin/x64/Debug/SamplePlugin.dll` (or `Release` if appropriate.)
-
-### Activating in-game
-
-1. Launch the game and use `/xlsettings` in chat or `xlsettings` in the Dalamud Console to open up the Dalamud settings.
-    * In here, go to `Experimental`, and add the full path to the `SamplePlugin.dll` to the list of Dev Plugin Locations.
-2. Next, use `/xlplugins` (chat) or `xlplugins` (console) to open up the Plugin Installer.
-    * In here, go to `Dev Tools > Installed Dev Plugins`, and the `SamplePlugin` should be visible. Enable it.
-3. You should now be able to use `/pmycommand` (chat) or `pmycommand` (console)!
-
-Note that you only need to add it to the Dev Plugin Locations once (Step 1); it is preserved afterwards. You can disable, enable, or load your plugin on startup through the Plugin Installer.
-
-### Reconfiguring for your own uses
-
-Replace all references to `SamplePlugin` in all the files and filenames with your desired name, then start building the plugin of your dreams. You'll figure it out 😁
-
-Dalamud will load the JSON file (by default, `SamplePlugin/SamplePlugin.json`) next to your DLL and use it for metadata, including the description for your plugin in the Plugin Installer. Make sure to update this with information relevant to _your_ plugin!
-
-All participation in this repository is governed by our [Code of Conduct](https://dalamud.dev/code-of-conduct). If you used AI tooling at any point, review the [AI Usage Policy](https://dalamud.dev/plugin-publishing/ai-policy) and disclose your level of AI use. Entirely AI-generated submissions will be rejected, and undisclosed AI use may result in a ban.
+Source: [AGPL-3.0-or-later](LICENSE.md). Use, modify, and redistribute under those terms.
