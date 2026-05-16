@@ -48,12 +48,12 @@ dudu的書 is **not on the official Dalamud repository**. To install it you add 
 3. Scroll down to **Custom Plugin Repositories**.
 4. Paste the manifest URL into the empty text box and click the **+** button:
    ```
-   https://raw.githubusercontent.com/klerikdust/dududeshu/master/repo.json
+   https://raw.githubusercontent.com/klerikdust/dududeshu/SamplePlugin/dududeshu.json
    ```
 5. Tick the **Enabled** checkbox next to the new row.
 6. Click **Save and Close** at the bottom of the settings window.
 
-### Step 3 — install the plugin
+### Step 3 : install the plugin
 
 1. Type `/xlplugins` in chat.
 2. Go to the **All Plugins** tab and search for `dudu的書` (or just `dudu` should pop up).
