@@ -72,13 +72,22 @@ jobs:
       run: |
         $version = '${{ steps.vars.outputs.version }}'
         $manifestPath = 'repo.json'
-        $entries = Get-Content $manifestPath -Raw | ConvertFrom-Json
+        $raw = Get-Content $manifestPath -Raw | ConvertFrom-Json
+        # ConvertFrom-Json yields a single object when the file holds a 1-element
+        # array. Re-wrap so we always iterate (and re-emit) as an array.
+        $entries = @($raw)
         foreach ($e in $entries) {
           if ($e.InternalName -eq 'dududeshu') {
             $e.AssemblyVersion = $version
           }
         }
-        ($entries | ConvertTo-Json -Depth 6) | Set-Content $manifestPath -Encoding utf8
+        # Force array output even if there's a single entry. ConvertTo-Json
+        # unwraps single-element arrays by default, which would break Dalamud.
+        $json = ConvertTo-Json -InputObject $entries -Depth 6
+        if (-not $json.TrimStart().StartsWith('[')) {
+          $json = "[`n$json`n]"
+        }
+        Set-Content -Path $manifestPath -Value $json -Encoding utf8
 
     - name: Commit repo.json bump
       if: startsWith(github.ref, 'refs/tags/v')
