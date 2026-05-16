@@ -83,30 +83,6 @@ Dalamud will check the custom repo automatically on launch. To force a refresh, 
 
 ---
 
-## For maintainers — cutting a release
-
-The repository is set up to publish to its own custom Dalamud repo. The flow is:
-
-1. Bump `<Version>` in `SamplePlugin/SamplePlugin.csproj` (e.g. `0.1.0.0` → `0.2.0.0`).
-2. Commit and push to `master`.
-3. Tag the commit with the same version, prefixed with `v`:
-   ```
-   git tag v0.2.0.0
-   git push --tags
-   ```
-4. The `Release dudu的書` GitHub Action will:
-   - build `SamplePlugin.sln` in `Release` mode (the Dalamud SDK emits a ready-to-publish zip at `SamplePlugin/bin/x64/Release/dududeshu/latest.zip`),
-   - copy that zip out as `dududeshu.zip`,
-   - update `repo.json` so its `AssemblyVersion` matches the new tag,
-   - commit that bump back to `master`,
-   - and create a GitHub release named `dudu的書 <version>` with `dududeshu.zip` attached.
-
-End-users who already have the custom repo enabled will pick up the new build the next time Dalamud refreshes, because `repo.json` points its three `DownloadLink…` fields at GitHub's `releases/latest/download/dududeshu.zip` URL — no manual link bumping needed.
-
-You can also fire the workflow manually from the **Actions** tab using `workflow_dispatch` and providing a version, which is handy for re-publishing after fixing a release zip.
-
----
-
 ## Notes and limitations
 
 - **Translation backend.** Translations come from Google's public `translate.googleapis.com/translate_a/single` endpoint. It works without an API key but is unofficial; if it ever rate-limits or changes shape, swap `SamplePlugin/Services/Translator.cs` for DeepL, Azure, or self-hosted LibreTranslate.
