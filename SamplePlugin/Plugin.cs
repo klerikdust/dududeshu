@@ -43,7 +43,7 @@ public sealed class Plugin : IDalamudPlugin
         Configuration = PluginInterface.GetPluginConfig() as Configuration ?? new Configuration();
 
         DuduImagePath = System.IO.Path.Combine(
-            PluginInterface.AssemblyLocation.Directory?.FullName ?? string.Empty, "dudu.png");
+            PluginInterface.AssemblyLocation.Directory?.FullName ?? string.Empty, "dudu的書.png");
 
         translator = new Translator();
         configWindow = new ConfigWindow(this);
@@ -105,7 +105,7 @@ public sealed class Plugin : IDalamudPlugin
         var text = (args ?? string.Empty).Trim();
         if (string.IsNullOrEmpty(text))
         {
-            ChatGui.PrintError($"[dudu] Usage: {command} <message>");
+            ChatGui.PrintError($"[dudu的書] Usage: {command} <message>");
             return;
         }
 
@@ -131,7 +131,7 @@ public sealed class Plugin : IDalamudPlugin
                 if (string.IsNullOrWhiteSpace(translated))
                 {
                     await Framework.RunOnFrameworkThread(() =>
-                        ChatGui.PrintError($"[dudu] Translation failed for: {text}"));
+                        ChatGui.PrintError($"[dudu的書] Translation failed for: {text}"));
                     return;
                 }
 
@@ -140,14 +140,14 @@ public sealed class Plugin : IDalamudPlugin
                     if (Configuration.AutoSendTranslatedCommands)
                     {
                         if (!ChatSender.Send(translated))
-                            ChatGui.PrintError("[dudu] Could not send the translated message.");
+                            ChatGui.PrintError("[dudu的書] Could not send the translated message.");
                         return;
                     }
 
                     if (TryCopyToClipboard(translated))
                     {
                         var preview = new SeStringBuilder()
-                            .AddUiForeground("[dudu] ", 52)
+                            .AddUiForeground("[dudu的書] ", 52)
                             .AddText("Copied to clipboard. Paste with Ctrl+V: ")
                             .AddUiForeground(translated, 60)
                             .Build();
@@ -155,14 +155,14 @@ public sealed class Plugin : IDalamudPlugin
                     }
                     else
                     {
-                        ChatGui.PrintError($"[dudu] Could not copy translation to clipboard: {translated}");
+                        ChatGui.PrintError($"[dudu的書] Could not copy translation to clipboard: {translated}");
                     }
                 });
             }
             catch (OperationCanceledException) { }
             catch (Exception ex)
             {
-                Log.Warning($"[dudu] /jp or /zh failed: {ex.Message}");
+                Log.Warning($"[dudu的書] /jp or /zh failed: {ex.Message}");
             }
         }, ct);
     }
@@ -178,33 +178,33 @@ public sealed class Plugin : IDalamudPlugin
 
         var preview = text.Length > 60 ? text[..60] + "…" : text;
         Log.Information(
-            $"[dudu] in: type={type} sender='{senderName}' textLen={text.Length} '{preview}'");
+            $"[dudu的書] in: type={type} sender='{senderName}' textLen={text.Length} '{preview}'");
 
         if (!Configuration.EnabledChannels.Contains(type))
         {
-            Log.Information($"[dudu] skip: channel {type} not enabled");
+            Log.Information($"[dudu的書] skip: channel {type} not enabled");
             return;
         }
 
         if (Configuration.IgnoreOwnMessages && IsLocalPlayer(senderName))
         {
-            Log.Information($"[dudu] skip: own message from '{senderName}'");
+            Log.Information($"[dudu的書] skip: own message from '{senderName}'");
             return;
         }
 
         if (string.IsNullOrWhiteSpace(text))
         {
-            Log.Information("[dudu] skip: empty text after payload extraction");
+            Log.Information("[dudu的書] skip: empty text after payload extraction");
             return;
         }
 
         var detected = LanguageDetector.Detect(text);
-        Log.Information($"[dudu] detected={detected} for '{preview}'");
+        Log.Information($"[dudu的書] detected={detected} for '{preview}'");
 
         if (!Configuration.EnabledSourceLanguages.Contains(detected))
         {
             Log.Information(
-                $"[dudu] skip: source language '{detected}' not in enabled set " +
+                $"[dudu的書] skip: source language '{detected}' not in enabled set " +
                 $"[{string.Join(",", Configuration.EnabledSourceLanguages)}]");
             return;
         }
@@ -212,7 +212,7 @@ public sealed class Plugin : IDalamudPlugin
         var target = Configuration.TargetLanguage;
         if (string.Equals(detected, target, StringComparison.OrdinalIgnoreCase))
         {
-            Log.Information($"[dudu] skip: detected==target ({detected})");
+            Log.Information($"[dudu的書] skip: detected==target ({detected})");
             return;
         }
 
@@ -239,7 +239,7 @@ public sealed class Plugin : IDalamudPlugin
                     capturedText, detected, capturedTarget, wantSourceTranslit, ct).ConfigureAwait(false);
                 if (result == null)
                 {
-                    Log.Information($"[ChatTranslator] no result. detected={detected} target={capturedTarget} text={capturedText}");
+                    Log.Information($"[dudu的書] no result. detected={detected} target={capturedTarget} text={capturedText}");
                     return;
                 }
 
@@ -251,7 +251,7 @@ public sealed class Plugin : IDalamudPlugin
                 }
 
                 Log.Information(
-                    $"[ChatTranslator] detected={detected} target={capturedTarget} " +
+                    $"[dudu的書] detected={detected} target={capturedTarget} " +
                     $"trans='{result.Translated}' translit='{translit}'");
 
                 var finalResult = new TranslationResult(result.Translated, translit ?? string.Empty, result.DetectedSource);
@@ -263,7 +263,7 @@ public sealed class Plugin : IDalamudPlugin
             catch (OperationCanceledException) { }
             catch (Exception ex)
             {
-                Log.Debug($"Translator pipeline error: {ex.Message}");
+                Log.Debug($"[dudu的書] Translator pipeline error: {ex.Message}");
             }
         }, ct);
     }
@@ -349,7 +349,7 @@ public sealed class Plugin : IDalamudPlugin
         }
         catch (Exception ex)
         {
-            Log.Warning($"[dudu] clipboard copy failed: {ex.Message}");
+            Log.Warning($"[dudu的書] clipboard copy failed: {ex.Message}");
             return false;
         }
     }
