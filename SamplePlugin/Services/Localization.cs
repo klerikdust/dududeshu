@@ -42,6 +42,13 @@ public static class Localization
                 "On: translated lines print on the Echo channel (neutral grey).\n" +
                 "Off: translated lines print on the same channel as the source,\n" +
                 "so FFXIV's chat-log colour for that channel applies automatically.",
+            ["enable.translatePfMenu"]    = "Add 'Translate' to Party Finder right-click menu",
+            ["tooltip.translatePfMenu"] =
+                "Right-click inside the Party Finder Detail window and pick\n" +
+                "Translate to send the description through the translator\n" +
+                "and print the result in your Echo channel.",
+            ["pfMenu.translate"]          = "Translate",
+            ["pf.sender"]                 = "PF",
             ["section.translateInto"]     = "Translate into",
             ["section.translateFrom"]     = "Translate messages written in",
             ["section.channels"]          = "Channels",
@@ -73,6 +80,13 @@ public static class Localization
                 "Aktif: terjemahan ditampilkan di saluran Echo (warna abu-abu netral).\n" +
                 "Nonaktif: terjemahan ditampilkan di saluran yang sama dengan pesan asli,\n" +
                 "sehingga warna saluran dari pengaturan FFXIV berlaku otomatis.",
+            ["enable.translatePfMenu"]    = "Tambahkan 'Translate' ke menu klik kanan Party Finder",
+            ["tooltip.translatePfMenu"] =
+                "Klik kanan di dalam jendela Party Finder Detail lalu pilih\n" +
+                "Translate untuk mengirim deskripsi ke penerjemah dan\n" +
+                "menampilkan hasilnya di saluran Echo kamu.",
+            ["pfMenu.translate"]          = "Terjemahkan",
+            ["pf.sender"]                 = "PF",
             ["section.translateInto"]     = "Terjemahkan ke",
             ["section.translateFrom"]     = "Terjemahkan pesan dalam bahasa",
             ["section.channels"]          = "Saluran chat",
@@ -104,6 +118,12 @@ public static class Localization
                 "開啟：翻譯訊息會顯示在 Echo 頻道（中性灰色）。\n" +
                 "關閉：翻譯訊息會顯示在與原訊息相同的頻道,\n" +
                 "FFXIV 的頻道顏色會自動套用。",
+            ["enable.translatePfMenu"]    = "在招募右鍵選單加入 Translate",
+            ["tooltip.translatePfMenu"] =
+                "在招募詳情視窗按右鍵後選擇 Translate，\n" +
+                "即可將留言送去翻譯並顯示在 Echo 頻道。",
+            ["pfMenu.translate"]          = "翻譯",
+            ["pf.sender"]                 = "招募",
             ["section.translateInto"]     = "翻譯為",
             ["section.translateFrom"]     = "翻譯以下語言的訊息",
             ["section.channels"]          = "頻道",

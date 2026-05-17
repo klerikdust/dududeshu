@@ -22,6 +22,11 @@ public class Configuration : IPluginConfiguration
     // line with the user's own per-channel chat colour.
     public bool UseEchoChannel { get; set; } = false;
 
+    // When true, adds a "Translate" item to the right-click context menu of
+    // the Party Finder Detail window. Reads the description directly from the
+    // addon and prints the translation to Echo.
+    public bool TranslatePartyFinderContextMenu { get; set; } = true;
+
     public string UiLanguage { get; set; } = "en";
 
     private string targetLanguage = "en";

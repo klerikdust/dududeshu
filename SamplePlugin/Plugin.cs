@@ -23,6 +23,7 @@ public sealed class Plugin : IDalamudPlugin
     [PluginService] internal static IObjectTable ObjectTable { get; private set; } = null!;
     [PluginService] internal static IChatGui ChatGui { get; private set; } = null!;
     [PluginService] internal static IFramework Framework { get; private set; } = null!;
+    [PluginService] internal static IContextMenu ContextMenu { get; private set; } = null!;
     [PluginService] internal static ITextureProvider TextureProvider { get; private set; } = null!;
     [PluginService] internal static IPluginLog Log { get; private set; } = null!;
 
@@ -36,6 +37,7 @@ public sealed class Plugin : IDalamudPlugin
 
     private readonly ConfigWindow configWindow;
     private readonly Translator translator;
+    private readonly PartyFinderContextMenu partyFinderContextMenu;
     private readonly CancellationTokenSource cts = new();
 
     public string DuduImagePath { get; }
@@ -50,6 +52,8 @@ public sealed class Plugin : IDalamudPlugin
         translator = new Translator();
         configWindow = new ConfigWindow(this);
         WindowSystem.AddWindow(configWindow);
+        partyFinderContextMenu = new PartyFinderContextMenu(
+            Configuration, translator, ContextMenu, Framework, ChatGui, Log, cts.Token);
 
         for (var i = 0; i < CommandNames.Length; i++)
         {
@@ -100,6 +104,7 @@ public sealed class Plugin : IDalamudPlugin
 
         try { cts.Cancel(); } catch { /* ignore */ }
         cts.Dispose();
+        partyFinderContextMenu.Dispose();
         translator.Dispose();
     }
 

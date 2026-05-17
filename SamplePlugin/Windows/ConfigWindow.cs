@@ -133,6 +133,15 @@ public sealed class ConfigWindow : Window, IDisposable
         if (ImGui.IsItemHovered())
             ImGui.SetTooltip(T("tooltip.useEcho"));
 
+        var translatePfMenu = configuration.TranslatePartyFinderContextMenu;
+        if (ImGui.Checkbox(T("enable.translatePfMenu"), ref translatePfMenu))
+        {
+            configuration.TranslatePartyFinderContextMenu = translatePfMenu;
+            configuration.Save();
+        }
+        if (ImGui.IsItemHovered())
+            ImGui.SetTooltip(T("tooltip.translatePfMenu"));
+
         ImGui.Spacing();
         ImGui.Separator();
         ImGui.TextUnformatted(T("section.translateInto"));
