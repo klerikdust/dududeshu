@@ -15,7 +15,8 @@ public sealed class ConfigWindow : Window, IDisposable
     private readonly Configuration configuration;
     private readonly Plugin plugin;
 
-    private static readonly string[] LanguageCodes = { "en", "ja", "zh-TW" };
+    private static readonly string[] SourceLanguageCodes = { "en", "ja", "zh-TW" };
+    private static readonly string[] TargetLanguageCodes = { "en", "ja", "zh-TW", "id" };
 
     private static readonly (XivChatType Type, string Label)[] ChannelOptions =
     {
@@ -177,7 +178,7 @@ public sealed class ConfigWindow : Window, IDisposable
 
         if (ImGui.BeginCombo("##targetLang", label))
         {
-            foreach (var code in LanguageCodes)
+            foreach (var code in TargetLanguageCodes)
             {
                 var selected = current == code;
                 if (ImGui.Selectable(T($"lang.{code}"), selected))
@@ -193,7 +194,7 @@ public sealed class ConfigWindow : Window, IDisposable
 
     private void DrawSourceLanguages()
     {
-        foreach (var code in LanguageCodes)
+        foreach (var code in SourceLanguageCodes)
         {
             var on = configuration.EnabledSourceLanguages.Contains(code);
             if (ImGui.Checkbox($"{T($"lang.{code}")}##src_{code}", ref on))

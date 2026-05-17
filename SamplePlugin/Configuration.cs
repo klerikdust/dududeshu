@@ -8,7 +8,8 @@ namespace SamplePlugin;
 [Serializable]
 public class Configuration : IPluginConfiguration
 {
-    private static readonly HashSet<string> AllowedLanguages = new() { "en", "ja", "zh-TW" };
+    private static readonly HashSet<string> AllowedSourceLanguages = new() { "en", "ja", "zh-TW" };
+    private static readonly HashSet<string> AllowedTargetLanguages = new() { "en", "ja", "zh-TW", "id" };
 
     public int Version { get; set; } = 1;
 
@@ -27,7 +28,7 @@ public class Configuration : IPluginConfiguration
     public string TargetLanguage
     {
         get => targetLanguage;
-        set => targetLanguage = AllowedLanguages.Contains(value) ? value : "en";
+        set => targetLanguage = AllowedTargetLanguages.Contains(value) ? value : "en";
     }
 
     public HashSet<string> EnabledSourceLanguages { get; set; } = new()
@@ -52,8 +53,8 @@ public class Configuration : IPluginConfiguration
 
     public void Save()
     {
-        EnabledSourceLanguages.RemoveWhere(l => !AllowedLanguages.Contains(l));
-        if (!AllowedLanguages.Contains(targetLanguage))
+        EnabledSourceLanguages.RemoveWhere(l => !AllowedSourceLanguages.Contains(l));
+        if (!AllowedTargetLanguages.Contains(targetLanguage))
             targetLanguage = "en";
         Plugin.PluginInterface.SavePluginConfig(this);
     }

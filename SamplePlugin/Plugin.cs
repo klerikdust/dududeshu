@@ -180,6 +180,7 @@ public sealed class Plugin : IDalamudPlugin
             return;
 
         var type = message.LogKind;
+        var rawSender = message.Sender?.TextValue ?? string.Empty;
         var senderName = ExtractCleanSenderName(message.Sender);
         var text = ExtractPlainText(message.Message);
 
@@ -188,8 +189,10 @@ public sealed class Plugin : IDalamudPlugin
 
         // Defensive: don't recurse on our own translated output. Our echoes
         // either set Name to "[XX] Sender" or prefix the message body with
-        // "[XX] ". Either pattern starting with [LANG] is enough to skip.
-        if (LooksLikeOurEcho(senderName, text))
+        // "[XX] ". Use the raw sender text — ExtractCleanSenderName strips
+        // the leading '[' as if it were an FC-tag glyph, which would defeat
+        // the check.
+        if (LooksLikeOurEcho(rawSender, text))
             return;
 
         var preview = text.Length > 60 ? text[..60] + "…" : text;
@@ -267,7 +270,7 @@ public sealed class Plugin : IDalamudPlugin
                 var showTranslit = !string.IsNullOrWhiteSpace(translit);
 
                 await Framework.RunOnFrameworkThread(() =>
-                    PrintTranslation(capturedType, capturedSender, finalResult, showTranslit, detected));
+                    PrintTranslation(capturedType, capturedSender, finalResult, showTranslit, capturedTarget));
             }
             catch (OperationCanceledException) { }
             catch (Exception ex)
@@ -278,7 +281,7 @@ public sealed class Plugin : IDalamudPlugin
     }
 
     private void PrintTranslation(
-        XivChatType origin, string senderName, TranslationResult result, bool wantTranslit, string sourceLang)
+        XivChatType origin, string senderName, TranslationResult result, bool wantTranslit, string targetLang)
     {
         var body = result.Translated;
         if (wantTranslit && !string.IsNullOrWhiteSpace(result.Transliteration))
@@ -286,7 +289,7 @@ public sealed class Plugin : IDalamudPlugin
         if (string.IsNullOrWhiteSpace(body))
             return;
 
-        var langTag = LanguageTag(sourceLang);
+        var langTag = LanguageTag(targetLang);
 
         if (Configuration.UseEchoChannel)
         {
