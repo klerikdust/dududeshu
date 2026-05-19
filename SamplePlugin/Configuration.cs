@@ -11,11 +11,15 @@ public class Configuration : IPluginConfiguration
     private static readonly HashSet<string> AllowedSourceLanguages = new() { "en", "ja", "zh-TW" };
     private static readonly HashSet<string> AllowedTargetLanguages = new() { "en", "ja", "zh-TW", "id" };
 
-    public int Version { get; set; } = 1;
+    public int Version { get; set; } = 2;
 
     public bool Enabled { get; set; } = true;
     public bool IgnoreOwnMessages { get; set; } = true;
+    [Obsolete("Use ShowRomaji/ShowPinyin instead.")]
     public bool ShowTransliteration { get; set; } = true;
+
+    public bool ShowRomaji { get; set; } = true;
+    public bool ShowPinyin { get; set; } = true;
 
     // When true, translated echoes go to XivChatType.Echo (neutral colour).
     // When false (default), they go to the source channel so FFXIV tints the
@@ -58,9 +62,21 @@ public class Configuration : IPluginConfiguration
 
     public void Save()
     {
+        ShowTransliteration = ShowRomaji || ShowPinyin;
         EnabledSourceLanguages.RemoveWhere(l => !AllowedSourceLanguages.Contains(l));
         if (!AllowedTargetLanguages.Contains(targetLanguage))
             targetLanguage = "en";
         Plugin.PluginInterface.SavePluginConfig(this);
+    }
+
+    public void UpgradeIfNeeded()
+    {
+        if (Version >= 2)
+            return;
+
+        ShowRomaji = ShowTransliteration;
+        ShowPinyin = ShowTransliteration;
+        Version = 2;
+        Save();
     }
 }

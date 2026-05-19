@@ -75,7 +75,8 @@ Dalamud will check the custom repo automatically on launch. To force a refresh, 
 - **UI language** : the language used for this configuration window (English, Bahasa Indonesia, 繁體中文).
 - **Enable translator** : toggle on/off for incoming-chat translation.
 - **Ignore my own messages** : skip messages you sent yourself.
-- **Show romaji / pinyin in parentheses** : append the romanization to the translation.
+- **Show romaji in parentheses** : append romaji to Japanese translations.
+- **Show pinyin in parentheses** : append pinyin to Chinese translations.
 - **/jp and /zh auto-send the translation** : when on, the translated text is sent immediately on your active channel. When off, it's copied to your clipboard and previewed in an Echo line so you can paste with `Ctrl+V` and confirm before pressing Enter.
 - **Translate into** : your target language (English, Japanese, Traditional Chinese).
 - **Translate messages written in** : the source languages you want to be translated. Lines in your target language are skipped automatically.

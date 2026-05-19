@@ -45,6 +45,7 @@ public sealed class Plugin : IDalamudPlugin
     public Plugin()
     {
         Configuration = PluginInterface.GetPluginConfig() as Configuration ?? new Configuration();
+        Configuration.UpgradeIfNeeded();
 
         DuduImagePath = System.IO.Path.Combine(
             PluginInterface.AssemblyLocation.Directory?.FullName ?? string.Empty, "dudu.png");
@@ -235,11 +236,9 @@ public sealed class Plugin : IDalamudPlugin
 
         // Romanize whichever side is Japanese / Chinese, so the user always gets a
         // pronounceable form regardless of which direction we're translating.
-        var wantSourceTranslit = Configuration.ShowTransliteration &&
-                                 LanguageDetector.NeedsTransliteration(detected);
-        var wantTargetTranslit = Configuration.ShowTransliteration &&
-                                 !wantSourceTranslit &&
-                                 LanguageDetector.NeedsTransliteration(target);
+        var wantSourceTranslit = ShouldShowTransliterationFor(detected);
+        var wantTargetTranslit = !wantSourceTranslit &&
+                                 ShouldShowTransliterationFor(target);
 
         // Capture by value so the closure doesn't see further chat traffic.
         var capturedText = text;
@@ -346,6 +345,14 @@ public sealed class Plugin : IDalamudPlugin
         "id"    => "ID",
         "ko"    => "KO",
         _       => lang.ToUpperInvariant(),
+    };
+
+    private bool ShouldShowTransliterationFor(string lang) => lang switch
+    {
+        "ja" => Configuration.ShowRomaji,
+        "zh-TW" => Configuration.ShowPinyin,
+        "zh-CN" => Configuration.ShowPinyin,
+        _ => false,
     };
 
     private static string ExtractCleanSenderName(SeString? sender)
