@@ -62,7 +62,6 @@ public class Configuration : IPluginConfiguration
 
     public void Save()
     {
-        ShowTransliteration = ShowRomaji || ShowPinyin;
         EnabledSourceLanguages.RemoveWhere(l => !AllowedSourceLanguages.Contains(l));
         if (!AllowedTargetLanguages.Contains(targetLanguage))
             targetLanguage = "en";
