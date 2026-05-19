@@ -15,6 +15,9 @@ public class Configuration : IPluginConfiguration
 
     public bool Enabled { get; set; } = true;
     public bool IgnoreOwnMessages { get; set; } = true;
+    public bool ShowRomaji { get; set; } = true;
+    public bool ShowPinyin { get; set; } = true;
+
     public bool ShowTransliteration { get; set; } = true;
 
     // When true, translated echoes go to XivChatType.Echo (neutral colour).
@@ -62,5 +65,17 @@ public class Configuration : IPluginConfiguration
         if (!AllowedTargetLanguages.Contains(targetLanguage))
             targetLanguage = "en";
         Plugin.PluginInterface.SavePluginConfig(this);
+    }
+
+    public bool Migrate()
+    {
+        if (Version >= 2)
+            return false;
+
+        var legacy = ShowTransliteration;
+        ShowRomaji = legacy;
+        ShowPinyin = legacy;
+        Version = 2;
+        return true;
     }
 }

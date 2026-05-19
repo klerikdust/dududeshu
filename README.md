@@ -2,7 +2,7 @@
 
 Smart player-messages translation tool for FF14, built on top of the Dalamud API.
 
-dudu的書 listens to the chat channels you choose and echoes a translation back in your target language. Japanese lines get romaji and Chinese lines get pinyin in parentheses. Two extra slash commands, `/jp` and `/zh`, translate the rest of the line into Japanese or Traditional Chinese and send it on your active channel.
+dudu的書 listens to the chat channels you choose and echoes a translation back in your target language. Japanese lines can show romaji and Chinese lines can show pinyin in parentheses (separate toggles). Two extra slash commands, `/jp` and `/zh`, translate the rest of the line into Japanese or Traditional Chinese and send it on your active channel.
 
 > Released under the [AGPL-3.0-or-later](LICENSE.md). This is a Dalamud plugin and runs as a third-party addon to FFXIV; use at your own discretion.
 
@@ -11,7 +11,7 @@ dudu的書 listens to the chat channels you choose and echoes a translation back
 ## Features
 
 - Auto-translates incoming chat in your enabled channels and echoes the result back in chat.
-- Romaji for Japanese and pinyin for Chinese, shown in parentheses next to the translation. Works whether the source is JP/ZH **or** the target is JP/ZH.
+- Optional romaji for Japanese and pinyin for Chinese (separate toggles), shown in parentheses next to the translation. Works whether the source is JP/ZH **or** the target is JP/ZH.
 - `/jp <text>` -> translates the text into Japanese and sends it on your active channel.
 - `/zh <text>` -> translates into Traditional Chinese and sends it on your active channel.
 - Auto-send toggle: instead of sending, the plugin can copy the translation to your clipboard and preview it in chat so you can paste it yourself with `Ctrl+V`.
@@ -75,7 +75,8 @@ Dalamud will check the custom repo automatically on launch. To force a refresh, 
 - **UI language** : the language used for this configuration window (English, Bahasa Indonesia, 繁體中文).
 - **Enable translator** : toggle on/off for incoming-chat translation.
 - **Ignore my own messages** : skip messages you sent yourself.
-- **Show romaji / pinyin in parentheses** : append the romanization to the translation.
+- **Show romaji in parentheses** : append romaji to Japanese translations.
+- **Show pinyin in parentheses** : append pinyin to Chinese translations.
 - **/jp and /zh auto-send the translation** : when on, the translated text is sent immediately on your active channel. When off, it's copied to your clipboard and previewed in an Echo line so you can paste with `Ctrl+V` and confirm before pressing Enter.
 - **Translate into** : your target language (English, Japanese, Traditional Chinese).
 - **Translate messages written in** : the source languages you want to be translated. Lines in your target language are skipped automatically.

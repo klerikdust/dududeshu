@@ -117,10 +117,17 @@ public sealed class ConfigWindow : Window, IDisposable
             configuration.Save();
         }
 
-        var translit = configuration.ShowTransliteration;
-        if (ImGui.Checkbox(T("enable.transliteration"), ref translit))
+        var showRomaji = configuration.ShowRomaji;
+        if (ImGui.Checkbox(T("enable.romaji"), ref showRomaji))
         {
-            configuration.ShowTransliteration = translit;
+            configuration.ShowRomaji = showRomaji;
+            configuration.Save();
+        }
+
+        var showPinyin = configuration.ShowPinyin;
+        if (ImGui.Checkbox(T("enable.pinyin"), ref showPinyin))
+        {
+            configuration.ShowPinyin = showPinyin;
             configuration.Save();
         }
 

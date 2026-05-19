@@ -31,7 +31,8 @@ public static class Localization
             ["section.uiLanguage"]        = "UI language",
             ["enable.translator"]         = "Enable translator",
             ["enable.ignoreOwn"]          = "Ignore my own messages",
-            ["enable.transliteration"]    = "Show romaji / pinyin in parentheses",
+            ["enable.romaji"]            = "Show romaji",
+            ["enable.pinyin"]            = "Show pinyin",
             ["enable.autoSend"]           = "/jp and /zh auto-send the translation",
             ["tooltip.autoSend"] =
                 "On: the translated text is sent on the active channel automatically.\n" +
@@ -69,7 +70,8 @@ public static class Localization
             ["section.uiLanguage"]        = "Bahasa antarmuka",
             ["enable.translator"]         = "Aktifkan penerjemah",
             ["enable.ignoreOwn"]          = "Abaikan pesan saya sendiri",
-            ["enable.transliteration"]    = "Tampilkan romaji / pinyin dalam tanda kurung",
+            ["enable.romaji"]            = "Tampilkan romaji",
+            ["enable.pinyin"]            = "Tampilkan pinyin",
             ["enable.autoSend"]           = "Kirim otomatis terjemahan dari /jp dan /zh",
             ["tooltip.autoSend"] =
                 "Aktif: terjemahan langsung dikirim ke saluran chat yang sedang aktif.\n" +
@@ -107,7 +109,8 @@ public static class Localization
             ["section.uiLanguage"]        = "介面語言",
             ["enable.translator"]         = "啟用翻譯",
             ["enable.ignoreOwn"]          = "忽略自己發送的訊息",
-            ["enable.transliteration"]    = "在括號中顯示羅馬字 / 拼音",
+            ["enable.romaji"]            = "顯示羅馬字",
+            ["enable.pinyin"]            = "顯示拼音",
             ["enable.autoSend"]           = "/jp 與 /zh 自動發送翻譯結果",
             ["tooltip.autoSend"] =
                 "開啟：翻譯後的訊息會直接送到當前頻道。\n" +

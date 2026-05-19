@@ -5,7 +5,7 @@
     "InternalName": "dududeshu",
     "AssemblyVersion": "0.1.13.0",
     "Punchline": "Smart player messages translation tool for FF14",
-    "Description": "Listens to the chat channels you choose and echoes a translation back in your target language. Japanese gets romaji and Chinese gets pinyin in parentheses. Sends translated messages on your active channel via /jp and /zh. Open settings with /ducfg, /duconfig, or /duduconfig.",
+    "Description": "Listens to the chat channels you choose and echoes a translation back in your target language. Japanese can show romaji and Chinese can show pinyin in parentheses. Sends translated messages on your active channel via /jp and /zh. Open settings with /ducfg, /duconfig, or /duduconfig.",
     "ApplicableVersion": "any",
     "DalamudApiLevel": 15,
     "RepoUrl": "https://github.com/klerikdust/dududeshu",

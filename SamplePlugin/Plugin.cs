@@ -45,6 +45,8 @@ public sealed class Plugin : IDalamudPlugin
     public Plugin()
     {
         Configuration = PluginInterface.GetPluginConfig() as Configuration ?? new Configuration();
+        if (Configuration.Migrate())
+            Configuration.Save();
 
         DuduImagePath = System.IO.Path.Combine(
             PluginInterface.AssemblyLocation.Directory?.FullName ?? string.Empty, "dudu.png");
@@ -179,6 +181,20 @@ public sealed class Plugin : IDalamudPlugin
 
     private string T(string key) => Localization.Get(Configuration.UiLanguage, key);
 
+    private bool ShouldShowTransliterationFor(string lang)
+    {
+        if (string.IsNullOrWhiteSpace(lang))
+            return false;
+
+        if (string.Equals(lang, "ja", StringComparison.OrdinalIgnoreCase))
+            return Configuration.ShowRomaji;
+
+        if (lang.StartsWith("zh", StringComparison.OrdinalIgnoreCase))
+            return Configuration.ShowPinyin;
+
+        return false;
+    }
+
     private void OnChatMessage(IHandleableChatMessage message)
     {
         if (!Configuration.Enabled)
@@ -235,9 +251,9 @@ public sealed class Plugin : IDalamudPlugin
 
         // Romanize whichever side is Japanese / Chinese, so the user always gets a
         // pronounceable form regardless of which direction we're translating.
-        var wantSourceTranslit = Configuration.ShowTransliteration &&
+        var wantSourceTranslit = ShouldShowTransliterationFor(detected) &&
                                  LanguageDetector.NeedsTransliteration(detected);
-        var wantTargetTranslit = Configuration.ShowTransliteration &&
+        var wantTargetTranslit = ShouldShowTransliterationFor(target) &&
                                  !wantSourceTranslit &&
                                  LanguageDetector.NeedsTransliteration(target);
 
