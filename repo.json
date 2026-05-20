@@ -3,7 +3,7 @@
     "Author": "xduduking",
     "Name": "dudu的書",
     "InternalName": "dududeshu",
-    "AssemblyVersion": "0.1.14.0",
+    "AssemblyVersion": "0.1.15.0",
     "Punchline": "Smart player messages translation tool for FF14",
     "Description": "Listens to the chat channels you choose and echoes a translation back in your target language. Japanese can show romaji and Chinese can show pinyin in parentheses. Sends translated messages on your active channel via /jp and /zh. Open settings with /ducfg, /duconfig, or /duduconfig.",
     "ApplicableVersion": "any",
