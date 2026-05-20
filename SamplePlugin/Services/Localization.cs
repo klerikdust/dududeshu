@@ -42,7 +42,11 @@ public static class Localization
             ["tooltip.useEcho"] =
                 "On: translated lines print on the Echo channel (neutral grey).\n" +
                 "Off: translated lines print on the same channel as the source,\n" +
-                "so FFXIV's chat-log colour for that channel applies automatically.",
+                "so FFXIV's chat-log colour for that channel applies automatically.\n" +
+                "\n" +
+                "Tip: to recolour Echo lines, go to\n" +
+                "Character Configuration → Log Window → Log Text Color\n" +
+                "→ Announcement → Echo.",
             ["enable.translatePfMenu"]    = "Add 'Translate' to Party Finder right-click menu",
             ["tooltip.translatePfMenu"] =
                 "Right-click inside the Party Finder Detail window and pick\n" +
@@ -81,7 +85,11 @@ public static class Localization
             ["tooltip.useEcho"] =
                 "Aktif: terjemahan ditampilkan di saluran Echo (warna abu-abu netral).\n" +
                 "Nonaktif: terjemahan ditampilkan di saluran yang sama dengan pesan asli,\n" +
-                "sehingga warna saluran dari pengaturan FFXIV berlaku otomatis.",
+                "sehingga warna saluran dari pengaturan FFXIV berlaku otomatis.\n" +
+                "\n" +
+                "Tips: untuk mengubah warna baris Echo, buka\n" +
+                "Character Configuration → Log Window → Log Text Color\n" +
+                "→ Announcement → Echo.",
             ["enable.translatePfMenu"]    = "Tambahkan 'Translate' ke menu klik kanan Party Finder",
             ["tooltip.translatePfMenu"] =
                 "Klik kanan di dalam jendela Party Finder Detail lalu pilih\n" +
@@ -120,7 +128,11 @@ public static class Localization
             ["tooltip.useEcho"] =
                 "開啟：翻譯訊息會顯示在 Echo 頻道（中性灰色）。\n" +
                 "關閉：翻譯訊息會顯示在與原訊息相同的頻道,\n" +
-                "FFXIV 的頻道顏色會自動套用。",
+                "FFXIV 的頻道顏色會自動套用。\n" +
+                "\n" +
+                "小提示：若想自訂 Echo 行的顏色，請前往\n" +
+                "角色設定 → 日誌視窗設定 → 日誌文字顏色設定\n" +
+                "→ 通知 → 默念。",
             ["enable.translatePfMenu"]    = "在招募右鍵選單加入 Translate",
             ["tooltip.translatePfMenu"] =
                 "在招募詳情視窗按右鍵後選擇 Translate，\n" +
