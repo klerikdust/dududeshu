@@ -15,7 +15,7 @@ public sealed class ConfigWindow : Window, IDisposable
     private readonly Configuration configuration;
     private readonly Plugin plugin;
 
-    private static readonly string[] SourceLanguageCodes = { "en", "ja", "zh-TW" };
+    private static readonly string[] SourceLanguageCodes = { "en", "ja", "zh-TW", "id" };
     private static readonly string[] TargetLanguageCodes = { "en", "ja", "zh-TW", "id" };
 
     private static readonly (XivChatType Type, string Label)[] ChannelOptions =

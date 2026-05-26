@@ -8,10 +8,10 @@ namespace SamplePlugin;
 [Serializable]
 public class Configuration : IPluginConfiguration
 {
-    private static readonly HashSet<string> AllowedSourceLanguages = new() { "en", "ja", "zh-TW" };
+    private static readonly HashSet<string> AllowedSourceLanguages = new() { "en", "ja", "zh-TW", "id" };
     private static readonly HashSet<string> AllowedTargetLanguages = new() { "en", "ja", "zh-TW", "id" };
 
-    public int Version { get; set; } = 1;
+    public int Version { get; set; } = 3;
 
     public bool Enabled { get; set; } = true;
     public bool IgnoreOwnMessages { get; set; } = true;
@@ -44,6 +44,7 @@ public class Configuration : IPluginConfiguration
         "ja",
         "zh-TW",
         "en",
+        "id",
     };
 
     public HashSet<XivChatType> EnabledChannels { get; set; } = new()
@@ -69,13 +70,24 @@ public class Configuration : IPluginConfiguration
 
     public bool Migrate()
     {
-        if (Version >= 2)
-            return false;
+        var changed = false;
 
-        var legacy = ShowTransliteration;
-        ShowRomaji = legacy;
-        ShowPinyin = legacy;
-        Version = 2;
-        return true;
+        if (Version < 2)
+        {
+            var legacy = ShowTransliteration;
+            ShowRomaji = legacy;
+            ShowPinyin = legacy;
+            Version = 2;
+            changed = true;
+        }
+
+        if (Version < 3)
+        {
+            EnabledSourceLanguages.Add("id");
+            Version = 3;
+            changed = true;
+        }
+
+        return changed;
     }
 }

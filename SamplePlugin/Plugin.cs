@@ -151,7 +151,7 @@ public sealed class Plugin : IDalamudPlugin
                     return;
                 }
 
-                var detectedSource = ResolveCommandDetectedSource(
+                var detectedSource = ResolveDetectedSource(
                     text, result!.DetectedSource, out var sourceCorrected);
                 if (sourceCorrected)
                 {
@@ -203,31 +203,45 @@ public sealed class Plugin : IDalamudPlugin
 
     private string T(string key) => Localization.Get(Configuration.UiLanguage, key);
 
-    private static string ResolveCommandDetectedSource(
+    private static string ResolveDetectedSource(
         string text, string googleSource, out bool sourceCorrected)
     {
         var localSource = LanguageDetector.Detect(text);
+        var normalizedGoogleSource = NormalizeSupportedSource(googleSource);
         sourceCorrected = IsJapaneseOrChinese(localSource) &&
-                          (string.IsNullOrWhiteSpace(googleSource) ||
-                           string.Equals(googleSource, "en", StringComparison.OrdinalIgnoreCase));
+                          (string.IsNullOrWhiteSpace(normalizedGoogleSource) ||
+                           string.Equals(normalizedGoogleSource, "en", StringComparison.OrdinalIgnoreCase));
 
-        return sourceCorrected ? localSource : googleSource;
+        return sourceCorrected ? localSource : normalizedGoogleSource;
+    }
+
+    private static string NormalizeSupportedSource(string lang)
+    {
+        if (string.IsNullOrWhiteSpace(lang))
+            return string.Empty;
+
+        return lang.StartsWith("zh", StringComparison.OrdinalIgnoreCase)
+            ? "zh-TW"
+            : lang;
     }
 
     private static bool IsJapaneseOrChinese(string lang) =>
         string.Equals(lang, "ja", StringComparison.OrdinalIgnoreCase) ||
         lang.StartsWith("zh", StringComparison.OrdinalIgnoreCase);
 
-    private bool ShouldShowTransliterationFor(string lang)
+    private bool ShouldShowTransliterationFor(string lang) =>
+        ShouldShowTransliterationFor(lang, Configuration.ShowRomaji, Configuration.ShowPinyin);
+
+    private static bool ShouldShowTransliterationFor(string lang, bool showRomaji, bool showPinyin)
     {
         if (string.IsNullOrWhiteSpace(lang))
             return false;
 
         if (string.Equals(lang, "ja", StringComparison.OrdinalIgnoreCase))
-            return Configuration.ShowRomaji;
+            return showRomaji;
 
         if (lang.StartsWith("zh", StringComparison.OrdinalIgnoreCase))
-            return Configuration.ShowPinyin;
+            return showPinyin;
 
         return false;
     }
@@ -268,37 +282,20 @@ public sealed class Plugin : IDalamudPlugin
             return;
         }
 
-        var detected = LanguageDetector.Detect(text);
-        Log.Debug($"[dudu的書] detected={detected} for '{preview}'");
-
-        if (!Configuration.EnabledSourceLanguages.Contains(detected))
-        {
-            Log.Debug(
-                $"[dudu的書] skip: source language '{detected}' not in enabled set " +
-                $"[{string.Join(",", Configuration.EnabledSourceLanguages)}]");
-            return;
-        }
-
         var target = Configuration.TargetLanguage;
-        if (string.Equals(detected, target, StringComparison.OrdinalIgnoreCase))
-        {
-            Log.Debug($"[dudu的書] skip: detected==target ({detected})");
-            return;
-        }
-
-        // Romanize whichever side is Japanese / Chinese, so the user always gets a
-        // pronounceable form regardless of which direction we're translating.
-        var wantSourceTranslit = ShouldShowTransliterationFor(detected) &&
-                                 LanguageDetector.NeedsTransliteration(detected);
-        var wantTargetTranslit = ShouldShowTransliterationFor(target) &&
-                                 !wantSourceTranslit &&
-                                 LanguageDetector.NeedsTransliteration(target);
+        var enabledSources = Configuration.EnabledSourceLanguages.ToArray();
+        var showRomaji = Configuration.ShowRomaji;
+        var showPinyin = Configuration.ShowPinyin;
 
         // Capture by value so the closure doesn't see further chat traffic.
         var capturedText = text;
         var capturedSender = senderName;
         var capturedType = type;
         var capturedTarget = target;
+        var capturedPreview = preview;
+        var capturedEnabledSources = enabledSources;
+        var capturedShowRomaji = showRomaji;
+        var capturedShowPinyin = showPinyin;
         var ct = cts.Token;
 
         _ = Task.Run(async () =>
@@ -306,11 +303,48 @@ public sealed class Plugin : IDalamudPlugin
             try
             {
                 var result = await translator.TranslateAsync(
-                    capturedText, detected, capturedTarget, wantSourceTranslit, ct).ConfigureAwait(false);
+                    capturedText, "auto", capturedTarget, false, ct).ConfigureAwait(false);
                 if (result == null)
                 {
-                    Log.Debug($"[dudu的書] no result. detected={detected} target={capturedTarget} text={capturedText}");
+                    Log.Debug($"[dudu的書] no result. target={capturedTarget} text={capturedText}");
                     return;
+                }
+
+                var detected = ResolveDetectedSource(
+                    capturedText, result.DetectedSource, out var sourceCorrected);
+                Log.Debug(
+                    $"[dudu的書] detected={detected} googleDetected={result.DetectedSource} for '{capturedPreview}'");
+
+                if (!capturedEnabledSources.Contains(detected))
+                {
+                    Log.Debug(
+                        $"[dudu的書] skip: source language '{detected}' not in enabled set " +
+                        $"[{string.Join(",", capturedEnabledSources)}]");
+                    return;
+                }
+
+                if (string.Equals(detected, capturedTarget, StringComparison.OrdinalIgnoreCase))
+                {
+                    Log.Debug($"[dudu的書] skip: detected==target ({detected})");
+                    return;
+                }
+
+                // Romanize whichever side is Japanese / Chinese, so the user always gets a
+                // pronounceable form regardless of which direction we're translating.
+                var wantSourceTranslit = ShouldShowTransliterationFor(
+                                             detected, capturedShowRomaji, capturedShowPinyin) &&
+                                         LanguageDetector.NeedsTransliteration(detected);
+                var wantTargetTranslit = ShouldShowTransliterationFor(
+                                             capturedTarget, capturedShowRomaji, capturedShowPinyin) &&
+                                         !wantSourceTranslit &&
+                                         LanguageDetector.NeedsTransliteration(capturedTarget);
+
+                if (sourceCorrected || wantSourceTranslit)
+                {
+                    var correctedResult = await translator.TranslateAsync(
+                        capturedText, detected, capturedTarget, wantSourceTranslit, ct).ConfigureAwait(false);
+                    if (!string.IsNullOrWhiteSpace(correctedResult?.Translated))
+                        result = correctedResult;
                 }
 
                 var translit = result.Transliteration;
@@ -324,7 +358,7 @@ public sealed class Plugin : IDalamudPlugin
                     $"[dudu的書] detected={detected} target={capturedTarget} " +
                     $"trans='{result.Translated}' translit='{translit}'");
 
-                var finalResult = new TranslationResult(result.Translated, translit ?? string.Empty, result.DetectedSource);
+                var finalResult = new TranslationResult(result.Translated, translit ?? string.Empty, detected);
                 var showTranslit = !string.IsNullOrWhiteSpace(translit);
 
                 await Framework.RunOnFrameworkThread(() =>
