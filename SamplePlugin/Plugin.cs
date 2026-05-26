@@ -131,16 +131,17 @@ public sealed class Plugin : IDalamudPlugin
             _ => "en",
         };
 
-        var detected = LanguageDetector.Detect(text);
-        if (detected == "und") detected = "auto";
-
+        // Defer source detection to Google. Our local codepoint detector returns
+        // "en" for any Latin-script text, so /jp on Indonesian/Spanish/etc. would
+        // be sent as sl=en and produce garbage. gtx accepts sl=auto and returns
+        // the detected language in the response, which we surface in the echo.
         var ct = cts.Token;
         _ = Task.Run(async () =>
         {
             try
             {
                 var result = await translator.TranslateAsync(
-                    text, detected, target, false, ct).ConfigureAwait(false);
+                    text, "auto", target, false, ct).ConfigureAwait(false);
 
                 var translated = result?.Translated;
                 if (string.IsNullOrWhiteSpace(translated))
@@ -148,6 +149,19 @@ public sealed class Plugin : IDalamudPlugin
                     await Framework.RunOnFrameworkThread(() =>
                         ChatGui.PrintError($"{T("clipboard.prefix")}{T("clipboard.translateFailed")}{text}"));
                     return;
+                }
+
+                var detectedSource = ResolveCommandDetectedSource(
+                    text, result!.DetectedSource, out var sourceCorrected);
+                if (sourceCorrected)
+                {
+                    var correctedResult = await translator.TranslateAsync(
+                        text, detectedSource, target, false, ct).ConfigureAwait(false);
+                    if (!string.IsNullOrWhiteSpace(correctedResult?.Translated))
+                    {
+                        result = correctedResult;
+                        translated = correctedResult.Translated;
+                    }
                 }
 
                 // Clipboard work isn't framework-thread sensitive and may block
@@ -163,8 +177,16 @@ public sealed class Plugin : IDalamudPlugin
                         return;
                     }
 
+                    var detectedTag = string.IsNullOrWhiteSpace(detectedSource)
+                        ? string.Empty
+                        : LanguageTag(detectedSource);
+                    var directionTag = string.IsNullOrEmpty(detectedTag)
+                        ? $"[{LanguageTag(target)}] "
+                        : $"[{detectedTag}->{LanguageTag(target)}] ";
+
                     var preview = new SeStringBuilder()
                         .AddUiForeground(T("clipboard.prefix"), 52)
+                        .AddUiForeground(directionTag, 45)
                         .AddText(T("clipboard.copied"))
                         .AddUiForeground(translated, 60)
                         .Build();
@@ -180,6 +202,21 @@ public sealed class Plugin : IDalamudPlugin
     }
 
     private string T(string key) => Localization.Get(Configuration.UiLanguage, key);
+
+    private static string ResolveCommandDetectedSource(
+        string text, string googleSource, out bool sourceCorrected)
+    {
+        var localSource = LanguageDetector.Detect(text);
+        sourceCorrected = IsJapaneseOrChinese(localSource) &&
+                          (string.IsNullOrWhiteSpace(googleSource) ||
+                           string.Equals(googleSource, "en", StringComparison.OrdinalIgnoreCase));
+
+        return sourceCorrected ? localSource : googleSource;
+    }
+
+    private static bool IsJapaneseOrChinese(string lang) =>
+        string.Equals(lang, "ja", StringComparison.OrdinalIgnoreCase) ||
+        lang.StartsWith("zh", StringComparison.OrdinalIgnoreCase);
 
     private bool ShouldShowTransliterationFor(string lang)
     {

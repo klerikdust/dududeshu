@@ -11,6 +11,7 @@ public static class LanguageDetector
 
         var hasHiraganaKatakana = false;
         var hasHan = false;
+        var hasBopomofo = false;
         var hasHangul = false;
         var hasLatin = false;
 
@@ -27,6 +28,11 @@ public static class LanguageDetector
             {
                 hasHan = true;
             }
+            else if ((ch >= 0x3100 && ch <= 0x312F) ||
+                     (ch >= 0x31A0 && ch <= 0x31BF))
+            {
+                hasBopomofo = true;
+            }
             else if (ch >= 0xAC00 && ch <= 0xD7AF)
             {
                 hasHangul = true;
@@ -38,7 +44,7 @@ public static class LanguageDetector
         }
 
         if (hasHiraganaKatakana) return "ja";
-        if (hasHan)
+        if (hasHan || hasBopomofo)
         {
             // We only support Traditional in the UI, so route any Han-only run there.
             // Google Translate will still detect simplified vs traditional internally.
