@@ -229,6 +229,14 @@ public sealed class Plugin : IDalamudPlugin
         string.Equals(lang, "ja", StringComparison.OrdinalIgnoreCase) ||
         lang.StartsWith("zh", StringComparison.OrdinalIgnoreCase);
 
+    private bool IsEnabledChatType(XivChatType type) =>
+        IsEmoteChatType(type)
+            ? Configuration.TranslateEmoteMessages
+            : Configuration.EnabledChannels.Contains(type);
+
+    private static bool IsEmoteChatType(XivChatType type) =>
+        type is XivChatType.CustomEmote or XivChatType.StandardEmote;
+
     private bool ShouldShowTransliterationFor(string lang) =>
         ShouldShowTransliterationFor(lang, Configuration.ShowRomaji, Configuration.ShowPinyin);
 
@@ -270,7 +278,7 @@ public sealed class Plugin : IDalamudPlugin
         var preview = text.Length > 60 ? text[..60] + "…" : text;
         Log.Debug($"[dudu的書] in: type={type} sender='{senderName}' textLen={text.Length} '{preview}'");
 
-        if (!Configuration.EnabledChannels.Contains(type))
+        if (!IsEnabledChatType(type))
         {
             Log.Debug($"[dudu的書] skip: channel {type} not enabled");
             return;

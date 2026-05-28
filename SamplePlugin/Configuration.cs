@@ -11,7 +11,7 @@ public class Configuration : IPluginConfiguration
     private static readonly HashSet<string> AllowedSourceLanguages = new() { "en", "ja", "zh-TW", "id" };
     private static readonly HashSet<string> AllowedTargetLanguages = new() { "en", "ja", "zh-TW", "id" };
 
-    public int Version { get; set; } = 3;
+    public int Version { get; set; } = 4;
 
     public bool Enabled { get; set; } = true;
     public bool IgnoreOwnMessages { get; set; } = true;
@@ -19,6 +19,7 @@ public class Configuration : IPluginConfiguration
     public bool ShowPinyin { get; set; } = true;
 
     public bool ShowTransliteration { get; set; } = true;
+    public bool TranslateEmoteMessages { get; set; } = true;
 
     // When true, translated echoes go to XivChatType.Echo (neutral colour).
     // When false (default), they go to the source channel so FFXIV tints the
@@ -85,6 +86,13 @@ public class Configuration : IPluginConfiguration
         {
             EnabledSourceLanguages.Add("id");
             Version = 3;
+            changed = true;
+        }
+
+        if (Version < 4)
+        {
+            TranslateEmoteMessages = true;
+            Version = 4;
             changed = true;
         }
 

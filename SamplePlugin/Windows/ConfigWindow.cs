@@ -117,6 +117,15 @@ public sealed class ConfigWindow : Window, IDisposable
             configuration.Save();
         }
 
+        var translateEmotes = configuration.TranslateEmoteMessages;
+        if (ImGui.Checkbox(T("enable.translateEmotes"), ref translateEmotes))
+        {
+            configuration.TranslateEmoteMessages = translateEmotes;
+            configuration.Save();
+        }
+        if (ImGui.IsItemHovered())
+            ImGui.SetTooltip(T("tooltip.translateEmotes"));
+
         var showRomaji = configuration.ShowRomaji;
         if (ImGui.Checkbox(T("enable.romaji"), ref showRomaji))
         {

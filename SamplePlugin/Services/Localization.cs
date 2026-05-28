@@ -31,6 +31,10 @@ public static class Localization
             ["section.uiLanguage"]        = "UI language",
             ["enable.translator"]         = "Enable translator",
             ["enable.ignoreOwn"]          = "Ignore my own messages",
+            ["enable.translateEmotes"]     = "Translate emote messages",
+            ["tooltip.translateEmotes"] =
+                "On: custom and standard emote lines are translated.\n" +
+                "Off: emote lines are ignored.",
             ["enable.romaji"]            = "Show romaji",
             ["enable.pinyin"]            = "Show pinyin",
             ["enable.autoSend"]           = "/jp and /zh auto-send the translation",
@@ -74,6 +78,10 @@ public static class Localization
             ["section.uiLanguage"]        = "Bahasa antarmuka",
             ["enable.translator"]         = "Aktifkan penerjemah",
             ["enable.ignoreOwn"]          = "Abaikan pesan saya sendiri",
+            ["enable.translateEmotes"]     = "Terjemahkan pesan emote",
+            ["tooltip.translateEmotes"] =
+                "Aktif: baris emote custom dan standar ikut diterjemahkan.\n" +
+                "Nonaktif: baris emote diabaikan.",
             ["enable.romaji"]            = "Tampilkan romaji",
             ["enable.pinyin"]            = "Tampilkan pinyin",
             ["enable.autoSend"]           = "Kirim otomatis terjemahan dari /jp dan /zh",
@@ -117,6 +125,10 @@ public static class Localization
             ["section.uiLanguage"]        = "介面語言",
             ["enable.translator"]         = "啟用翻譯",
             ["enable.ignoreOwn"]          = "忽略自己發送的訊息",
+            ["enable.translateEmotes"]     = "翻譯情感動作訊息",
+            ["tooltip.translateEmotes"] =
+                "開啟：會翻譯自訂與標準情感動作訊息。\n" +
+                "關閉：忽略情感動作訊息。",
             ["enable.romaji"]            = "顯示羅馬字",
             ["enable.pinyin"]            = "顯示拼音",
             ["enable.autoSend"]           = "/jp 與 /zh 自動發送翻譯結果",
