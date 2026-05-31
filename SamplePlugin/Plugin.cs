@@ -166,8 +166,22 @@ public sealed class Plugin : IDalamudPlugin
 
                 // Clipboard work isn't framework-thread sensitive and may block
                 // briefly waiting for the OS clipboard, so do it before we
-                // marshal back to the framework thread for the chat echo.
+                // marshal back to the framework thread for the chat echo. The
+                // clipboard always gets the raw translation — pinyin/romaji is
+                // appended to the echo preview only, never to what we copy.
                 var copied = TryCopyToClipboard(translated);
+
+                // Romanize the translated target text for the echo preview only
+                // (e.g. /jp -> romaji, /zh -> pinyin), gated on the same toggles
+                // the inbound pipeline uses. dt=rm romanizes the source, so we
+                // need a separate RomanizeAsync pass against the target text.
+                var translit = string.Empty;
+                if (ShouldShowTransliterationFor(target) &&
+                    LanguageDetector.NeedsTransliteration(target))
+                {
+                    translit = await translator.RomanizeAsync(translated, target, ct)
+                        .ConfigureAwait(false) ?? string.Empty;
+                }
 
                 await Framework.RunOnFrameworkThread(() =>
                 {
@@ -184,11 +198,15 @@ public sealed class Plugin : IDalamudPlugin
                         ? $"[{LanguageTag(target)}] "
                         : $"[{detectedTag}->{LanguageTag(target)}] ";
 
+                    var previewBody = string.IsNullOrWhiteSpace(translit)
+                        ? translated
+                        : $"{translated} ({translit})";
+
                     var preview = new SeStringBuilder()
                         .AddUiForeground(T("clipboard.prefix"), 52)
                         .AddUiForeground(directionTag, 45)
                         .AddText(T("clipboard.copied"))
-                        .AddUiForeground(translated, 60)
+                        .AddUiForeground(previewBody, 60)
                         .Build();
                     ChatGui.Print(new XivChatEntry { Type = XivChatType.Echo, Message = preview });
                 });
