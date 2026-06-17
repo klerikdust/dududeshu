@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
@@ -24,6 +26,7 @@ public sealed class Translator : IDisposable
         };
         http.DefaultRequestHeaders.UserAgent.ParseAdd(
             "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0 Safari/537.36");
+        http.DefaultRequestHeaders.AcceptLanguage.ParseAdd("en-US,en;q=0.9");
     }
 
     public void Dispose() => http.Dispose();
@@ -52,7 +55,10 @@ public sealed class Translator : IDisposable
         {
             using var res = await http.GetAsync(url, ct).ConfigureAwait(false);
             if (!res.IsSuccessStatusCode)
+            {
+                DebugLog($"Romanize failed: HTTP {(int)res.StatusCode} {res.ReasonPhrase}");
                 return null;
+            }
 
             var body = await res.Content.ReadAsStringAsync(ct).ConfigureAwait(false);
             var parsed = ParseGtxResponse(body);
@@ -69,7 +75,7 @@ public sealed class Translator : IDisposable
         }
         catch (Exception ex)
         {
-            Plugin.Log.Debug($"Romanize failed: {ex.Message}");
+            DebugLog($"Romanize failed: {ex.Message}");
             return null;
         }
     }
@@ -107,28 +113,92 @@ public sealed class Translator : IDisposable
                   "&ie=UTF-8&oe=UTF-8" +
                   $"&q={HttpUtility.UrlEncode(text, Encoding.UTF8)}";
 
+        var parsed = await TranslateWithGtxAsync(url, ct).ConfigureAwait(false) ??
+                     await TranslateWithMobileAsync(text, sl, tl, ct).ConfigureAwait(false);
+        if (parsed == null)
+            return null;
+
+        lock (cacheLock)
+        {
+            if (cache.Count >= MaxCacheEntries)
+                cache.Clear();
+            cache[key] = new CacheEntry(parsed);
+        }
+        return parsed;
+    }
+
+    private async Task<TranslationResult?> TranslateWithGtxAsync(string url, CancellationToken ct)
+    {
         try
         {
             using var res = await http.GetAsync(url, ct).ConfigureAwait(false);
             if (!res.IsSuccessStatusCode)
+            {
+                DebugLog($"Translate gtx failed: HTTP {(int)res.StatusCode} {res.ReasonPhrase}");
                 return null;
+            }
 
             var body = await res.Content.ReadAsStringAsync(ct).ConfigureAwait(false);
             var parsed = ParseGtxResponse(body);
-            if (parsed == null)
-                return null;
-
-            lock (cacheLock)
-            {
-                if (cache.Count >= MaxCacheEntries)
-                    cache.Clear();
-                cache[key] = new CacheEntry(parsed);
-            }
+            if (parsed == null && LooksLikeGoogleBlock(body))
+                DebugLog("Translate gtx failed: Google returned a traffic/CAPTCHA block page");
             return parsed;
+        }
+        catch (OperationCanceledException)
+        {
+            throw;
         }
         catch (Exception ex)
         {
-            Plugin.Log.Debug($"Translate failed: {ex.Message}");
+            DebugLog($"Translate gtx failed: {ex.Message}");
+            return null;
+        }
+    }
+
+    private async Task<TranslationResult?> TranslateWithMobileAsync(
+        string text,
+        string sourceLang,
+        string targetLang,
+        CancellationToken ct)
+    {
+        var url = "https://translate.google.com/m" +
+                  $"?sl={Uri.EscapeDataString(sourceLang)}" +
+                  $"&tl={Uri.EscapeDataString(targetLang)}" +
+                  "&hl=en-US" +
+                  $"&q={HttpUtility.UrlEncode(text, Encoding.UTF8)}";
+
+        try
+        {
+            using var res = await http.GetAsync(url, ct).ConfigureAwait(false);
+            if (!res.IsSuccessStatusCode)
+            {
+                DebugLog($"Translate mobile fallback failed: HTTP {(int)res.StatusCode} {res.ReasonPhrase}");
+                return null;
+            }
+
+            var body = await res.Content.ReadAsStringAsync(ct).ConfigureAwait(false);
+            var translated = ParseMobileResponse(body);
+            if (string.IsNullOrWhiteSpace(translated))
+            {
+                if (LooksLikeGoogleBlock(body))
+                    DebugLog("Translate mobile fallback failed: Google returned a traffic/CAPTCHA block page");
+                else
+                    DebugLog("Translate mobile fallback failed: no result container found");
+                return null;
+            }
+
+            var detected = string.Equals(sourceLang, "auto", StringComparison.OrdinalIgnoreCase)
+                ? string.Empty
+                : sourceLang;
+            return new TranslationResult(translated, string.Empty, detected);
+        }
+        catch (OperationCanceledException)
+        {
+            throw;
+        }
+        catch (Exception ex)
+        {
+            DebugLog($"Translate mobile fallback failed: {ex.Message}");
             return null;
         }
     }
@@ -192,8 +262,46 @@ public sealed class Translator : IDisposable
         }
         catch (Exception ex)
         {
-            Plugin.Log.Debug($"gtx parse failed: {ex.Message}");
+            DebugLog($"gtx parse failed: {ex.Message}");
             return null;
+        }
+    }
+
+    private static string? ParseMobileResponse(string body)
+    {
+        const string marker = "class=\"result-container\"";
+        var markerIndex = body.IndexOf(marker, StringComparison.OrdinalIgnoreCase);
+        if (markerIndex < 0)
+            return null;
+
+        var start = body.IndexOf('>', markerIndex);
+        if (start < 0)
+            return null;
+        start++;
+
+        var end = body.IndexOf("</div>", start, StringComparison.OrdinalIgnoreCase);
+        if (end < 0)
+            return null;
+
+        var html = body[start..end];
+        var withoutTags = Regex.Replace(html, "<.*?>", string.Empty);
+        return WebUtility.HtmlDecode(withoutTags).Trim();
+    }
+
+    private static bool LooksLikeGoogleBlock(string body) =>
+        body.Contains("unusual traffic", StringComparison.OrdinalIgnoreCase) ||
+        body.Contains("captcha-form", StringComparison.OrdinalIgnoreCase) ||
+        body.Contains("enable javascript", StringComparison.OrdinalIgnoreCase);
+
+    private static void DebugLog(string message)
+    {
+        try
+        {
+            Plugin.Log?.Debug(message);
+        }
+        catch
+        {
+            // Plugin services are unavailable in standalone build/test contexts.
         }
     }
 

@@ -247,6 +247,9 @@ public sealed class Plugin : IDalamudPlugin
         string.Equals(lang, "ja", StringComparison.OrdinalIgnoreCase) ||
         lang.StartsWith("zh", StringComparison.OrdinalIgnoreCase);
 
+    private static bool SameText(string left, string right) =>
+        string.Equals(left?.Trim(), right?.Trim(), StringComparison.OrdinalIgnoreCase);
+
     private bool IsEnabledChatType(XivChatType type) =>
         IsEmoteChatType(type)
             ? Configuration.TranslateEmoteMessages
@@ -336,6 +339,8 @@ public sealed class Plugin : IDalamudPlugin
                     return;
                 }
 
+                var sourceDetectionUnavailable = string.IsNullOrWhiteSpace(result.DetectedSource);
+                var translationChanged = !SameText(capturedText, result.Translated);
                 var detected = ResolveDetectedSource(
                     capturedText, result.DetectedSource, out var sourceCorrected);
                 Log.Debug(
@@ -343,16 +348,33 @@ public sealed class Plugin : IDalamudPlugin
 
                 if (!capturedEnabledSources.Contains(detected))
                 {
-                    Log.Debug(
-                        $"[dudu的書] skip: source language '{detected}' not in enabled set " +
-                        $"[{string.Join(",", capturedEnabledSources)}]");
-                    return;
+                    if (sourceDetectionUnavailable && translationChanged)
+                    {
+                        Log.Debug(
+                            $"[dudu的書] continue: source detection unavailable, " +
+                            $"but translation changed for '{capturedPreview}'");
+                    }
+                    else
+                    {
+                        Log.Debug(
+                            $"[dudu的書] skip: source language '{detected}' not in enabled set " +
+                            $"[{string.Join(",", capturedEnabledSources)}]");
+                        return;
+                    }
                 }
 
                 if (string.Equals(detected, capturedTarget, StringComparison.OrdinalIgnoreCase))
                 {
-                    Log.Debug($"[dudu的書] skip: detected==target ({detected})");
-                    return;
+                    if (sourceDetectionUnavailable && translationChanged)
+                    {
+                        Log.Debug(
+                            "[dudu的書] continue: source detection unavailable and fallback produced translation");
+                    }
+                    else
+                    {
+                        Log.Debug($"[dudu的書] skip: detected==target ({detected})");
+                        return;
+                    }
                 }
 
                 // Romanize whichever side is Japanese / Chinese, so the user always gets a
