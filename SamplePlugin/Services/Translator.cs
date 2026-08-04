@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
@@ -17,6 +16,12 @@ public sealed class Translator : IDisposable
     private readonly Dictionary<string, CacheEntry> cache = new();
     private readonly object cacheLock = new();
     private const int MaxCacheEntries = 512;
+
+    // One retry only. Markup answers are usually transient (an interstitial
+    // between two good responses), so a single second pass recovers most of
+    // them; anything that fails twice is dropped rather than shown.
+    private const int MaxAttempts = 2;
+    private static readonly TimeSpan RetryDelay = TimeSpan.FromMilliseconds(250);
 
     public Translator()
     {
@@ -51,19 +56,42 @@ public sealed class Translator : IDisposable
                   "&dt=rm&ie=UTF-8&oe=UTF-8" +
                   $"&q={HttpUtility.UrlEncode(text, Encoding.UTF8)}";
 
-        try
+        for (var attempt = 1; attempt <= MaxAttempts; attempt++)
         {
-            using var res = await http.GetAsync(url, ct).ConfigureAwait(false);
-            if (!res.IsSuccessStatusCode)
+            TranslationResult? parsed;
+            try
             {
-                DebugLog($"Romanize failed: HTTP {(int)res.StatusCode} {res.ReasonPhrase}");
+                using var res = await http.GetAsync(url, ct).ConfigureAwait(false);
+                if (!res.IsSuccessStatusCode)
+                {
+                    DebugLog($"Romanize failed: HTTP {(int)res.StatusCode} {res.ReasonPhrase}");
+                    return null;
+                }
+
+                var body = await res.Content.ReadAsStringAsync(ct).ConfigureAwait(false);
+                parsed = ParseGtxResponse(body);
+                if (parsed == null)
+                    return null;
+            }
+            catch (OperationCanceledException)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                DebugLog($"Romanize failed: {ex.Message}");
                 return null;
             }
 
-            var body = await res.Content.ReadAsStringAsync(ct).ConfigureAwait(false);
-            var parsed = ParseGtxResponse(body);
-            if (parsed == null)
-                return null;
+            if (TranslationSanity.IsSuspect(parsed.Transliteration))
+            {
+                DebugLog($"Romanize discarded: markup in response '{TranslationSanity.Preview(parsed.Transliteration)}'");
+                if (attempt == MaxAttempts)
+                    return null;
+
+                await Task.Delay(RetryDelay, ct).ConfigureAwait(false);
+                continue;
+            }
 
             lock (cacheLock)
             {
@@ -73,11 +101,8 @@ public sealed class Translator : IDisposable
             }
             return parsed.Transliteration;
         }
-        catch (Exception ex)
-        {
-            DebugLog($"Romanize failed: {ex.Message}");
-            return null;
-        }
+
+        return null;
     }
 
     public async Task<TranslationResult?> TranslateAsync(
@@ -113,8 +138,34 @@ public sealed class Translator : IDisposable
                   "&ie=UTF-8&oe=UTF-8" +
                   $"&q={HttpUtility.UrlEncode(text, Encoding.UTF8)}";
 
-        var parsed = await TranslateWithGtxAsync(url, ct).ConfigureAwait(false) ??
-                     await TranslateWithMobileAsync(text, sl, tl, ct).ConfigureAwait(false);
+        TranslationResult? parsed = null;
+        for (var attempt = 1; attempt <= MaxAttempts; attempt++)
+        {
+            // Swap which endpoint leads on the retry. Hitting gtx twice in a
+            // row tends to reproduce the same bad answer, whereas the /m page
+            // is served by different infrastructure.
+            var mobileFirst = attempt > 1;
+            var (candidate, sawMarkup) = await TranslateOnceAsync(url, text, sl, tl, mobileFirst, ct)
+                .ConfigureAwait(false);
+
+            if (candidate != null)
+            {
+                parsed = candidate;
+                break;
+            }
+
+            // Only markup earns the retry. A plain transport failure has
+            // already burned both endpoints, and a second pass would just
+            // double the latency of an outage.
+            if (!sawMarkup || attempt == MaxAttempts)
+                break;
+
+            DebugLog($"Translate attempt {attempt} returned markup; retrying");
+            await Task.Delay(RetryDelay, ct).ConfigureAwait(false);
+        }
+
+        // Silent no-op: every caller treats null as "print nothing", which is
+        // what we want rather than surfacing HTML in the chat log.
         if (parsed == null)
             return null;
 
@@ -126,6 +177,64 @@ public sealed class Translator : IDisposable
         }
         return parsed;
     }
+
+    /// <summary>
+    /// One pass over both endpoints, discarding any answer that looks like
+    /// markup instead of a translation. <c>SawMarkup</c> distinguishes "Google
+    /// gave us junk" (worth retrying) from "the request failed" (not worth it).
+    /// </summary>
+    private async Task<(TranslationResult? Result, bool SawMarkup)> TranslateOnceAsync(
+        string url,
+        string text,
+        string sl,
+        string tl,
+        bool mobileFirst,
+        CancellationToken ct)
+    {
+        var sawMarkup = false;
+
+        async Task<TranslationResult?> RunGtx()
+        {
+            var result = await TranslateWithGtxAsync(url, ct).ConfigureAwait(false);
+            if (result == null)
+                return null;
+
+            if (!TranslationSanity.IsSuspect(result.Translated))
+                return DropSuspectTransliteration(result);
+
+            sawMarkup = true;
+            DebugLog($"Translate gtx discarded: markup in response '{TranslationSanity.Preview(result.Translated)}'");
+            return null;
+        }
+
+        async Task<TranslationResult?> RunMobile()
+        {
+            var result = await TranslateWithMobileAsync(text, sl, tl, ct).ConfigureAwait(false);
+            if (result == null)
+                return null;
+
+            if (!TranslationSanity.IsSuspect(result.Translated))
+                return DropSuspectTransliteration(result);
+
+            sawMarkup = true;
+            DebugLog($"Translate mobile discarded: markup in response '{TranslationSanity.Preview(result.Translated)}'");
+            return null;
+        }
+
+        var first = mobileFirst ? await RunMobile().ConfigureAwait(false) : await RunGtx().ConfigureAwait(false);
+        if (first != null)
+            return (first, sawMarkup);
+
+        var second = mobileFirst ? await RunGtx().ConfigureAwait(false) : await RunMobile().ConfigureAwait(false);
+        return (second, sawMarkup);
+    }
+
+    // Romanization is decorative, so bad transliteration costs us the pinyin /
+    // romaji hint but never the translation itself.
+    private static TranslationResult DropSuspectTransliteration(TranslationResult result) =>
+        TranslationSanity.IsSuspect(result.Transliteration)
+            ? result with { Transliteration = string.Empty }
+            : result;
 
     private async Task<TranslationResult?> TranslateWithGtxAsync(string url, CancellationToken ct)
     {
@@ -253,8 +362,10 @@ public sealed class Translator : IDisposable
             if (root.GetArrayLength() > 2 && root[2].ValueKind == JsonValueKind.String)
                 detected = root[2].GetString() ?? string.Empty;
 
-            var translatedStr = translated.ToString().Trim();
-            var translitStr = translit.ToString().Trim();
+            // gtx routinely returns HTML entities inside otherwise valid output
+            // ("don&#39;t"), so decode before anyone inspects or displays it.
+            var translatedStr = TranslationSanity.Normalize(translated.ToString());
+            var translitStr = TranslationSanity.Normalize(translit.ToString());
             if (translatedStr.Length == 0 && translitStr.Length == 0)
                 return null;
 
@@ -284,8 +395,14 @@ public sealed class Translator : IDisposable
             return null;
 
         var html = body[start..end];
-        var withoutTags = Regex.Replace(html, "<.*?>", string.Empty);
-        return WebUtility.HtmlDecode(withoutTags).Trim();
+
+        // Drop script/style bodies outright — stripping only their tags would
+        // leave the raw JS/CSS behind as if it were translated text. Singleline
+        // so tags and blocks broken across newlines still match.
+        html = Regex.Replace(html, "<(script|style)\\b.*?</\\1>", string.Empty,
+            RegexOptions.IgnoreCase | RegexOptions.Singleline);
+        var withoutTags = Regex.Replace(html, "<.*?>", string.Empty, RegexOptions.Singleline);
+        return TranslationSanity.Normalize(withoutTags);
     }
 
     private static bool LooksLikeGoogleBlock(string body) =>
