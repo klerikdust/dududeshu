@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
@@ -22,6 +23,24 @@ public sealed class Translator : IDisposable
     // them; anything that fails twice is dropped rather than shown.
     private const int MaxAttempts = 2;
     private static readonly TimeSpan RetryDelay = TimeSpan.FromMilliseconds(250);
+
+    // Variants of the same legacy array API. The quota is per client id, not
+    // per IP: client=gtx can sit on HTTP 429 for hours while the other two
+    // answer normally from the same machine. Rotating across them is what
+    // keeps romaji/pinyin alive, because the /m fallback below returns a
+    // translation only and has no transliteration to scrape at all.
+    private static readonly GtxEndpoint[] GtxEndpoints =
+    {
+        new("gtx", "https://translate.googleapis.com/translate_a/single", "gtx"),
+        new("at", "https://translate.googleapis.com/translate_a/single", "at"),
+        new("dict-chrome-ex", "https://clients5.google.com/translate_a/single", "dict-chrome-ex"),
+    };
+
+    // Long enough that a throttled client stops costing us a round-trip on
+    // every message, short enough that we notice when its quota refills.
+    private static readonly TimeSpan ThrottleCooldown = TimeSpan.FromMinutes(10);
+    private readonly Dictionary<string, DateTime> throttledUntil = new();
+    private readonly object throttleLock = new();
 
     public Translator()
     {
@@ -49,57 +68,33 @@ public sealed class Translator : IDisposable
         }
 
         var sl = NormalizeForGoogle(lang);
-        var url = "https://translate.googleapis.com/translate_a/single" +
-                  "?client=gtx" +
-                  $"&sl={Uri.EscapeDataString(sl)}" +
-                  "&tl=en" +
-                  "&dt=rm&ie=UTF-8&oe=UTF-8" +
-                  $"&q={HttpUtility.UrlEncode(text, Encoding.UTF8)}";
+        var query = $"&sl={Uri.EscapeDataString(sl)}" +
+                    "&tl=en" +
+                    "&dt=rm&ie=UTF-8&oe=UTF-8" +
+                    $"&q={HttpUtility.UrlEncode(text, Encoding.UTF8)}";
 
         for (var attempt = 1; attempt <= MaxAttempts; attempt++)
         {
-            TranslationResult? parsed;
-            try
+            var (parsed, sawMarkup) = await TryGtxEndpointsAsync(
+                query, true, attempt - 1, "Romanize", ct).ConfigureAwait(false);
+
+            if (!string.IsNullOrWhiteSpace(parsed?.Transliteration))
             {
-                using var res = await http.GetAsync(url, ct).ConfigureAwait(false);
-                if (!res.IsSuccessStatusCode)
+                lock (cacheLock)
                 {
-                    DebugLog($"Romanize failed: HTTP {(int)res.StatusCode} {res.ReasonPhrase}");
-                    return null;
+                    if (cache.Count >= MaxCacheEntries)
+                        cache.Clear();
+                    cache[key] = new CacheEntry(parsed);
                 }
-
-                var body = await res.Content.ReadAsStringAsync(ct).ConfigureAwait(false);
-                parsed = ParseGtxResponse(body);
-                if (parsed == null)
-                    return null;
-            }
-            catch (OperationCanceledException)
-            {
-                throw;
-            }
-            catch (Exception ex)
-            {
-                DebugLog($"Romanize failed: {ex.Message}");
-                return null;
+                return parsed.Transliteration;
             }
 
-            if (TranslationSanity.IsSuspect(parsed.Transliteration))
-            {
-                DebugLog($"Romanize discarded: markup in response '{TranslationSanity.Preview(parsed.Transliteration)}'");
-                if (attempt == MaxAttempts)
-                    return null;
+            // Only markup earns the retry. An empty answer from every endpoint
+            // means this text simply has no romanization to give.
+            if (!sawMarkup || attempt == MaxAttempts)
+                break;
 
-                await Task.Delay(RetryDelay, ct).ConfigureAwait(false);
-                continue;
-            }
-
-            lock (cacheLock)
-            {
-                if (cache.Count >= MaxCacheEntries)
-                    cache.Clear();
-                cache[key] = new CacheEntry(parsed);
-            }
-            return parsed.Transliteration;
+            await Task.Delay(RetryDelay, ct).ConfigureAwait(false);
         }
 
         return null;
@@ -129,24 +124,18 @@ public sealed class Translator : IDisposable
         // either [translated, original, null, null, ...] for translation or
         // [null, null, src_translit] for romanization. dt=t = translation,
         // dt=rm = romanization (romaji / pinyin).
-        var url = "https://translate.googleapis.com/translate_a/single" +
-                  "?client=gtx" +
-                  $"&sl={Uri.EscapeDataString(sl)}" +
-                  $"&tl={Uri.EscapeDataString(tl)}" +
-                  "&dt=t" +
-                  (wantTransliteration ? "&dt=rm" : string.Empty) +
-                  "&ie=UTF-8&oe=UTF-8" +
-                  $"&q={HttpUtility.UrlEncode(text, Encoding.UTF8)}";
+        var query = $"&sl={Uri.EscapeDataString(sl)}" +
+                    $"&tl={Uri.EscapeDataString(tl)}" +
+                    "&dt=t" +
+                    (wantTransliteration ? "&dt=rm" : string.Empty) +
+                    "&ie=UTF-8&oe=UTF-8" +
+                    $"&q={HttpUtility.UrlEncode(text, Encoding.UTF8)}";
 
         TranslationResult? parsed = null;
         for (var attempt = 1; attempt <= MaxAttempts; attempt++)
         {
-            // Swap which endpoint leads on the retry. Hitting gtx twice in a
-            // row tends to reproduce the same bad answer, whereas the /m page
-            // is served by different infrastructure.
-            var mobileFirst = attempt > 1;
-            var (candidate, sawMarkup) = await TranslateOnceAsync(url, text, sl, tl, mobileFirst, ct)
-                .ConfigureAwait(false);
+            var (candidate, sawMarkup) = await TranslateOnceAsync(
+                query, text, sl, tl, wantTransliteration, attempt - 1, ct).ConfigureAwait(false);
 
             if (candidate != null)
             {
@@ -155,7 +144,7 @@ public sealed class Translator : IDisposable
             }
 
             // Only markup earns the retry. A plain transport failure has
-            // already burned both endpoints, and a second pass would just
+            // already burned every endpoint, and a second pass would just
             // double the latency of an outage.
             if (!sawMarkup || attempt == MaxAttempts)
                 break;
@@ -179,78 +168,130 @@ public sealed class Translator : IDisposable
     }
 
     /// <summary>
-    /// One pass over both endpoints, discarding any answer that looks like
-    /// markup instead of a translation. <c>SawMarkup</c> distinguishes "Google
-    /// gave us junk" (worth retrying) from "the request failed" (not worth it).
+    /// One pass over the array-API endpoints, then the <c>/m</c> scrape as a
+    /// last resort. <c>SawMarkup</c> distinguishes "Google gave us junk" (worth
+    /// retrying) from "the requests failed" (not worth it).
     /// </summary>
     private async Task<(TranslationResult? Result, bool SawMarkup)> TranslateOnceAsync(
-        string url,
+        string query,
         string text,
         string sl,
         string tl,
-        bool mobileFirst,
+        bool wantTransliteration,
+        int offset,
+        CancellationToken ct)
+    {
+        var (result, sawMarkup) = await TryGtxEndpointsAsync(
+            query, wantTransliteration, offset, "Translate", ct).ConfigureAwait(false);
+        if (result != null)
+            return (result, sawMarkup);
+
+        // The mobile page carries no romanization, so it can only ever answer
+        // the translation half. Reaching it means this message prints without
+        // its romaji/pinyin.
+        var mobile = await TranslateWithMobileAsync(text, sl, tl, ct).ConfigureAwait(false);
+        if (mobile == null)
+            return (null, sawMarkup);
+
+        if (TranslationSanity.IsSuspect(mobile.Translated))
+        {
+            DebugLog($"Translate mobile discarded: markup in response '{TranslationSanity.Preview(mobile.Translated)}'");
+            return (null, true);
+        }
+
+        if (wantTransliteration)
+            DebugLog("Translate fell through to the mobile page; no romaji/pinyin available for this message");
+
+        return (DropSuspectTransliteration(mobile), sawMarkup);
+    }
+
+    /// <summary>
+    /// Walks the array-API endpoints in rotated order, skipping any that are
+    /// cooling down after a throttle. When <paramref name="requireTransliteration"/>
+    /// is set, a result that carries only a translation is held back as a
+    /// fallback so a later endpoint still gets the chance to supply the
+    /// romanization — we return the partial answer only if none of them do.
+    /// </summary>
+    private async Task<(TranslationResult? Result, bool SawMarkup)> TryGtxEndpointsAsync(
+        string query,
+        bool requireTransliteration,
+        int offset,
+        string label,
         CancellationToken ct)
     {
         var sawMarkup = false;
+        TranslationResult? partial = null;
 
-        async Task<TranslationResult?> RunGtx()
+        for (var i = 0; i < GtxEndpoints.Length; i++)
         {
-            var result = await TranslateWithGtxAsync(url, ct).ConfigureAwait(false);
+            var endpoint = GtxEndpoints[(i + offset) % GtxEndpoints.Length];
+            if (IsThrottled(endpoint.Name))
+                continue;
+
+            var url = $"{endpoint.Url}?client={endpoint.Client}{query}";
+            var result = await FetchGtxAsync(url, endpoint, label, ct).ConfigureAwait(false);
             if (result == null)
-                return null;
+                continue;
 
-            if (!TranslationSanity.IsSuspect(result.Translated))
-                return DropSuspectTransliteration(result);
+            if (TranslationSanity.IsSuspect(result.Translated))
+            {
+                sawMarkup = true;
+                DebugLog($"{label} {endpoint.Name} discarded: markup in response " +
+                         $"'{TranslationSanity.Preview(result.Translated)}'");
+                continue;
+            }
 
-            sawMarkup = true;
-            DebugLog($"Translate gtx discarded: markup in response '{TranslationSanity.Preview(result.Translated)}'");
-            return null;
+            result = DropSuspectTransliteration(result);
+
+            // Held back rather than returned: another endpoint may still have
+            // the romanization this one omitted.
+            if (requireTransliteration && string.IsNullOrWhiteSpace(result.Transliteration))
+            {
+                partial ??= result;
+                DebugLog($"{label} {endpoint.Name} returned no transliteration; trying the next endpoint");
+                continue;
+            }
+
+            return (result, sawMarkup);
         }
 
-        async Task<TranslationResult?> RunMobile()
-        {
-            var result = await TranslateWithMobileAsync(text, sl, tl, ct).ConfigureAwait(false);
-            if (result == null)
-                return null;
-
-            if (!TranslationSanity.IsSuspect(result.Translated))
-                return DropSuspectTransliteration(result);
-
-            sawMarkup = true;
-            DebugLog($"Translate mobile discarded: markup in response '{TranslationSanity.Preview(result.Translated)}'");
-            return null;
-        }
-
-        var first = mobileFirst ? await RunMobile().ConfigureAwait(false) : await RunGtx().ConfigureAwait(false);
-        if (first != null)
-            return (first, sawMarkup);
-
-        var second = mobileFirst ? await RunGtx().ConfigureAwait(false) : await RunMobile().ConfigureAwait(false);
-        return (second, sawMarkup);
+        return (partial, sawMarkup);
     }
 
-    // Romanization is decorative, so bad transliteration costs us the pinyin /
-    // romaji hint but never the translation itself.
-    private static TranslationResult DropSuspectTransliteration(TranslationResult result) =>
-        TranslationSanity.IsSuspect(result.Transliteration)
-            ? result with { Transliteration = string.Empty }
-            : result;
-
-    private async Task<TranslationResult?> TranslateWithGtxAsync(string url, CancellationToken ct)
+    private async Task<TranslationResult?> FetchGtxAsync(
+        string url, GtxEndpoint endpoint, string label, CancellationToken ct)
     {
         try
         {
             using var res = await http.GetAsync(url, ct).ConfigureAwait(false);
             if (!res.IsSuccessStatusCode)
             {
-                DebugLog($"Translate gtx failed: HTTP {(int)res.StatusCode} {res.ReasonPhrase}");
+                // 429/403 is this client id's quota, not ours as a whole. Park
+                // it so the remaining messages skip straight to a live one.
+                if (res.StatusCode is HttpStatusCode.TooManyRequests or HttpStatusCode.Forbidden)
+                {
+                    MarkThrottled(endpoint.Name);
+                    DebugLog($"{label} {endpoint.Name} throttled: HTTP {(int)res.StatusCode}; " +
+                             $"skipping it for {ThrottleCooldown.TotalMinutes:0} min");
+                }
+                else
+                {
+                    DebugLog($"{label} {endpoint.Name} failed: HTTP {(int)res.StatusCode} {res.ReasonPhrase}");
+                }
                 return null;
             }
 
             var body = await res.Content.ReadAsStringAsync(ct).ConfigureAwait(false);
             var parsed = ParseGtxResponse(body);
             if (parsed == null && LooksLikeGoogleBlock(body))
-                DebugLog("Translate gtx failed: Google returned a traffic/CAPTCHA block page");
+            {
+                MarkThrottled(endpoint.Name);
+                DebugLog($"{label} {endpoint.Name} failed: Google returned a traffic/CAPTCHA block page");
+            }
+
+            if (parsed != null)
+                ClearThrottle(endpoint.Name);
+
             return parsed;
         }
         catch (OperationCanceledException)
@@ -259,10 +300,44 @@ public sealed class Translator : IDisposable
         }
         catch (Exception ex)
         {
-            DebugLog($"Translate gtx failed: {ex.Message}");
+            DebugLog($"{label} {endpoint.Name} failed: {ex.Message}");
             return null;
         }
     }
+
+    private bool IsThrottled(string name)
+    {
+        lock (throttleLock)
+        {
+            if (!throttledUntil.TryGetValue(name, out var until))
+                return false;
+
+            if (DateTime.UtcNow < until)
+                return true;
+
+            throttledUntil.Remove(name);
+            return false;
+        }
+    }
+
+    private void MarkThrottled(string name)
+    {
+        lock (throttleLock)
+            throttledUntil[name] = DateTime.UtcNow + ThrottleCooldown;
+    }
+
+    private void ClearThrottle(string name)
+    {
+        lock (throttleLock)
+            throttledUntil.Remove(name);
+    }
+
+    // Romanization is decorative, so bad transliteration costs us the pinyin /
+    // romaji hint but never the translation itself.
+    private static TranslationResult DropSuspectTransliteration(TranslationResult result) =>
+        TranslationSanity.IsSuspect(result.Transliteration)
+            ? result with { Transliteration = string.Empty }
+            : result;
 
     private async Task<TranslationResult?> TranslateWithMobileAsync(
         string text,
@@ -430,6 +505,8 @@ public sealed class Translator : IDisposable
     };
 
     private record CacheEntry(TranslationResult Result);
+
+    private record GtxEndpoint(string Name, string Url, string Client);
 }
 
 public record TranslationResult(string Translated, string Transliteration, string DetectedSource);
