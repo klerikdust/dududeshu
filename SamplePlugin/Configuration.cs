@@ -31,6 +31,13 @@ public class Configuration : IPluginConfiguration
     // addon and prints the translation to Echo.
     public bool TranslatePartyFinderContextMenu { get; set; } = true;
 
+    // When true, Japanese source text goes through the built-in FFXIV
+    // glossary (Data/ffxiv_jp_glossary.json) before translation, so raid
+    // callouts, PF shorthand and chat slang come out as the English the
+    // community uses instead of Google's literal reading. Ignored for any
+    // other source language.
+    public bool UseFfxivGlossary { get; set; } = true;
+
     public string UiLanguage { get; set; } = "en";
 
     private string targetLanguage = "en";

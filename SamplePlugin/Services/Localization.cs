@@ -37,6 +37,14 @@ public static class Localization
                 "Off: emote lines are ignored.",
             ["enable.romaji"]            = "Show romaji",
             ["enable.pinyin"]            = "Show pinyin",
+            ["enable.glossary"]           = "Use FFXIV glossary for Japanese",
+            ["tooltip.glossary"] =
+                "On: before Japanese text is translated, FFXIV jargon (raid callouts,\n" +
+                "Party Finder shorthand, chat slang) is replaced with the English the\n" +
+                "community uses, e.g. 頭割り → stack, 消化 → weekly reclear, 野良 → PUG.\n" +
+                "Common lines like よろしくお願いします or おつ are translated directly.\n" +
+                "Only applies when the text being translated is Japanese.\n" +
+                "Off: Japanese text goes to the translator unchanged.",
             ["enable.autoSend"]           = "/jp and /zh auto-send the translation",
             ["tooltip.autoSend"] =
                 "On: the translated text is sent on the active channel automatically.\n" +
@@ -84,6 +92,14 @@ public static class Localization
                 "Nonaktif: baris emote diabaikan.",
             ["enable.romaji"]            = "Tampilkan romaji",
             ["enable.pinyin"]            = "Tampilkan pinyin",
+            ["enable.glossary"]           = "Gunakan glosarium FFXIV untuk bahasa Jepang",
+            ["tooltip.glossary"] =
+                "Aktif: sebelum teks Jepang diterjemahkan, istilah FFXIV (callout raid,\n" +
+                "singkatan Party Finder, slang chat) diganti dengan istilah Inggris yang\n" +
+                "dipakai komunitas, misalnya 頭割り → stack, 消化 → weekly reclear, 野良 → PUG.\n" +
+                "Kalimat umum seperti よろしくお願いします atau おつ langsung diterjemahkan.\n" +
+                "Hanya berlaku jika teks yang diterjemahkan berbahasa Jepang.\n" +
+                "Nonaktif: teks Jepang dikirim ke penerjemah apa adanya.",
             ["enable.autoSend"]           = "Kirim otomatis terjemahan dari /jp dan /zh",
             ["tooltip.autoSend"] =
                 "Aktif: terjemahan langsung dikirim ke saluran chat yang sedang aktif.\n" +
@@ -131,6 +147,13 @@ public static class Localization
                 "關閉：忽略情感動作訊息。",
             ["enable.romaji"]            = "顯示羅馬字",
             ["enable.pinyin"]            = "顯示拼音",
+            ["enable.glossary"]           = "日文訊息使用 FF14 術語表",
+            ["tooltip.glossary"] =
+                "開啟：翻譯日文前，先把 FF14 日本玩家的術語（攻略喊話、招募簡稱、\n" +
+                "聊天用語）換成社群慣用的英文，例如 頭割り → stack、消化 → weekly reclear、\n" +
+                "野良 → PUG。よろしくお願いします、おつ 等常用語會直接翻譯。\n" +
+                "僅在被翻譯的文字為日文時生效。\n" +
+                "關閉：日文原文直接交給翻譯器。",
             ["enable.autoSend"]           = "/jp 與 /zh 自動發送翻譯結果",
             ["tooltip.autoSend"] =
                 "開啟：翻譯後的訊息會直接送到當前頻道。\n" +

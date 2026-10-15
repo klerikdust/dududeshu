@@ -140,6 +140,15 @@ public sealed class ConfigWindow : Window, IDisposable
             configuration.Save();
         }
 
+        var useGlossary = configuration.UseFfxivGlossary;
+        if (ImGui.Checkbox(T("enable.glossary"), ref useGlossary))
+        {
+            configuration.UseFfxivGlossary = useGlossary;
+            configuration.Save();
+        }
+        if (ImGui.IsItemHovered())
+            ImGui.SetTooltip(T("tooltip.glossary"));
+
         var useEcho = configuration.UseEchoChannel;
         if (ImGui.Checkbox(T("enable.useEcho"), ref useEcho))
         {

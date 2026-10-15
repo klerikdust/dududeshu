@@ -15,6 +15,7 @@ public sealed class PartyFinderContextMenu : IDisposable
 
     private readonly Configuration configuration;
     private readonly Translator translator;
+    private readonly FfxivGlossary glossary;
     private readonly IContextMenu contextMenu;
     private readonly IFramework framework;
     private readonly IChatGui chatGui;
@@ -24,6 +25,7 @@ public sealed class PartyFinderContextMenu : IDisposable
     public PartyFinderContextMenu(
         Configuration configuration,
         Translator translator,
+        FfxivGlossary glossary,
         IContextMenu contextMenu,
         IFramework framework,
         IChatGui chatGui,
@@ -32,6 +34,7 @@ public sealed class PartyFinderContextMenu : IDisposable
     {
         this.configuration = configuration;
         this.translator = translator;
+        this.glossary = glossary;
         this.contextMenu = contextMenu;
         this.framework = framework;
         this.chatGui = chatGui;
@@ -85,13 +88,19 @@ public sealed class PartyFinderContextMenu : IDisposable
         var captured = description;
         var capturedTarget = target;
         var capturedDetected = detected;
+        // PF descriptions are dense with JP shorthand (消化, クリ目, 〆), which
+        // is exactly what the glossary exists for.
+        var capturedUseGlossary = configuration.UseFfxivGlossary && detected == "ja" && target != "ja";
         var ct = pluginToken;
 
         _ = Task.Run(async () =>
         {
             try
             {
-                var result = await translator.TranslateAsync(
+                var result = capturedUseGlossary
+                    ? await glossary.TranslateAsync(translator, captured, capturedTarget, ct).ConfigureAwait(false)
+                    : null;
+                result ??= await translator.TranslateAsync(
                     captured, capturedDetected, capturedTarget, false, ct).ConfigureAwait(false);
                 var translated = result?.Translated;
                 if (string.IsNullOrWhiteSpace(translated)) return;

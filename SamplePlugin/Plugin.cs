@@ -37,6 +37,7 @@ public sealed class Plugin : IDalamudPlugin
 
     private readonly ConfigWindow configWindow;
     private readonly Translator translator;
+    private readonly FfxivGlossary glossary;
     private readonly PartyFinderContextMenu partyFinderContextMenu;
     private readonly CancellationTokenSource cts = new();
 
@@ -52,10 +53,11 @@ public sealed class Plugin : IDalamudPlugin
             PluginInterface.AssemblyLocation.Directory?.FullName ?? string.Empty, "dudu.png");
 
         translator = new Translator();
+        glossary = LoadGlossary();
         configWindow = new ConfigWindow(this);
         WindowSystem.AddWindow(configWindow);
         partyFinderContextMenu = new PartyFinderContextMenu(
-            Configuration, translator, ContextMenu, Framework, ChatGui, Log, cts.Token);
+            Configuration, translator, glossary, ContextMenu, Framework, ChatGui, Log, cts.Token);
 
         for (var i = 0; i < CommandNames.Length; i++)
         {
@@ -135,6 +137,7 @@ public sealed class Plugin : IDalamudPlugin
         // "en" for any Latin-script text, so /jp on Indonesian/Spanish/etc. would
         // be sent as sl=en and produce garbage. gtx accepts sl=auto and returns
         // the detected language in the response, which we surface in the echo.
+        var useGlossary = Configuration.UseFfxivGlossary;
         var ct = cts.Token;
         _ = Task.Run(async () =>
         {
@@ -153,7 +156,16 @@ public sealed class Plugin : IDalamudPlugin
 
                 var detectedSource = ResolveDetectedSource(
                     text, result!.DetectedSource, out var sourceCorrected);
-                if (sourceCorrected)
+
+                var glossed = useGlossary && IsJapanese(detectedSource) && !IsJapanese(target)
+                    ? await glossary.TranslateAsync(translator, text, target, ct).ConfigureAwait(false)
+                    : null;
+                if (!string.IsNullOrWhiteSpace(glossed?.Translated))
+                {
+                    result = glossed;
+                    translated = glossed.Translated;
+                }
+                else if (sourceCorrected)
                 {
                     var correctedResult = await translator.TranslateAsync(
                         text, detectedSource, target, false, ct).ConfigureAwait(false);
@@ -244,8 +256,27 @@ public sealed class Plugin : IDalamudPlugin
     }
 
     private static bool IsJapaneseOrChinese(string lang) =>
-        string.Equals(lang, "ja", StringComparison.OrdinalIgnoreCase) ||
-        lang.StartsWith("zh", StringComparison.OrdinalIgnoreCase);
+        IsJapanese(lang) || lang.StartsWith("zh", StringComparison.OrdinalIgnoreCase);
+
+    private static bool IsJapanese(string lang) =>
+        string.Equals(lang, "ja", StringComparison.OrdinalIgnoreCase);
+
+    private static FfxivGlossary LoadGlossary()
+    {
+        try
+        {
+            var loaded = FfxivGlossary.LoadEmbedded();
+            Log.Debug($"[dudu的書] FFXIV glossary loaded: {loaded.Count} entries");
+            return loaded;
+        }
+        catch (Exception ex)
+        {
+            // A broken glossary only costs the jargon pass; translation itself
+            // keeps working through the plain Google path.
+            Log.Warning($"[dudu的書] FFXIV glossary unavailable: {ex.Message}");
+            return FfxivGlossary.Empty;
+        }
+    }
 
     private static bool SameText(string left, string right) =>
         string.Equals(left?.Trim(), right?.Trim(), StringComparison.OrdinalIgnoreCase);
@@ -325,6 +356,7 @@ public sealed class Plugin : IDalamudPlugin
         var capturedEnabledSources = enabledSources;
         var capturedShowRomaji = showRomaji;
         var capturedShowPinyin = showPinyin;
+        var capturedUseGlossary = Configuration.UseFfxivGlossary;
         var ct = cts.Token;
 
         _ = Task.Run(async () =>
@@ -387,7 +419,20 @@ public sealed class Plugin : IDalamudPlugin
                                          !wantSourceTranslit &&
                                          LanguageDetector.NeedsTransliteration(capturedTarget);
 
-                if (sourceCorrected || wantSourceTranslit)
+                var glossed = capturedUseGlossary && IsJapanese(detected)
+                    ? await glossary.TranslateAsync(translator, capturedText, capturedTarget, ct).ConfigureAwait(false)
+                    : null;
+
+                if (!string.IsNullOrWhiteSpace(glossed?.Translated))
+                {
+                    // The glossary may have rewritten the Japanese before it was
+                    // translated, so romaji has to come from the original text.
+                    var romaji = wantSourceTranslit
+                        ? await translator.RomanizeAsync(capturedText, detected, ct).ConfigureAwait(false)
+                        : null;
+                    result = glossed with { Transliteration = romaji ?? string.Empty };
+                }
+                else if (sourceCorrected || wantSourceTranslit)
                 {
                     var correctedResult = await translator.TranslateAsync(
                         capturedText, detected, capturedTarget, wantSourceTranslit, ct).ConfigureAwait(false);

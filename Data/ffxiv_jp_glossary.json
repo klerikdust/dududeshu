@@ -1,0 +1,3104 @@
+{
+ "about": "FFXIV Japanese -> English glossary used by dudu的書 when the text being translated is Japanese. Compiled from ffxiv_jp_en_dataset.json (src=dataset) plus curated FFXIV community usage (src=curated). mode=phrase rows are whole-message lines; all other rows are terms injected inside sentences. next=katakana / next=end restrict what may follow a term.",
+ "entries": [
+  {
+   "ja": "頭割り",
+   "en": "stack",
+   "src": "dataset"
+  },
+  {
+   "ja": "ペア頭割り",
+   "en": "partner stack",
+   "src": "curated"
+  },
+  {
+   "ja": "散開",
+   "en": "spread",
+   "src": "dataset"
+  },
+  {
+   "ja": "基本散開",
+   "en": "default spread",
+   "src": "dataset"
+  },
+  {
+   "ja": "8方向散開",
+   "en": "8-way spread",
+   "src": "dataset"
+  },
+  {
+   "ja": "散開位置",
+   "en": "spread positions",
+   "src": "dataset"
+  },
+  {
+   "ja": "ペア",
+   "en": "pairs",
+   "src": "dataset"
+  },
+  {
+   "ja": "誘導",
+   "en": "bait",
+   "src": "dataset"
+  },
+  {
+   "ja": "AoE捨て",
+   "en": "drop the AoE",
+   "src": "dataset"
+  },
+  {
+   "ja": "範囲捨て",
+   "en": "drop the AoE",
+   "src": "curated"
+  },
+  {
+   "ja": "床捨て",
+   "en": "drop the puddle",
+   "src": "curated"
+  },
+  {
+   "ja": "捨て場",
+   "en": "drop spot",
+   "src": "curated"
+  },
+  {
+   "ja": "捨て場所",
+   "en": "drop spot",
+   "src": "curated"
+  },
+  {
+   "ja": "床",
+   "en": "puddle",
+   "src": "curated"
+  },
+  {
+   "ja": "床踏み",
+   "en": "standing in a puddle",
+   "src": "curated"
+  },
+  {
+   "ja": "床ペロ",
+   "en": "dead on the floor",
+   "src": "dataset"
+  },
+  {
+   "ja": "詠唱",
+   "en": "cast",
+   "src": "dataset"
+  },
+  {
+   "ja": "詠唱バー",
+   "en": "cast bar",
+   "src": "curated"
+  },
+  {
+   "ja": "ヘイト",
+   "en": "aggro",
+   "src": "dataset"
+  },
+  {
+   "ja": "敵視",
+   "en": "enmity",
+   "src": "curated"
+  },
+  {
+   "ja": "タゲ",
+   "en": "target",
+   "src": "dataset"
+  },
+  {
+   "ja": "タゲ取り",
+   "en": "pulling aggro",
+   "src": "curated"
+  },
+  {
+   "ja": "タゲ飛び",
+   "en": "aggro loss",
+   "src": "dataset"
+  },
+  {
+   "ja": "軽減",
+   "en": "mitigation",
+   "src": "dataset"
+  },
+  {
+   "ja": "無敵",
+   "en": "invuln",
+   "src": "dataset"
+  },
+  {
+   "ja": "デバフ",
+   "en": "debuff",
+   "src": "dataset"
+  },
+  {
+   "ja": "バフ",
+   "en": "buff",
+   "src": "dataset"
+  },
+  {
+   "ja": "シナジー",
+   "en": "raid buffs",
+   "src": "dataset"
+  },
+  {
+   "ja": "ノクバ",
+   "en": "knockback",
+   "src": "dataset"
+  },
+  {
+   "ja": "ノックバック",
+   "en": "knockback",
+   "src": "dataset"
+  },
+  {
+   "ja": "ノックバック無効",
+   "en": "knockback immunity",
+   "src": "curated"
+  },
+  {
+   "ja": "アームズレングス",
+   "en": "Arm's Length",
+   "src": "curated"
+  },
+  {
+   "ja": "アームズ",
+   "en": "Arm's Length",
+   "src": "curated"
+  },
+  {
+   "ja": "堅実魔",
+   "en": "Surecast",
+   "src": "curated"
+  },
+  {
+   "ja": "強攻撃",
+   "en": "tankbuster",
+   "src": "curated"
+  },
+  {
+   "ja": "タンク強攻撃",
+   "en": "tankbuster",
+   "src": "dataset"
+  },
+  {
+   "ja": "タン強",
+   "en": "tankbuster",
+   "src": "dataset"
+  },
+  {
+   "ja": "全体攻撃",
+   "en": "raidwide",
+   "src": "dataset"
+  },
+  {
+   "ja": "扇",
+   "en": "cone",
+   "src": "dataset"
+  },
+  {
+   "ja": "扇範囲",
+   "en": "cone AoE",
+   "src": "curated"
+  },
+  {
+   "ja": "円範囲",
+   "en": "circle AoE",
+   "src": "dataset"
+  },
+  {
+   "ja": "直線範囲",
+   "en": "line AoE",
+   "src": "curated"
+  },
+  {
+   "ja": "直線AoE",
+   "en": "line AoE",
+   "src": "dataset"
+  },
+  {
+   "ja": "ドーナツ範囲",
+   "en": "donut AoE",
+   "src": "dataset"
+  },
+  {
+   "ja": "範囲",
+   "en": "AoE",
+   "src": "curated"
+  },
+  {
+   "ja": "範囲攻撃",
+   "en": "AoE attack",
+   "src": "curated"
+  },
+  {
+   "ja": "頭上マーカー",
+   "en": "head marker",
+   "src": "dataset"
+  },
+  {
+   "ja": "マカ",
+   "en": "markers",
+   "src": "dataset"
+  },
+  {
+   "ja": "マク",
+   "en": "macro",
+   "src": "dataset"
+  },
+  {
+   "ja": "線",
+   "en": "tether",
+   "src": "dataset"
+  },
+  {
+   "ja": "線取り",
+   "en": "taking tethers",
+   "src": "curated"
+  },
+  {
+   "ja": "線切り",
+   "en": "breaking tethers",
+   "src": "curated"
+  },
+  {
+   "ja": "塔踏み",
+   "en": "tower soak",
+   "src": "dataset"
+  },
+  {
+   "ja": "外周",
+   "en": "outer edge",
+   "src": "curated"
+  },
+  {
+   "ja": "内周",
+   "en": "inner edge",
+   "src": "curated"
+  },
+  {
+   "ja": "安地",
+   "en": "safe spot",
+   "src": "dataset"
+  },
+  {
+   "ja": "安置",
+   "en": "safe spot",
+   "src": "dataset"
+  },
+  {
+   "ja": "北基準",
+   "en": "north-based positions",
+   "src": "dataset"
+  },
+  {
+   "ja": "マーカー基準",
+   "en": "waymark-based positions",
+   "src": "dataset"
+  },
+  {
+   "ja": "視線",
+   "en": "gaze",
+   "src": "dataset"
+  },
+  {
+   "ja": "雑魚",
+   "en": "adds",
+   "src": "dataset"
+  },
+  {
+   "ja": "雑魚処理",
+   "en": "add control",
+   "src": "curated"
+  },
+  {
+   "ja": "雑魚プレイヤー",
+   "en": "bad player",
+   "src": "dataset"
+  },
+  {
+   "ja": "時間切れ",
+   "en": "enrage",
+   "src": "dataset"
+  },
+  {
+   "ja": "ワイプ",
+   "en": "wipe",
+   "src": "dataset"
+  },
+  {
+   "ja": "全滅",
+   "en": "wipe",
+   "src": "dataset"
+  },
+  {
+   "ja": "蘇生",
+   "en": "raise",
+   "src": "dataset"
+  },
+  {
+   "ja": "スイッチ",
+   "en": "tank swap",
+   "src": "dataset"
+  },
+  {
+   "ja": "タンクスイッチ",
+   "en": "tank swap",
+   "src": "curated"
+  },
+  {
+   "ja": "交代",
+   "en": "swap",
+   "src": "dataset"
+  },
+  {
+   "ja": "挑発",
+   "en": "Provoke",
+   "src": "dataset"
+  },
+  {
+   "ja": "シャーク",
+   "en": "Shirk",
+   "src": "curated"
+  },
+  {
+   "ja": "リキャス",
+   "en": "recast",
+   "src": "dataset"
+  },
+  {
+   "ja": "開幕",
+   "en": "opener",
+   "src": "dataset"
+  },
+  {
+   "ja": "スキル回し",
+   "en": "rotation",
+   "src": "dataset"
+  },
+  {
+   "ja": "食い込み",
+   "en": "clipping",
+   "src": "dataset"
+  },
+  {
+   "ja": "GCD食い込み",
+   "en": "GCD clipping",
+   "src": "dataset"
+  },
+  {
+   "ja": "挟みこむ",
+   "en": "weave",
+   "src": "dataset"
+  },
+  {
+   "ja": "挟み込む",
+   "en": "weave",
+   "src": "curated"
+  },
+  {
+   "ja": "火力",
+   "en": "DPS",
+   "src": "dataset"
+  },
+  {
+   "ja": "火力不足",
+   "en": "not enough DPS",
+   "src": "curated"
+  },
+  {
+   "ja": "火力チェック",
+   "en": "DPS check",
+   "src": "curated"
+  },
+  {
+   "ja": "火力詰め",
+   "en": "parse run",
+   "src": "dataset"
+  },
+  {
+   "ja": "(火力)詰め",
+   "en": "parse run",
+   "src": "dataset"
+  },
+  {
+   "ja": "履行技",
+   "en": "intermission attack",
+   "src": "dataset"
+  },
+  {
+   "ja": "距離減衰",
+   "en": "distance falloff",
+   "src": "dataset"
+  },
+  {
+   "ja": "距離依存",
+   "en": "distance-based damage",
+   "src": "dataset"
+  },
+  {
+   "ja": "処理落ち",
+   "en": "frame drops",
+   "src": "curated"
+  },
+  {
+   "ja": "ギミック",
+   "en": "mechanic",
+   "src": "dataset"
+  },
+  {
+   "ja": "ギミック処理",
+   "en": "handling mechanics",
+   "src": "curated"
+  },
+  {
+   "ja": "カータライズ",
+   "en": "divebomb",
+   "src": "dataset"
+  },
+  {
+   "ja": "ランタゲ",
+   "en": "random target",
+   "src": "dataset"
+  },
+  {
+   "ja": "スキスピ",
+   "en": "skill speed",
+   "src": "dataset"
+  },
+  {
+   "ja": "スペスピ",
+   "en": "spell speed",
+   "src": "dataset"
+  },
+  {
+   "ja": "アビ",
+   "en": "ability",
+   "src": "dataset"
+  },
+  {
+   "ja": "リキャ",
+   "en": "recast",
+   "src": "curated"
+  },
+  {
+   "ja": "食事",
+   "en": "food",
+   "src": "dataset"
+  },
+  {
+   "ja": "食事効果",
+   "en": "food buff",
+   "src": "dataset"
+  },
+  {
+   "ja": "薬",
+   "en": "pot",
+   "src": "dataset"
+  },
+  {
+   "ja": "飯",
+   "en": "food",
+   "src": "dataset"
+  },
+  {
+   "ja": "ご飯",
+   "en": "a meal",
+   "src": "curated"
+  },
+  {
+   "ja": "飯落ち",
+   "en": "AFK for a meal",
+   "src": "curated"
+  },
+  {
+   "ja": "ヒラ",
+   "en": "healer",
+   "src": "dataset"
+  },
+  {
+   "ja": "ピュアヒーラー",
+   "en": "pure healer",
+   "src": "curated"
+  },
+  {
+   "ja": "ピュアヒラ",
+   "en": "pure healer",
+   "src": "curated"
+  },
+  {
+   "ja": "純ヒラ",
+   "en": "pure healer",
+   "src": "curated"
+  },
+  {
+   "ja": "バリアヒーラー",
+   "en": "shield healer",
+   "src": "curated"
+  },
+  {
+   "ja": "バリアヒラ",
+   "en": "shield healer",
+   "src": "curated"
+  },
+  {
+   "ja": "近接",
+   "en": "melee",
+   "src": "dataset"
+  },
+  {
+   "ja": "遠隔",
+   "en": "ranged",
+   "src": "dataset"
+  },
+  {
+   "ja": "物理遠隔",
+   "en": "physical ranged",
+   "src": "curated"
+  },
+  {
+   "ja": "魔法遠隔",
+   "en": "caster",
+   "src": "curated"
+  },
+  {
+   "ja": "キャス",
+   "en": "caster",
+   "src": "dataset"
+  },
+  {
+   "ja": "レンジ",
+   "en": "ranged",
+   "src": "dataset"
+  },
+  {
+   "ja": "メイン盾",
+   "en": "main tank",
+   "src": "curated"
+  },
+  {
+   "ja": "初見",
+   "en": "first-timer",
+   "src": "dataset"
+  },
+  {
+   "ja": "初見さん",
+   "en": "first-timers",
+   "src": "curated"
+  },
+  {
+   "ja": "初見殺し",
+   "en": "first-timer trap",
+   "src": "curated"
+  },
+  {
+   "ja": "初見未予習",
+   "en": "blind (no prep)",
+   "src": "dataset"
+  },
+  {
+   "ja": "未予習",
+   "en": "no prep",
+   "src": "curated"
+  },
+  {
+   "ja": "予習済",
+   "en": "studied the fight",
+   "src": "dataset"
+  },
+  {
+   "ja": "予習済み",
+   "en": "studied the fight",
+   "src": "curated"
+  },
+  {
+   "ja": "練習PT",
+   "en": "practice party",
+   "src": "dataset"
+  },
+  {
+   "ja": "クリ目",
+   "en": "clear party",
+   "src": "dataset"
+  },
+  {
+   "ja": "クリア目的",
+   "en": "aiming to clear",
+   "src": "dataset"
+  },
+  {
+   "ja": "クリパ",
+   "en": "clear party",
+   "src": "curated"
+  },
+  {
+   "ja": "クリパー",
+   "en": "clear party",
+   "src": "dataset"
+  },
+  {
+   "ja": "消化",
+   "en": "weekly reclear",
+   "src": "dataset"
+  },
+  {
+   "ja": "消化PT",
+   "en": "weekly reclear party",
+   "src": "dataset"
+  },
+  {
+   "ja": "未消化",
+   "en": "not cleared this week yet",
+   "src": "dataset"
+  },
+  {
+   "ja": "消化済",
+   "en": "already cleared this week",
+   "src": "curated"
+  },
+  {
+   "ja": "消化済み",
+   "en": "already cleared this week",
+   "src": "curated"
+  },
+  {
+   "ja": "コン済",
+   "en": "already cleared",
+   "src": "dataset"
+  },
+  {
+   "ja": "周回",
+   "en": "farming",
+   "src": "dataset"
+  },
+  {
+   "ja": "断章",
+   "en": "book run",
+   "src": "dataset"
+  },
+  {
+   "ja": "ログ回収",
+   "en": "book run",
+   "src": "dataset"
+  },
+  {
+   "ja": "傭兵",
+   "en": "merc",
+   "src": "dataset"
+  },
+  {
+   "ja": "出荷",
+   "en": "carry",
+   "src": "dataset"
+  },
+  {
+   "ja": "介護",
+   "en": "carry",
+   "src": "curated"
+  },
+  {
+   "ja": "寄生",
+   "en": "leeching",
+   "src": "curated"
+  },
+  {
+   "ja": "練度上げ",
+   "en": "skill-up runs",
+   "src": "dataset"
+  },
+  {
+   "ja": "早期攻略",
+   "en": "early prog",
+   "src": "dataset"
+  },
+  {
+   "ja": "早期攻略組",
+   "en": "early prog group",
+   "src": "dataset"
+  },
+  {
+   "ja": "固定",
+   "en": "static",
+   "src": "dataset"
+  },
+  {
+   "ja": "固定PT",
+   "en": "static",
+   "src": "dataset"
+  },
+  {
+   "ja": "固定募集",
+   "en": "static recruitment",
+   "src": "dataset"
+  },
+  {
+   "ja": "固定メンバー",
+   "en": "static members",
+   "src": "curated"
+  },
+  {
+   "ja": "固定メン",
+   "en": "static members",
+   "src": "curated"
+  },
+  {
+   "ja": "固定解散",
+   "en": "static disbanded",
+   "src": "dataset"
+  },
+  {
+   "ja": "野良",
+   "en": "PUG",
+   "src": "dataset"
+  },
+  {
+   "ja": "野良PT",
+   "en": "PUG party",
+   "src": "curated"
+  },
+  {
+   "ja": "身内",
+   "en": "friends",
+   "src": "dataset"
+  },
+  {
+   "ja": "身内PT",
+   "en": "friends' party",
+   "src": "curated"
+  },
+  {
+   "ja": "フレ",
+   "en": "friend",
+   "src": "dataset"
+  },
+  {
+   "ja": "フレ申請",
+   "en": "friend request",
+   "src": "curated"
+  },
+  {
+   "ja": "募集主",
+   "en": "party leader",
+   "src": "dataset"
+  },
+  {
+   "ja": "募集文",
+   "en": "PF description",
+   "src": "curated"
+  },
+  {
+   "ja": "〆",
+   "en": "taken",
+   "src": "dataset"
+  },
+  {
+   "ja": "〆切",
+   "en": "deadline",
+   "src": "curated"
+  },
+  {
+   "ja": "〆切り",
+   "en": "deadline",
+   "src": "curated"
+  },
+  {
+   "ja": "済×",
+   "en": "no cleared players",
+   "src": "dataset"
+  },
+  {
+   "ja": "クリア済",
+   "en": "already cleared",
+   "src": "dataset"
+  },
+  {
+   "ja": "クリア済み",
+   "en": "already cleared",
+   "src": "curated"
+  },
+  {
+   "ja": "未クリア",
+   "en": "not cleared yet",
+   "src": "dataset"
+  },
+  {
+   "ja": "今週未クリアのみ",
+   "en": "only players who haven't cleared this week",
+   "src": "dataset"
+  },
+  {
+   "ja": "滅解散",
+   "en": "wipes, then disband",
+   "src": "curated"
+  },
+  {
+   "ja": "3滅解散",
+   "en": "disband after 3 wipes",
+   "src": "dataset"
+  },
+  {
+   "ja": "1飯ごとRC",
+   "en": "ready check every food (30 min)",
+   "src": "dataset"
+  },
+  {
+   "ja": "飯ごとRC",
+   "en": "ready check every food (30 min)",
+   "src": "curated"
+  },
+  {
+   "ja": "飯RC",
+   "en": "food ready check",
+   "src": "dataset"
+  },
+  {
+   "ja": "継続RC",
+   "en": "ready check to continue",
+   "src": "dataset"
+  },
+  {
+   "ja": "RC",
+   "en": "ready check",
+   "src": "curated"
+  },
+  {
+   "ja": "CF",
+   "en": "Duty Finder",
+   "src": "dataset"
+  },
+  {
+   "ja": "コンテンツファインダー",
+   "en": "Duty Finder",
+   "src": "curated"
+  },
+  {
+   "ja": "PT",
+   "en": "party",
+   "src": "dataset"
+  },
+  {
+   "ja": "ルレ",
+   "en": "roulette",
+   "src": "dataset"
+  },
+  {
+   "ja": "エキルレ",
+   "en": "expert roulette",
+   "src": "dataset"
+  },
+  {
+   "ja": "レベルレ",
+   "en": "leveling roulette",
+   "src": "curated"
+  },
+  {
+   "ja": "レベリングルレ",
+   "en": "leveling roulette",
+   "src": "curated"
+  },
+  {
+   "ja": "メインルレ",
+   "en": "MSQ roulette",
+   "src": "curated"
+  },
+  {
+   "ja": "アラルレ",
+   "en": "alliance raid roulette",
+   "src": "curated"
+  },
+  {
+   "ja": "討滅ルレ",
+   "en": "trial roulette",
+   "src": "curated"
+  },
+  {
+   "ja": "ノマルレ",
+   "en": "normal raid roulette",
+   "src": "curated"
+  },
+  {
+   "ja": "メンタールレ",
+   "en": "mentor roulette",
+   "src": "curated"
+  },
+  {
+   "ja": "零式",
+   "en": "Savage",
+   "src": "dataset"
+  },
+  {
+   "ja": "1層",
+   "en": "floor 1",
+   "src": "curated"
+  },
+  {
+   "ja": "2層",
+   "en": "floor 2",
+   "src": "curated"
+  },
+  {
+   "ja": "3層",
+   "en": "floor 3",
+   "src": "curated"
+  },
+  {
+   "ja": "4層",
+   "en": "floor 4",
+   "src": "curated"
+  },
+  {
+   "ja": "絶",
+   "en": "Ultimate",
+   "next": "katakana",
+   "src": "dataset"
+  },
+  {
+   "ja": "極",
+   "en": "Extreme",
+   "next": "katakana",
+   "src": "curated"
+  },
+  {
+   "ja": "幻",
+   "en": "Unreal",
+   "next": "katakana",
+   "src": "dataset"
+  },
+  {
+   "ja": "討滅戦",
+   "en": "trial",
+   "src": "curated"
+  },
+  {
+   "ja": "極討滅戦",
+   "en": "Extreme trial",
+   "src": "curated"
+  },
+  {
+   "ja": "幻討滅戦",
+   "en": "Unreal trial",
+   "src": "dataset"
+  },
+  {
+   "ja": "蛮神",
+   "en": "primal",
+   "src": "dataset"
+  },
+  {
+   "ja": "極蛮神",
+   "en": "Extreme primal",
+   "src": "curated"
+  },
+  {
+   "ja": "絶バハ",
+   "en": "UCoB",
+   "src": "curated"
+  },
+  {
+   "ja": "絶アルテマ",
+   "en": "UWU",
+   "src": "curated"
+  },
+  {
+   "ja": "絶アレキ",
+   "en": "TEA",
+   "src": "curated"
+  },
+  {
+   "ja": "絶竜詩",
+   "en": "DSR",
+   "src": "curated"
+  },
+  {
+   "ja": "絶オメガ",
+   "en": "TOP",
+   "src": "curated"
+  },
+  {
+   "ja": "絶エデン",
+   "en": "FRU",
+   "src": "curated"
+  },
+  {
+   "ja": "絶もうひとつの未来",
+   "en": "FRU",
+   "src": "curated"
+  },
+  {
+   "ja": "死者の宮殿",
+   "en": "Palace of the Dead",
+   "src": "dataset"
+  },
+  {
+   "ja": "アメノミハシラ",
+   "en": "Heaven-on-High",
+   "src": "curated"
+  },
+  {
+   "ja": "オルト・エウレカ",
+   "en": "Eureka Orthos",
+   "src": "curated"
+  },
+  {
+   "ja": "ボズヤ",
+   "en": "Bozja",
+   "src": "curated"
+  },
+  {
+   "ja": "南方ボズヤ戦線",
+   "en": "Bozjan Southern Front",
+   "src": "curated"
+  },
+  {
+   "ja": "クリタワ",
+   "en": "Crystal Tower",
+   "src": "dataset"
+  },
+  {
+   "ja": "ギャザクラ",
+   "en": "gatherers and crafters",
+   "src": "curated"
+  },
+  {
+   "ja": "ギャザ",
+   "en": "gatherer",
+   "src": "curated"
+  },
+  {
+   "ja": "ギャザラー",
+   "en": "gatherer",
+   "src": "curated"
+  },
+  {
+   "ja": "モブハン",
+   "en": "hunts",
+   "src": "dataset"
+  },
+  {
+   "ja": "モブハント",
+   "en": "hunts",
+   "src": "curated"
+  },
+  {
+   "ja": "トレハン",
+   "en": "treasure hunt",
+   "src": "dataset"
+  },
+  {
+   "ja": "ミラプリ",
+   "en": "glamour",
+   "src": "dataset"
+  },
+  {
+   "ja": "マケボ",
+   "en": "market board",
+   "src": "dataset"
+  },
+  {
+   "ja": "リテ",
+   "en": "retainer",
+   "src": "curated"
+  },
+  {
+   "ja": "テル",
+   "en": "tell",
+   "src": "dataset"
+  },
+  {
+   "ja": "テレポ",
+   "en": "teleport",
+   "src": "curated"
+  },
+  {
+   "ja": "デジョン",
+   "en": "Return",
+   "src": "curated"
+  },
+  {
+   "ja": "シャキる",
+   "en": "the queue pops",
+   "src": "dataset"
+  },
+  {
+   "ja": "シャキった",
+   "en": "the queue popped",
+   "src": "curated"
+  },
+  {
+   "ja": "シャキッた",
+   "en": "the queue popped",
+   "src": "curated"
+  },
+  {
+   "ja": "即抜け",
+   "en": "leaving right away",
+   "src": "dataset"
+  },
+  {
+   "ja": "途中抜け",
+   "en": "leaving partway",
+   "src": "curated"
+  },
+  {
+   "ja": "途中参加",
+   "en": "joining partway",
+   "src": "curated"
+  },
+  {
+   "ja": "回線",
+   "en": "connection",
+   "src": "dataset"
+  },
+  {
+   "ja": "回線落ち",
+   "en": "disconnect",
+   "src": "dataset"
+  },
+  {
+   "ja": "回線悪い",
+   "en": "bad connection",
+   "src": "dataset"
+  },
+  {
+   "ja": "回線不安定",
+   "en": "unstable connection",
+   "src": "dataset"
+  },
+  {
+   "ja": "鯖",
+   "en": "server",
+   "src": "dataset"
+  },
+  {
+   "ja": "鯖落ち",
+   "en": "server crash",
+   "src": "curated"
+  },
+  {
+   "ja": "鯖移動",
+   "en": "server transfer",
+   "src": "curated"
+  },
+  {
+   "ja": "同鯖",
+   "en": "same server",
+   "src": "curated"
+  },
+  {
+   "ja": "過疎鯖",
+   "en": "low-pop server",
+   "src": "dataset"
+  },
+  {
+   "ja": "過密鯖",
+   "en": "high-pop server",
+   "src": "dataset"
+  },
+  {
+   "ja": "外人鯖",
+   "en": "non-Japanese server",
+   "src": "dataset"
+  },
+  {
+   "ja": "イフ鯖",
+   "en": "Ifrit server",
+   "src": "dataset"
+  },
+  {
+   "ja": "ウニ鯖",
+   "en": "Unicorn server",
+   "src": "dataset"
+  },
+  {
+   "ja": "鞄鯖",
+   "en": "Carbuncle server",
+   "src": "dataset"
+  },
+  {
+   "ja": "聖鯖",
+   "en": "Alexander server",
+   "src": "dataset"
+  },
+  {
+   "ja": "バハ鯖",
+   "en": "Bahamut server",
+   "src": "dataset"
+  },
+  {
+   "ja": "垢",
+   "en": "account",
+   "src": "dataset"
+  },
+  {
+   "ja": "サブ垢",
+   "en": "alt account",
+   "src": "curated"
+  },
+  {
+   "ja": "メイン垢",
+   "en": "main account",
+   "src": "curated"
+  },
+  {
+   "ja": "複垢",
+   "en": "multiple accounts",
+   "src": "curated"
+  },
+  {
+   "ja": "垢BAN",
+   "en": "account ban",
+   "src": "curated"
+  },
+  {
+   "ja": "離席",
+   "en": "AFK",
+   "src": "curated"
+  },
+  {
+   "ja": "トイレ",
+   "en": "bathroom",
+   "src": "curated"
+  },
+  {
+   "ja": "地雷",
+   "en": "problem player",
+   "src": "dataset"
+  },
+  {
+   "ja": "晒し",
+   "en": "public callout",
+   "src": "curated"
+  },
+  {
+   "ja": "テロ",
+   "en": "wipe-causing mistake",
+   "src": "dataset"
+  },
+  {
+   "ja": "戦犯",
+   "en": "the one who caused the wipe",
+   "src": "curated"
+  },
+  {
+   "ja": "害悪",
+   "en": "toxic",
+   "src": "curated"
+  },
+  {
+   "ja": "エアプ",
+   "en": "armchair expert who never played it",
+   "src": "curated"
+  },
+  {
+   "ja": "姫ちゃん",
+   "en": "e-princess",
+   "src": "dataset"
+  },
+  {
+   "ja": "ネカマ",
+   "en": "guy playing a girl character",
+   "src": "dataset"
+  },
+  {
+   "ja": "直結",
+   "en": "creep looking for a date",
+   "src": "dataset"
+  },
+  {
+   "ja": "直結厨",
+   "en": "creep looking for a date",
+   "src": "curated"
+  },
+  {
+   "ja": "ちゃH",
+   "en": "ERP",
+   "src": "dataset"
+  },
+  {
+   "ja": "中の人",
+   "en": "the player behind the character",
+   "src": "dataset"
+  },
+  {
+   "ja": "ヒカセン",
+   "en": "Warrior of Light",
+   "src": "dataset"
+  },
+  {
+   "ja": "ヤミセン",
+   "en": "Warrior of Darkness",
+   "src": "dataset"
+  },
+  {
+   "ja": "吉P",
+   "en": "Yoshi-P",
+   "src": "curated"
+  },
+  {
+   "ja": "廃人",
+   "en": "no-lifer",
+   "src": "dataset"
+  },
+  {
+   "ja": "ガチ勢",
+   "en": "hardcore players",
+   "src": "curated"
+  },
+  {
+   "ja": "エンジョイ勢",
+   "en": "casual players",
+   "src": "curated"
+  },
+  {
+   "ja": "ライト勢",
+   "en": "casual players",
+   "src": "dataset"
+  },
+  {
+   "ja": "復帰勢",
+   "en": "returning players",
+   "src": "curated"
+  },
+  {
+   "ja": "復帰者",
+   "en": "returning player",
+   "src": "dataset"
+  },
+  {
+   "ja": "若葉",
+   "en": "sprout (new player)",
+   "src": "dataset"
+  },
+  {
+   "ja": "カンスト",
+   "en": "max level",
+   "src": "dataset"
+  },
+  {
+   "ja": "緩和",
+   "en": "nerf",
+   "src": "dataset"
+  },
+  {
+   "ja": "上方修正",
+   "en": "buff",
+   "src": "curated"
+  },
+  {
+   "ja": "下方修正",
+   "en": "nerf",
+   "src": "curated"
+  },
+  {
+   "ja": "エオ婚",
+   "en": "in-game marriage",
+   "src": "dataset"
+  },
+  {
+   "ja": "エタバン",
+   "en": "Eternal Bond",
+   "src": "dataset"
+  },
+  {
+   "ja": "エオ彼",
+   "en": "in-game partner",
+   "src": "dataset"
+  },
+  {
+   "ja": "初クリア",
+   "en": "first clear",
+   "src": "curated"
+  },
+  {
+   "ja": "まったり",
+   "en": "casual",
+   "src": "dataset"
+  },
+  {
+   "ja": "誤爆",
+   "en": "wrong-channel message",
+   "src": "dataset"
+  },
+  {
+   "ja": "取り抜け",
+   "en": "loot-and-leave",
+   "src": "dataset"
+  },
+  {
+   "ja": "取りぬけ",
+   "en": "loot-and-leave",
+   "src": "dataset"
+  },
+  {
+   "ja": "左から取り抜け",
+   "en": "loot-and-leave from left to right",
+   "src": "dataset"
+  },
+  {
+   "ja": "左取り抜け",
+   "en": "left-to-right loot-and-leave",
+   "src": "dataset"
+  },
+  {
+   "ja": "上から取り抜け",
+   "en": "loot-and-leave from the top",
+   "src": "curated"
+  },
+  {
+   "ja": "希望制",
+   "en": "loot reservation",
+   "src": "dataset"
+  },
+  {
+   "ja": "武器希望制",
+   "en": "weapon reservation",
+   "src": "dataset"
+  },
+  {
+   "ja": "希望制あり",
+   "en": "loot reservations allowed",
+   "src": "dataset"
+  },
+  {
+   "ja": "フリロ",
+   "en": "free loot",
+   "src": "dataset"
+  },
+  {
+   "ja": "フリーロット",
+   "en": "free loot",
+   "src": "dataset"
+  },
+  {
+   "ja": "ロットフリー",
+   "en": "free loot",
+   "src": "dataset"
+  },
+  {
+   "ja": "ロット自由",
+   "en": "free loot",
+   "src": "dataset"
+  },
+  {
+   "ja": "グリ制",
+   "en": "greed only",
+   "src": "dataset"
+  },
+  {
+   "ja": "ぐリ制",
+   "en": "greed only",
+   "src": "dataset"
+  },
+  {
+   "ja": "グリパ",
+   "en": "greed party",
+   "src": "curated"
+  },
+  {
+   "ja": "グリパー",
+   "en": "greed party",
+   "src": "dataset"
+  },
+  {
+   "ja": "先ロット禁止",
+   "en": "no rolling ahead",
+   "src": "dataset"
+  },
+  {
+   "ja": "ロット",
+   "en": "roll",
+   "src": "dataset"
+  },
+  {
+   "ja": "ニード",
+   "en": "Need",
+   "src": "dataset"
+  },
+  {
+   "ja": "グリード",
+   "en": "Greed",
+   "src": "dataset"
+  },
+  {
+   "ja": "パス",
+   "en": "pass",
+   "src": "dataset"
+  },
+  {
+   "ja": "箱",
+   "en": "coffer",
+   "src": "curated"
+  },
+  {
+   "ja": "武器箱",
+   "en": "weapon coffer",
+   "src": "curated"
+  },
+  {
+   "ja": "胴箱",
+   "en": "body coffer",
+   "src": "curated"
+  },
+  {
+   "ja": "頭箱",
+   "en": "head coffer",
+   "src": "curated"
+  },
+  {
+   "ja": "手箱",
+   "en": "hands coffer",
+   "src": "curated"
+  },
+  {
+   "ja": "脚箱",
+   "en": "legs coffer",
+   "src": "curated"
+  },
+  {
+   "ja": "足箱",
+   "en": "feet coffer",
+   "src": "curated"
+  },
+  {
+   "ja": "アクセ箱",
+   "en": "accessory coffer",
+   "src": "curated"
+  },
+  {
+   "ja": "宝箱",
+   "en": "treasure chest",
+   "src": "curated"
+  },
+  {
+   "ja": "強化素材",
+   "en": "upgrade materials",
+   "src": "curated"
+  },
+  {
+   "ja": "新式",
+   "en": "crafted gear",
+   "src": "dataset"
+  },
+  {
+   "ja": "新式装備",
+   "en": "crafted gear",
+   "src": "dataset"
+  },
+  {
+   "ja": "最終装備",
+   "en": "BiS",
+   "src": "dataset"
+  },
+  {
+   "ja": "禁断",
+   "en": "overmeld",
+   "src": "dataset"
+  },
+  {
+   "ja": "禁断必須",
+   "en": "overmelds required",
+   "src": "dataset"
+  },
+  {
+   "ja": "穴あき",
+   "en": "unmelded",
+   "src": "curated"
+  },
+  {
+   "ja": "穴空き",
+   "en": "unmelded",
+   "src": "dataset"
+  },
+  {
+   "ja": "穴あき不可",
+   "en": "no unmelded gear",
+   "src": "dataset"
+  },
+  {
+   "ja": "下限",
+   "en": "min ilvl",
+   "src": "dataset"
+  },
+  {
+   "ja": "IL下限",
+   "en": "min ilvl",
+   "src": "curated"
+  },
+  {
+   "ja": "制限解除",
+   "en": "unsynced",
+   "src": "dataset"
+  },
+  {
+   "ja": "詩学",
+   "en": "Poetics",
+   "src": "curated"
+  },
+  {
+   "ja": "軍票",
+   "en": "company seals",
+   "src": "dataset"
+  },
+  {
+   "ja": "譜面",
+   "en": "orchestrion roll",
+   "src": "dataset"
+  },
+  {
+   "ja": "ナイト",
+   "en": "Paladin",
+   "src": "dataset"
+  },
+  {
+   "ja": "暗黒騎士",
+   "en": "Dark Knight",
+   "src": "dataset"
+  },
+  {
+   "ja": "暗黒",
+   "en": "Dark Knight",
+   "src": "dataset"
+  },
+  {
+   "ja": "ガンブレイカー",
+   "en": "Gunbreaker",
+   "src": "dataset"
+  },
+  {
+   "ja": "ガンブレ",
+   "en": "Gunbreaker",
+   "src": "dataset"
+  },
+  {
+   "ja": "白魔道士",
+   "en": "White Mage",
+   "src": "dataset"
+  },
+  {
+   "ja": "白魔",
+   "en": "White Mage",
+   "src": "curated"
+  },
+  {
+   "ja": "占星術師",
+   "en": "Astrologian",
+   "src": "dataset"
+  },
+  {
+   "ja": "占星",
+   "en": "Astrologian",
+   "src": "curated"
+  },
+  {
+   "ja": "竜騎士",
+   "en": "Dragoon",
+   "src": "dataset"
+  },
+  {
+   "ja": "竜騎",
+   "en": "Dragoon",
+   "src": "curated"
+  },
+  {
+   "ja": "吟遊詩人",
+   "en": "Bard",
+   "src": "dataset"
+  },
+  {
+   "ja": "詩人",
+   "en": "Bard",
+   "src": "dataset"
+  },
+  {
+   "ja": "機工士",
+   "en": "Machinist",
+   "src": "dataset"
+  },
+  {
+   "ja": "機工",
+   "en": "Machinist",
+   "src": "curated"
+  },
+  {
+   "ja": "黒魔道士",
+   "en": "Black Mage",
+   "src": "dataset"
+  },
+  {
+   "ja": "黒魔",
+   "en": "Black Mage",
+   "src": "curated"
+  },
+  {
+   "ja": "召喚士",
+   "en": "Summoner",
+   "src": "dataset"
+  },
+  {
+   "ja": "赤魔道士",
+   "en": "Red Mage",
+   "src": "dataset"
+  },
+  {
+   "ja": "赤魔",
+   "en": "Red Mage",
+   "src": "curated"
+  },
+  {
+   "ja": "ピクトマンサー",
+   "en": "Pictomancer",
+   "src": "dataset"
+  },
+  {
+   "ja": "ピクト",
+   "en": "Pictomancer",
+   "src": "curated"
+  },
+  {
+   "ja": "青魔道士",
+   "en": "Blue Mage",
+   "src": "dataset"
+  },
+  {
+   "ja": "青魔",
+   "en": "Blue Mage",
+   "src": "dataset"
+  },
+  {
+   "ja": "木工師",
+   "en": "Carpenter",
+   "src": "dataset"
+  },
+  {
+   "ja": "鍛冶師",
+   "en": "Blacksmith",
+   "src": "dataset"
+  },
+  {
+   "ja": "甲冑師",
+   "en": "Armorer",
+   "src": "dataset"
+  },
+  {
+   "ja": "彫金師",
+   "en": "Goldsmith",
+   "src": "dataset"
+  },
+  {
+   "ja": "革細工師",
+   "en": "Leatherworker",
+   "src": "dataset"
+  },
+  {
+   "ja": "裁縫師",
+   "en": "Weaver",
+   "src": "dataset"
+  },
+  {
+   "ja": "錬金術師",
+   "en": "Alchemist",
+   "src": "dataset"
+  },
+  {
+   "ja": "調理師",
+   "en": "Culinarian",
+   "src": "dataset"
+  },
+  {
+   "ja": "園芸師",
+   "en": "Botanist",
+   "src": "dataset"
+  },
+  {
+   "ja": "漁師",
+   "en": "Fisher",
+   "src": "dataset"
+  },
+  {
+   "ja": "採掘師",
+   "en": "Miner",
+   "src": "dataset"
+  },
+  {
+   "ja": "ナ〆",
+   "en": "PLD taken",
+   "src": "curated"
+  },
+  {
+   "ja": "戦〆",
+   "en": "WAR taken",
+   "src": "curated"
+  },
+  {
+   "ja": "暗〆",
+   "en": "DRK taken",
+   "src": "curated"
+  },
+  {
+   "ja": "ガ〆",
+   "en": "GNB taken",
+   "src": "curated"
+  },
+  {
+   "ja": "白〆",
+   "en": "WHM taken",
+   "src": "curated"
+  },
+  {
+   "ja": "学〆",
+   "en": "SCH taken",
+   "src": "curated"
+  },
+  {
+   "ja": "占〆",
+   "en": "AST taken",
+   "src": "curated"
+  },
+  {
+   "ja": "賢〆",
+   "en": "SGE taken",
+   "src": "curated"
+  },
+  {
+   "ja": "モ〆",
+   "en": "MNK taken",
+   "src": "curated"
+  },
+  {
+   "ja": "竜〆",
+   "en": "DRG taken",
+   "src": "curated"
+  },
+  {
+   "ja": "忍〆",
+   "en": "NIN taken",
+   "src": "curated"
+  },
+  {
+   "ja": "侍〆",
+   "en": "SAM taken",
+   "src": "curated"
+  },
+  {
+   "ja": "リ〆",
+   "en": "RPR taken",
+   "src": "curated"
+  },
+  {
+   "ja": "ヴ〆",
+   "en": "VPR taken",
+   "src": "curated"
+  },
+  {
+   "ja": "詩〆",
+   "en": "BRD taken",
+   "src": "curated"
+  },
+  {
+   "ja": "機〆",
+   "en": "MCH taken",
+   "src": "curated"
+  },
+  {
+   "ja": "踊〆",
+   "en": "DNC taken",
+   "src": "curated"
+  },
+  {
+   "ja": "黒〆",
+   "en": "BLM taken",
+   "src": "curated"
+  },
+  {
+   "ja": "召〆",
+   "en": "SMN taken",
+   "src": "curated"
+  },
+  {
+   "ja": "赤〆",
+   "en": "RDM taken",
+   "src": "curated"
+  },
+  {
+   "ja": "ピ〆",
+   "en": "PCT taken",
+   "src": "curated"
+  },
+  {
+   "ja": "青〆",
+   "en": "BLU taken",
+   "src": "curated"
+  },
+  {
+   "ja": "ララフェル",
+   "en": "Lalafell",
+   "src": "dataset"
+  },
+  {
+   "ja": "ララ",
+   "en": "Lalafell",
+   "src": "curated"
+  },
+  {
+   "ja": "ミコッテ",
+   "en": "Miqo'te",
+   "src": "dataset"
+  },
+  {
+   "ja": "ルガディン",
+   "en": "Roegadyn",
+   "src": "dataset"
+  },
+  {
+   "ja": "ルガ",
+   "en": "Roegadyn",
+   "src": "curated"
+  },
+  {
+   "ja": "アウラ",
+   "en": "Au Ra",
+   "src": "dataset"
+  },
+  {
+   "ja": "ヴィエラ",
+   "en": "Viera",
+   "src": "dataset"
+  },
+  {
+   "ja": "ビエラ",
+   "en": "Viera",
+   "src": "dataset"
+  },
+  {
+   "ja": "ロスガル",
+   "en": "Hrothgar",
+   "src": "dataset"
+  },
+  {
+   "ja": "エレゼン",
+   "en": "Elezen",
+   "src": "dataset"
+  },
+  {
+   "ja": "ヒューラン",
+   "en": "Hyur",
+   "src": "curated"
+  },
+  {
+   "ja": "ヒュラン",
+   "en": "Hyur",
+   "src": "dataset"
+  },
+  {
+   "ja": "オスッテ",
+   "en": "male Miqo'te",
+   "src": "dataset"
+  },
+  {
+   "ja": "メスッテ",
+   "en": "female Miqo'te",
+   "src": "dataset"
+  },
+  {
+   "ja": "オスラ",
+   "en": "male Au Ra",
+   "src": "dataset"
+  },
+  {
+   "ja": "メスラ",
+   "en": "female Au Ra",
+   "src": "dataset"
+  },
+  {
+   "ja": "オスララ",
+   "en": "male Lalafell",
+   "src": "dataset"
+  },
+  {
+   "ja": "メスララ",
+   "en": "female Lalafell",
+   "src": "dataset"
+  },
+  {
+   "ja": "エレオス",
+   "en": "male Elezen",
+   "src": "dataset"
+  },
+  {
+   "ja": "エレメス",
+   "en": "female Elezen",
+   "src": "dataset"
+  },
+  {
+   "ja": "ルガ姉",
+   "en": "female Roegadyn",
+   "src": "dataset"
+  },
+  {
+   "ja": "新生エオルゼア",
+   "en": "A Realm Reborn",
+   "src": "dataset"
+  },
+  {
+   "ja": "蒼天のイシュガルド",
+   "en": "Heavensward",
+   "src": "dataset"
+  },
+  {
+   "ja": "蒼天",
+   "en": "Heavensward",
+   "src": "dataset"
+  },
+  {
+   "ja": "紅蓮のリベレーター",
+   "en": "Stormblood",
+   "src": "curated"
+  },
+  {
+   "ja": "紅蓮",
+   "en": "Stormblood",
+   "src": "dataset"
+  },
+  {
+   "ja": "漆黒のヴィランズ",
+   "en": "Shadowbringers",
+   "src": "dataset"
+  },
+  {
+   "ja": "漆黒",
+   "en": "Shadowbringers",
+   "src": "dataset"
+  },
+  {
+   "ja": "暁月のフィナーレ",
+   "en": "Endwalker",
+   "src": "curated"
+  },
+  {
+   "ja": "暁月",
+   "en": "Endwalker",
+   "src": "curated"
+  },
+  {
+   "ja": "黄金のレガシー",
+   "en": "Dawntrail",
+   "src": "curated"
+  },
+  {
+   "ja": "メインクエ",
+   "en": "MSQ",
+   "src": "dataset"
+  },
+  {
+   "ja": "メインクエスト",
+   "en": "MSQ",
+   "src": "curated"
+  },
+  {
+   "ja": "サブクエ",
+   "en": "side quest",
+   "src": "curated"
+  },
+  {
+   "ja": "クエ",
+   "en": "quest",
+   "src": "curated"
+  },
+  {
+   "ja": "蛮族",
+   "en": "beast tribe",
+   "src": "dataset"
+  },
+  {
+   "ja": "蛮族クエ",
+   "en": "beast tribe quests",
+   "src": "curated"
+  },
+  {
+   "ja": "蛮族クエスト",
+   "en": "beast tribe quests",
+   "src": "dataset"
+  },
+  {
+   "ja": "リーヴ",
+   "en": "levequest",
+   "src": "curated"
+  },
+  {
+   "ja": "バハ",
+   "en": "Bahamut",
+   "src": "dataset"
+  },
+  {
+   "ja": "アレキ",
+   "en": "Alexander",
+   "src": "dataset"
+  },
+  {
+   "ja": "よろしくお願いします",
+   "en": "Hello, let's do our best!",
+   "mode": "phrase",
+   "src": "dataset"
+  },
+  {
+   "ja": "よろしくおねがいします",
+   "en": "Hello, let's do our best!",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "よろしくお願いいたします",
+   "en": "Hello, let's do our best!",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "よろしくお願い致します",
+   "en": "Hello, let's do our best!",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "よろしくです",
+   "en": "Hello, let's do our best!",
+   "mode": "phrase",
+   "src": "dataset"
+  },
+  {
+   "ja": "よろしくっす",
+   "en": "Hello, let's do our best!",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "よろしく",
+   "en": "Hello, let's do our best!",
+   "mode": "phrase",
+   "src": "dataset"
+  },
+  {
+   "ja": "よろしくー",
+   "en": "Hello, let's do our best!",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "よろです",
+   "en": "Hello, let's do our best!",
+   "mode": "phrase",
+   "src": "dataset"
+  },
+  {
+   "ja": "よろしゃす",
+   "en": "Hello, let's do our best!",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "よろ",
+   "en": "Hello, let's do our best!",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "よろー",
+   "en": "Hello, let's do our best!",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "初見です",
+   "en": "It's my first time here.",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "お疲れ様でした",
+   "en": "Good work, thank you!",
+   "mode": "phrase",
+   "src": "dataset"
+  },
+  {
+   "ja": "お疲れさまでした",
+   "en": "Good work, thank you!",
+   "mode": "phrase",
+   "src": "dataset"
+  },
+  {
+   "ja": "おつかれさまでした",
+   "en": "Good work, thank you!",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "おつかれでした",
+   "en": "Good work, thank you!",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "お疲れ様です",
+   "en": "Hi, good work!",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "お疲れさまです",
+   "en": "Hi, good work!",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "おつかれさまです",
+   "en": "Hi, good work!",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "お疲れ様",
+   "en": "Good work!",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "お疲れさま",
+   "en": "Good work!",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "おつかれさま",
+   "en": "Good work!",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "お疲れ",
+   "en": "Good work!",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "おつかれ",
+   "en": "Good work!",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "おつかれー",
+   "en": "Good work!",
+   "mode": "phrase",
+   "src": "dataset"
+  },
+  {
+   "ja": "おつ",
+   "en": "Good work!",
+   "mode": "phrase",
+   "src": "dataset"
+  },
+  {
+   "ja": "おつー",
+   "en": "Good work!",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "おつです",
+   "en": "Good work!",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "おつでした",
+   "en": "Good work!",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "おつおつ",
+   "en": "Good work!",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "乙",
+   "en": "Good work!",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "乙です",
+   "en": "Good work!",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "ありがとうございました",
+   "en": "Thank you very much!",
+   "mode": "phrase",
+   "src": "dataset"
+  },
+  {
+   "ja": "ありがとうございます",
+   "en": "Thank you!",
+   "mode": "phrase",
+   "src": "dataset"
+  },
+  {
+   "ja": "ありがとう",
+   "en": "Thanks!",
+   "mode": "phrase",
+   "src": "dataset"
+  },
+  {
+   "ja": "ありがと",
+   "en": "Thanks!",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "あざす",
+   "en": "Thanks!",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "あざっす",
+   "en": "Thanks!",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "あざます",
+   "en": "Thanks!",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "あざーす",
+   "en": "Thanks!",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "あざまーす",
+   "en": "Thanks!",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "さんくす",
+   "en": "Thanks!",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "サンクス",
+   "en": "Thanks!",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "せんくす",
+   "en": "Thanks!",
+   "mode": "phrase",
+   "src": "dataset"
+  },
+  {
+   "ja": "PTありがとうございました",
+   "en": "Thanks for grouping with me!",
+   "mode": "phrase",
+   "src": "dataset"
+  },
+  {
+   "ja": "すみません",
+   "en": "Sorry!",
+   "mode": "phrase",
+   "src": "dataset"
+  },
+  {
+   "ja": "すいません",
+   "en": "Sorry!",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "すまん",
+   "en": "Sorry!",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "すまぬ",
+   "en": "Sorry!",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "ごめんなさい",
+   "en": "I'm sorry!",
+   "mode": "phrase",
+   "src": "dataset"
+  },
+  {
+   "ja": "ごめん",
+   "en": "Sorry!",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "ごめんね",
+   "en": "Sorry!",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "申し訳ない",
+   "en": "I'm sorry.",
+   "mode": "phrase",
+   "src": "dataset"
+  },
+  {
+   "ja": "申し訳ないです",
+   "en": "I'm sorry.",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "申し訳ありません",
+   "en": "I'm very sorry.",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "ミスりました",
+   "en": "My bad!",
+   "mode": "phrase",
+   "src": "dataset"
+  },
+  {
+   "ja": "ミスった",
+   "en": "My bad!",
+   "mode": "phrase",
+   "src": "dataset"
+  },
+  {
+   "ja": "ミスです",
+   "en": "My bad!",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "ミスしました",
+   "en": "My bad!",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "どんまい",
+   "en": "Don't worry about it!",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "ドンマイ",
+   "en": "Don't worry about it!",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "どんまいです",
+   "en": "Don't worry about it!",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "ドンマイです",
+   "en": "Don't worry about it!",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "ナイス",
+   "en": "Nice!",
+   "mode": "phrase",
+   "src": "dataset"
+  },
+  {
+   "ja": "ないす",
+   "en": "Nice!",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "ナイスです",
+   "en": "Nice!",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "ないすー",
+   "en": "Nice!",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "了解",
+   "en": "Got it.",
+   "mode": "phrase",
+   "src": "dataset"
+  },
+  {
+   "ja": "了解です",
+   "en": "Got it.",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "了解しました",
+   "en": "Understood.",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "承知しました",
+   "en": "Understood.",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "りょ",
+   "en": "Got it.",
+   "mode": "phrase",
+   "src": "dataset"
+  },
+  {
+   "ja": "りょー",
+   "en": "Got it.",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "りょです",
+   "en": "Got it.",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "りょうかい",
+   "en": "Got it.",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "りょーかい",
+   "en": "Got it.",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "おけ",
+   "en": "OK!",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "おけです",
+   "en": "OK!",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "おk",
+   "en": "OK!",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "おっけー",
+   "en": "OK!",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "おーけー",
+   "en": "OK!",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "はい",
+   "en": "Yes.",
+   "mode": "phrase",
+   "src": "dataset"
+  },
+  {
+   "ja": "いいえ",
+   "en": "No.",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "大丈夫です",
+   "en": "It's all right.",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "大丈夫ですか",
+   "en": "Are you okay?",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "大丈夫ですか?",
+   "en": "Are you okay?",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "戻りました",
+   "en": "I'm back.",
+   "mode": "phrase",
+   "src": "dataset"
+  },
+  {
+   "ja": "もどりました",
+   "en": "I'm back.",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "ただいま",
+   "en": "I'm back.",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "ただいまです",
+   "en": "I'm back.",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "おかえり",
+   "en": "Welcome back!",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "おかえりなさい",
+   "en": "Welcome back!",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "おかえりー",
+   "en": "Welcome back!",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "落ちます",
+   "en": "I'm logging off now.",
+   "mode": "phrase",
+   "src": "dataset"
+  },
+  {
+   "ja": "おちます",
+   "en": "I'm logging off now.",
+   "mode": "phrase",
+   "src": "dataset"
+  },
+  {
+   "ja": "落ちますね",
+   "en": "I'm logging off now.",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "そろそろ落ちます",
+   "en": "I'll be logging off soon.",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "おやすみなさい",
+   "en": "Good night!",
+   "mode": "phrase",
+   "src": "dataset"
+  },
+  {
+   "ja": "おやすみ",
+   "en": "Good night!",
+   "mode": "phrase",
+   "src": "dataset"
+  },
+  {
+   "ja": "また明日",
+   "en": "See you tomorrow!",
+   "mode": "phrase",
+   "src": "dataset"
+  },
+  {
+   "ja": "またね",
+   "en": "See you!",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "ノシ",
+   "en": "Bye! (waves)",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "ノ",
+   "en": "o/ (me!)",
+   "mode": "phrase",
+   "src": "dataset"
+  },
+  {
+   "ja": "抜けます",
+   "en": "I'll leave the party now.",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "離席します",
+   "en": "Going AFK for a moment.",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "ちょっとトイレ",
+   "en": "Quick bathroom break.",
+   "mode": "phrase",
+   "src": "dataset"
+  },
+  {
+   "ja": "回線落ちました",
+   "en": "I got disconnected.",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "回線落ちしました",
+   "en": "I got disconnected.",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "次ラスト",
+   "en": "The next attempt is the last one.",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "次でラスト",
+   "en": "The next attempt is the last one.",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "次ラストで",
+   "en": "The next attempt is the last one.",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "次のラストです",
+   "en": "The next attempt is the last one.",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "次ラストです",
+   "en": "The next attempt is the last one.",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "ラストです",
+   "en": "This is the last attempt.",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "ラスト",
+   "en": "Last one!",
+   "mode": "phrase",
+   "src": "dataset"
+  },
+  {
+   "ja": "もう一回",
+   "en": "One more time!",
+   "mode": "phrase",
+   "src": "dataset"
+  },
+  {
+   "ja": "もう一度",
+   "en": "One more time!",
+   "mode": "phrase",
+   "src": "dataset"
+  },
+  {
+   "ja": "ギブで",
+   "en": "Let's vote to abandon.",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "ギブしましょう",
+   "en": "Let's vote to abandon.",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "ギブします",
+   "en": "I'll vote to abandon.",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "解散で",
+   "en": "Let's disband the party.",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "解散しましょう",
+   "en": "Let's disband the party.",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "解散します",
+   "en": "Disbanding the party.",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "〇",
+   "en": "Yes / ready.",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "○",
+   "en": "Yes / ready.",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "◯",
+   "en": "Yes / ready.",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "マル",
+   "en": "Ready.",
+   "mode": "phrase",
+   "src": "dataset"
+  },
+  {
+   "ja": "マルです",
+   "en": "Ready.",
+   "mode": "phrase",
+   "src": "dataset"
+  },
+  {
+   "ja": "×",
+   "en": "No / not ready.",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "✕",
+   "en": "No / not ready.",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "バツ",
+   "en": "No.",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "草",
+   "en": "lol",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "草生える",
+   "en": "lol",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "草生えた",
+   "en": "lol",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "草はえる",
+   "en": "lol",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "大草原",
+   "en": "LOL",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "ワロタ",
+   "en": "lol",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "おめでとう",
+   "en": "Congrats!",
+   "mode": "phrase",
+   "src": "dataset"
+  },
+  {
+   "ja": "おめでとうございます",
+   "en": "Congratulations!",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "おめでとー",
+   "en": "Congrats!",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "おめ",
+   "en": "Congrats!",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "おめー",
+   "en": "Congrats!",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "おめおめ",
+   "en": "Congrats!",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "やったー",
+   "en": "Yay!",
+   "mode": "phrase",
+   "src": "dataset"
+  },
+  {
+   "ja": "クリアおめでとう",
+   "en": "Congrats on the clear!",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "クリアおめでとうございます",
+   "en": "Congratulations on the clear!",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "がんばりましょう",
+   "en": "Let's do our best!",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "頑張りましょう",
+   "en": "Let's do our best!",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "がんばろう",
+   "en": "Let's do our best!",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "頑張ろう",
+   "en": "Let's do our best!",
+   "mode": "phrase",
+   "src": "dataset"
+  },
+  {
+   "ja": "気楽にやりましょう",
+   "en": "Let's take it easy!",
+   "mode": "phrase",
+   "src": "dataset"
+  },
+  {
+   "ja": "少々お待ちください",
+   "en": "One moment, please.",
+   "mode": "phrase",
+   "src": "dataset"
+  },
+  {
+   "ja": "お待ちください",
+   "en": "Please wait.",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "おまちを",
+   "en": "One moment, please.",
+   "mode": "phrase",
+   "src": "dataset"
+  },
+  {
+   "ja": "お先に失礼します",
+   "en": "I'll head out first. Bye!",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "失礼します",
+   "en": "Excuse me.",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "お邪魔します",
+   "en": "Hi, joining you!",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "お邪魔しました",
+   "en": "Thanks for having me!",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "草",
+   "en": "lol",
+   "next": "end",
+   "src": "curated"
+  },
+  {
+   "ja": "笑",
+   "en": "lol",
+   "next": "end",
+   "src": "dataset"
+  }
+ ]
+}

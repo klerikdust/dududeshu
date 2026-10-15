@@ -15,6 +15,7 @@ dudu的書 listens to the chat channels you choose and echoes a translation back
 - `/jp <text>` -> translates the text into Japanese and sends it on your active channel.
 - `/zh <text>` -> translates into Traditional Chinese and sends it on your active channel.
 - Auto-send toggle: instead of sending, the plugin can copy the translation to your clipboard and preview it in chat so you can paste it yourself with `Ctrl+V`.
+- FFXIV Japanese glossary: when the text being translated is Japanese, raid callouts, Party Finder shorthand and JP chat slang (頭割り, 消化, 野良, クリ目, おつ, 草…) come out as the English the community uses instead of Google's literal reading ("head split", "digestion", "stray"). Built from [`Data/ffxiv_jp_en_dataset.json`](Data/ffxiv_jp_en_dataset.json), toggleable in the settings.
 - Source-language filter (English / Japanese / Traditional Chinese).
 - Tiny config window (`/ducfg`, `/duconfig`, or `/duduconfig`)
 
@@ -77,6 +78,7 @@ Dalamud will check the custom repo automatically on launch. To force a refresh, 
 - **Ignore my own messages** : skip messages you sent yourself.
 - **Show romaji in parentheses** : append romaji to Japanese translations.
 - **Show pinyin in parentheses** : append pinyin to Chinese translations.
+- **Use FFXIV glossary for Japanese** : on by default. Japanese messages, Party Finder descriptions and `/en` `/zh` input are run through the built-in FFXIV glossary before translation. Has no effect on any other source language.
 - **/jp and /zh auto-send the translation** : when on, the translated text is sent immediately on your active channel. When off, it's copied to your clipboard and previewed in an Echo line so you can paste with `Ctrl+V` and confirm before pressing Enter.
 - **Translate into** : your target language (English, Japanese, Traditional Chinese).
 - **Translate messages written in** : the source languages you want to be translated. Lines in your target language are skipped automatically.

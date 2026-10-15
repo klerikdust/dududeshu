@@ -14,5 +14,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Visible>false</Visible>
     </Content>
+    <!-- Compiled from Data/ffxiv_jp_en_dataset.json; read by Services/FfxivGlossary.cs. -->
+    <EmbeddedResource Include="..\Data\ffxiv_jp_glossary.json" LogicalName="dududeshu.ffxiv_jp_glossary.json">
+      <Visible>false</Visible>
+    </EmbeddedResource>
   </ItemGroup>
 </Project>
