@@ -4,6 +4,7 @@
   "InternalName": "dududeshu",
   "Punchline": "Smart player messages translation tool for FF14",
   "Description": "Smart player messages translation tool for FF14\n\nListens to the chat channels you choose and echoes a translation back in your target language. Japanese can show romaji and Chinese can show pinyin in parentheses. Sends translated messages on your active channel via /jp and /zh. Open settings with /ducfg, /duconfig, or /duduconfig.",
+  "Changelog": "0.1.23.0: The translator is now integrated with FF14 terms and common phrases. Japanese raid callouts, Party Finder shorthand and chat slang (頭割り, 消化, クリ目, 野良, 〆, 草...) are translated with a built-in FF14 glossary instead of Google's literal reading, and common lines like よろしくお願いします, お疲れ様でした or ノシ are translated directly. Only applies when the text being translated is Japanese. Toggle it with \"Use FFXIV glossary for Japanese\" in /ducfg (on by default).",
   "ApplicableVersion": "any",
   "RepoUrl": "https://github.com/klerikdust/dududeshu",
   "IconUrl": "https://raw.githubusercontent.com/klerikdust/dududeshu/master/icon.png",
