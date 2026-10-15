@@ -40,8 +40,9 @@ public static class Localization
             ["enable.glossary"]           = "Use FFXIV glossary for Japanese",
             ["tooltip.glossary"] =
                 "On: before Japanese text is translated, FFXIV jargon (raid callouts,\n" +
-                "Party Finder shorthand, chat slang) is replaced with the English the\n" +
-                "community uses, e.g. 頭割り → stack, 消化 → weekly reclear, 野良 → PUG.\n" +
+                "Party Finder shorthand, chat slang) is replaced with the terms players\n" +
+                "use in your target language, e.g. 頭割り → stack, 消化 → weekly reclear,\n" +
+                "野良 → PUG (分攤 / 每週通關 / 野團 when translating into Chinese).\n" +
                 "Common lines like よろしくお願いします or おつ are translated directly.\n" +
                 "Only applies when the text being translated is Japanese.\n" +
                 "Off: Japanese text goes to the translator unchanged.",
@@ -95,8 +96,9 @@ public static class Localization
             ["enable.glossary"]           = "Gunakan glosarium FFXIV untuk bahasa Jepang",
             ["tooltip.glossary"] =
                 "Aktif: sebelum teks Jepang diterjemahkan, istilah FFXIV (callout raid,\n" +
-                "singkatan Party Finder, slang chat) diganti dengan istilah Inggris yang\n" +
-                "dipakai komunitas, misalnya 頭割り → stack, 消化 → weekly reclear, 野良 → PUG.\n" +
+                "singkatan Party Finder, slang chat) diganti dengan istilah yang dipakai\n" +
+                "pemain dalam bahasa tujuanmu, misalnya 頭割り → berkumpul,\n" +
+                "消化 → tamat ulang mingguan, 野良 → party acak.\n" +
                 "Kalimat umum seperti よろしくお願いします atau おつ langsung diterjemahkan.\n" +
                 "Hanya berlaku jika teks yang diterjemahkan berbahasa Jepang.\n" +
                 "Nonaktif: teks Jepang dikirim ke penerjemah apa adanya.",
@@ -150,8 +152,9 @@ public static class Localization
             ["enable.glossary"]           = "日文訊息使用 FF14 術語表",
             ["tooltip.glossary"] =
                 "開啟：翻譯日文前，先把 FF14 日本玩家的術語（攻略喊話、招募簡稱、\n" +
-                "聊天用語）換成社群慣用的英文，例如 頭割り → stack、消化 → weekly reclear、\n" +
-                "野良 → PUG。よろしくお願いします、おつ 等常用語會直接翻譯。\n" +
+                "聊天用語）換成目標語言中玩家慣用的說法，例如 頭割り → 分攤、\n" +
+                "消化 → 每週通關、野良 → 野團。\n" +
+                "よろしくお願いします、おつ 等常用語會直接翻譯。\n" +
                 "僅在被翻譯的文字為日文時生效。\n" +
                 "關閉：日文原文直接交給翻譯器。",
             ["enable.autoSend"]           = "/jp 與 /zh 自動發送翻譯結果",

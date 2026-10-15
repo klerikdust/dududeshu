@@ -1,3102 +1,4340 @@
 {
- "about": "FFXIV Japanese -> English glossary used by dudu的書 when the text being translated is Japanese. Compiled from ffxiv_jp_en_dataset.json (src=dataset) plus curated FFXIV community usage (src=curated). mode=phrase rows are whole-message lines; all other rows are terms injected inside sentences. next=katakana / next=end restrict what may follow a term.",
+ "about": "FFXIV Japanese glossary used by dudu的書 when the text being translated is Japanese. Each entry renders the term in every supported target language (en, zh-TW, id); the plugin uses the one matching the user's target. Compiled from ffxiv_jp_en_dataset.json (src=dataset) plus curated FFXIV community usage (src=curated). mode=phrase rows are whole-message lines; all other rows are terms injected inside sentences. next=katakana / next=end restrict what may follow a term.",
  "entries": [
   {
    "ja": "頭割り",
    "en": "stack",
+   "zh-TW": "分攤",
+   "id": "berkumpul",
    "src": "dataset"
   },
   {
    "ja": "ペア頭割り",
    "en": "partner stack",
+   "zh-TW": "兩兩分攤",
+   "id": "berkumpul berpasangan",
    "src": "curated"
   },
   {
    "ja": "散開",
    "en": "spread",
+   "zh-TW": "分散",
+   "id": "menyebar",
    "src": "dataset"
   },
   {
    "ja": "基本散開",
    "en": "default spread",
+   "zh-TW": "基本分散站位",
+   "id": "posisi menyebar standar",
    "src": "dataset"
   },
   {
    "ja": "8方向散開",
    "en": "8-way spread",
+   "zh-TW": "八方分散",
+   "id": "menyebar ke 8 arah",
    "src": "dataset"
   },
   {
    "ja": "散開位置",
    "en": "spread positions",
+   "zh-TW": "分散站位",
+   "id": "posisi menyebar",
    "src": "dataset"
   },
   {
    "ja": "ペア",
    "en": "pairs",
+   "zh-TW": "兩兩一組",
+   "id": "berpasangan",
    "src": "dataset"
   },
   {
    "ja": "誘導",
    "en": "bait",
+   "zh-TW": "誘導",
+   "id": "pancing",
    "src": "dataset"
   },
   {
    "ja": "AoE捨て",
    "en": "drop the AoE",
+   "zh-TW": "放置AOE",
+   "id": "buang AoE",
    "src": "dataset"
   },
   {
    "ja": "範囲捨て",
    "en": "drop the AoE",
+   "zh-TW": "放置AOE",
+   "id": "buang AoE",
    "src": "curated"
   },
   {
    "ja": "床捨て",
    "en": "drop the puddle",
+   "zh-TW": "放置地面AOE",
+   "id": "buang AoE lantai",
    "src": "curated"
   },
   {
    "ja": "捨て場",
    "en": "drop spot",
+   "zh-TW": "放置點",
+   "id": "tempat buang AoE",
    "src": "curated"
   },
   {
    "ja": "捨て場所",
    "en": "drop spot",
+   "zh-TW": "放置點",
+   "id": "tempat buang AoE",
    "src": "curated"
   },
   {
    "ja": "床",
    "en": "puddle",
+   "zh-TW": "地面AOE",
+   "id": "AoE lantai",
    "src": "curated"
   },
   {
    "ja": "床踏み",
    "en": "standing in a puddle",
+   "zh-TW": "踩到地面AOE",
+   "id": "menginjak AoE lantai",
    "src": "curated"
   },
   {
    "ja": "床ペロ",
    "en": "dead on the floor",
+   "zh-TW": "躺地板",
+   "id": "mati terkapar",
    "src": "dataset"
   },
   {
    "ja": "詠唱",
    "en": "cast",
+   "zh-TW": "詠唱",
+   "id": "rapalan",
    "src": "dataset"
   },
   {
    "ja": "詠唱バー",
    "en": "cast bar",
+   "zh-TW": "詠唱條",
+   "id": "bar rapalan",
    "src": "curated"
   },
   {
    "ja": "ヘイト",
    "en": "aggro",
+   "zh-TW": "仇恨",
+   "id": "aggro",
    "src": "dataset"
   },
   {
    "ja": "敵視",
    "en": "enmity",
+   "zh-TW": "仇恨",
+   "id": "aggro",
    "src": "curated"
   },
   {
    "ja": "タゲ",
    "en": "target",
+   "zh-TW": "目標",
+   "id": "target",
    "src": "dataset"
   },
   {
    "ja": "タゲ取り",
    "en": "pulling aggro",
+   "zh-TW": "拉仇恨",
+   "id": "penarikan aggro",
    "src": "curated"
   },
   {
    "ja": "タゲ飛び",
    "en": "aggro loss",
+   "zh-TW": "掉仇恨",
+   "id": "aggro lepas",
    "src": "dataset"
   },
   {
    "ja": "軽減",
    "en": "mitigation",
+   "zh-TW": "減傷",
+   "id": "mitigasi",
    "src": "dataset"
   },
   {
    "ja": "無敵",
    "en": "invuln",
+   "zh-TW": "無敵技",
+   "id": "skill kebal",
    "src": "dataset"
   },
   {
    "ja": "デバフ",
    "en": "debuff",
+   "zh-TW": "減益效果",
+   "id": "efek negatif",
    "src": "dataset"
   },
   {
    "ja": "バフ",
    "en": "buff",
+   "zh-TW": "增益效果",
+   "id": "efek penguat",
    "src": "dataset"
   },
   {
    "ja": "シナジー",
    "en": "raid buffs",
+   "zh-TW": "團輔",
+   "id": "efek penguat raid",
    "src": "dataset"
   },
   {
    "ja": "ノクバ",
    "en": "knockback",
+   "zh-TW": "擊退",
+   "id": "dorong mundur",
    "src": "dataset"
   },
   {
    "ja": "ノックバック",
    "en": "knockback",
+   "zh-TW": "擊退",
+   "id": "dorong mundur",
    "src": "dataset"
   },
   {
    "ja": "ノックバック無効",
    "en": "knockback immunity",
+   "zh-TW": "防擊退",
+   "id": "kebal dorong mundur",
    "src": "curated"
   },
   {
    "ja": "アームズレングス",
    "en": "Arm's Length",
+   "zh-TW": "親疏自行",
+   "id": "Arm's Length",
    "src": "curated"
   },
   {
    "ja": "アームズ",
    "en": "Arm's Length",
+   "zh-TW": "親疏自行",
+   "id": "Arm's Length",
    "src": "curated"
   },
   {
    "ja": "堅実魔",
    "en": "Surecast",
+   "zh-TW": "沉穩詠唱",
+   "id": "Surecast",
    "src": "curated"
   },
   {
    "ja": "強攻撃",
    "en": "tankbuster",
+   "zh-TW": "死刑",
+   "id": "serangan berat ke tank",
    "src": "curated"
   },
   {
    "ja": "タンク強攻撃",
    "en": "tankbuster",
+   "zh-TW": "死刑",
+   "id": "serangan berat ke tank",
    "src": "dataset"
   },
   {
    "ja": "タン強",
    "en": "tankbuster",
+   "zh-TW": "死刑",
+   "id": "serangan berat ke tank",
    "src": "dataset"
   },
   {
    "ja": "全体攻撃",
    "en": "raidwide",
+   "zh-TW": "全團AOE",
+   "id": "serangan ke seluruh party",
    "src": "dataset"
   },
   {
    "ja": "扇",
    "en": "cone",
+   "zh-TW": "扇形AOE",
+   "id": "AoE kerucut",
    "src": "dataset"
   },
   {
    "ja": "扇範囲",
    "en": "cone AoE",
+   "zh-TW": "扇形AOE",
+   "id": "AoE kerucut",
    "src": "curated"
   },
   {
    "ja": "円範囲",
    "en": "circle AoE",
+   "zh-TW": "圓形AOE",
+   "id": "AoE lingkaran",
    "src": "dataset"
   },
   {
    "ja": "直線範囲",
    "en": "line AoE",
+   "zh-TW": "直線AOE",
+   "id": "AoE garis lurus",
    "src": "curated"
   },
   {
    "ja": "直線AoE",
    "en": "line AoE",
+   "zh-TW": "直線AOE",
+   "id": "AoE garis lurus",
    "src": "dataset"
   },
   {
    "ja": "ドーナツ範囲",
    "en": "donut AoE",
+   "zh-TW": "月環",
+   "id": "AoE donat",
    "src": "dataset"
   },
   {
    "ja": "範囲",
    "en": "AoE",
+   "zh-TW": "AOE",
+   "id": "AoE",
    "src": "curated"
   },
   {
    "ja": "範囲攻撃",
    "en": "AoE attack",
+   "zh-TW": "範圍攻擊",
+   "id": "serangan AoE",
    "src": "curated"
   },
   {
    "ja": "頭上マーカー",
    "en": "head marker",
+   "zh-TW": "頭頂點名",
+   "id": "penanda di atas kepala",
    "src": "dataset"
   },
   {
    "ja": "マカ",
    "en": "markers",
+   "zh-TW": "場地標點",
+   "id": "penanda lapangan",
    "src": "dataset"
   },
   {
    "ja": "マク",
    "en": "macro",
+   "zh-TW": "宏",
+   "id": "makro",
    "src": "dataset"
   },
   {
    "ja": "線",
    "en": "tether",
+   "zh-TW": "連線",
+   "id": "tali",
    "src": "dataset"
   },
   {
    "ja": "線取り",
    "en": "taking tethers",
+   "zh-TW": "接線",
+   "id": "ambil tali",
    "src": "curated"
   },
   {
    "ja": "線切り",
    "en": "breaking tethers",
+   "zh-TW": "拉斷連線",
+   "id": "putus tali",
    "src": "curated"
   },
   {
    "ja": "塔踏み",
    "en": "tower soak",
+   "zh-TW": "踩塔",
+   "id": "injak menara",
    "src": "dataset"
   },
   {
    "ja": "外周",
    "en": "outer edge",
+   "zh-TW": "場邊",
+   "id": "tepi luar",
    "src": "curated"
   },
   {
    "ja": "内周",
    "en": "inner edge",
+   "zh-TW": "內圈",
+   "id": "tepi dalam",
    "src": "curated"
   },
   {
    "ja": "安地",
    "en": "safe spot",
+   "zh-TW": "安全點",
+   "id": "titik aman",
    "src": "dataset"
   },
   {
    "ja": "安置",
    "en": "safe spot",
+   "zh-TW": "安全點",
+   "id": "titik aman",
    "src": "dataset"
   },
   {
    "ja": "北基準",
    "en": "north-based positions",
+   "zh-TW": "以北方為基準的站位",
+   "id": "posisi berdasarkan utara",
    "src": "dataset"
   },
   {
    "ja": "マーカー基準",
    "en": "waymark-based positions",
+   "zh-TW": "以場地標點為基準的站位",
+   "id": "posisi berdasarkan penanda",
    "src": "dataset"
   },
   {
    "ja": "視線",
    "en": "gaze",
+   "zh-TW": "視線攻擊",
+   "id": "serangan tatapan",
    "src": "dataset"
   },
   {
    "ja": "雑魚",
    "en": "adds",
+   "zh-TW": "小怪",
+   "id": "monster tambahan",
    "src": "dataset"
   },
   {
    "ja": "雑魚処理",
    "en": "add control",
+   "zh-TW": "處理小怪",
+   "id": "urus monster tambahan",
    "src": "curated"
   },
   {
    "ja": "雑魚プレイヤー",
    "en": "bad player",
+   "zh-TW": "菜雞玩家",
+   "id": "pemain payah",
    "src": "dataset"
   },
   {
    "ja": "時間切れ",
    "en": "enrage",
+   "zh-TW": "狂暴",
+   "id": "waktu habis",
    "src": "dataset"
   },
   {
    "ja": "ワイプ",
    "en": "wipe",
+   "zh-TW": "團滅",
+   "id": "semua mati",
    "src": "dataset"
   },
   {
    "ja": "全滅",
    "en": "wipe",
+   "zh-TW": "團滅",
+   "id": "semua mati",
    "src": "dataset"
   },
   {
    "ja": "蘇生",
    "en": "raise",
+   "zh-TW": "復活",
+   "id": "bangkitkan",
    "src": "dataset"
   },
   {
    "ja": "スイッチ",
    "en": "tank swap",
+   "zh-TW": "換坦",
+   "id": "ganti tank",
    "src": "dataset"
   },
   {
    "ja": "タンクスイッチ",
    "en": "tank swap",
+   "zh-TW": "換坦",
+   "id": "ganti tank",
    "src": "curated"
   },
   {
    "ja": "交代",
    "en": "swap",
+   "zh-TW": "交換",
+   "id": "gantian",
    "src": "dataset"
   },
   {
    "ja": "挑発",
    "en": "Provoke",
+   "zh-TW": "挑釁",
+   "id": "Provoke",
    "src": "dataset"
   },
   {
    "ja": "シャーク",
    "en": "Shirk",
+   "zh-TW": "退避",
+   "id": "Shirk",
    "src": "curated"
   },
   {
    "ja": "リキャス",
    "en": "recast",
-   "src": "dataset"
-  },
-  {
-   "ja": "開幕",
-   "en": "opener",
-   "src": "dataset"
-  },
-  {
-   "ja": "スキル回し",
-   "en": "rotation",
-   "src": "dataset"
-  },
-  {
-   "ja": "食い込み",
-   "en": "clipping",
-   "src": "dataset"
-  },
-  {
-   "ja": "GCD食い込み",
-   "en": "GCD clipping",
-   "src": "dataset"
-  },
-  {
-   "ja": "挟みこむ",
-   "en": "weave",
-   "src": "dataset"
-  },
-  {
-   "ja": "挟み込む",
-   "en": "weave",
-   "src": "curated"
-  },
-  {
-   "ja": "火力",
-   "en": "DPS",
-   "src": "dataset"
-  },
-  {
-   "ja": "火力不足",
-   "en": "not enough DPS",
-   "src": "curated"
-  },
-  {
-   "ja": "火力チェック",
-   "en": "DPS check",
-   "src": "curated"
-  },
-  {
-   "ja": "火力詰め",
-   "en": "parse run",
-   "src": "dataset"
-  },
-  {
-   "ja": "(火力)詰め",
-   "en": "parse run",
-   "src": "dataset"
-  },
-  {
-   "ja": "履行技",
-   "en": "intermission attack",
-   "src": "dataset"
-  },
-  {
-   "ja": "距離減衰",
-   "en": "distance falloff",
-   "src": "dataset"
-  },
-  {
-   "ja": "距離依存",
-   "en": "distance-based damage",
-   "src": "dataset"
-  },
-  {
-   "ja": "処理落ち",
-   "en": "frame drops",
-   "src": "curated"
-  },
-  {
-   "ja": "ギミック",
-   "en": "mechanic",
-   "src": "dataset"
-  },
-  {
-   "ja": "ギミック処理",
-   "en": "handling mechanics",
-   "src": "curated"
-  },
-  {
-   "ja": "カータライズ",
-   "en": "divebomb",
-   "src": "dataset"
-  },
-  {
-   "ja": "ランタゲ",
-   "en": "random target",
-   "src": "dataset"
-  },
-  {
-   "ja": "スキスピ",
-   "en": "skill speed",
-   "src": "dataset"
-  },
-  {
-   "ja": "スペスピ",
-   "en": "spell speed",
-   "src": "dataset"
-  },
-  {
-   "ja": "アビ",
-   "en": "ability",
+   "zh-TW": "冷卻",
+   "id": "jeda skill",
    "src": "dataset"
   },
   {
    "ja": "リキャ",
    "en": "recast",
+   "zh-TW": "冷卻",
+   "id": "jeda skill",
    "src": "curated"
+  },
+  {
+   "ja": "開幕",
+   "en": "opener",
+   "zh-TW": "起手",
+   "id": "rotasi pembuka",
+   "src": "dataset"
+  },
+  {
+   "ja": "スキル回し",
+   "en": "rotation",
+   "zh-TW": "技能循環",
+   "id": "rotasi skill",
+   "src": "dataset"
+  },
+  {
+   "ja": "食い込み",
+   "en": "clipping",
+   "zh-TW": "卡GCD",
+   "id": "GCD terpotong",
+   "src": "dataset"
+  },
+  {
+   "ja": "GCD食い込み",
+   "en": "GCD clipping",
+   "zh-TW": "卡GCD",
+   "id": "GCD terpotong",
+   "src": "dataset"
+  },
+  {
+   "ja": "挟みこむ",
+   "en": "weave",
+   "zh-TW": "插入能力技",
+   "id": "selipkan skill",
+   "src": "dataset"
+  },
+  {
+   "ja": "挟み込む",
+   "en": "weave",
+   "zh-TW": "插入能力技",
+   "id": "selipkan skill",
+   "src": "curated"
+  },
+  {
+   "ja": "火力",
+   "en": "DPS",
+   "zh-TW": "輸出",
+   "id": "DPS",
+   "src": "dataset"
+  },
+  {
+   "ja": "火力不足",
+   "en": "not enough DPS",
+   "zh-TW": "輸出不足",
+   "id": "DPS kurang",
+   "src": "curated"
+  },
+  {
+   "ja": "火力チェック",
+   "en": "DPS check",
+   "zh-TW": "輸出檢定",
+   "id": "cek DPS",
+   "src": "curated"
+  },
+  {
+   "ja": "火力詰め",
+   "en": "parse run",
+   "zh-TW": "衝輸出排名",
+   "id": "run kejar DPS",
+   "src": "dataset"
+  },
+  {
+   "ja": "(火力)詰め",
+   "en": "parse run",
+   "zh-TW": "衝輸出排名",
+   "id": "run kejar DPS",
+   "src": "dataset"
+  },
+  {
+   "ja": "履行技",
+   "en": "intermission attack",
+   "zh-TW": "轉場技",
+   "id": "serangan transisi",
+   "src": "dataset"
+  },
+  {
+   "ja": "距離減衰",
+   "en": "distance falloff",
+   "zh-TW": "距離衰減",
+   "id": "damage berkurang sesuai jarak",
+   "src": "dataset"
+  },
+  {
+   "ja": "距離依存",
+   "en": "distance-based damage",
+   "zh-TW": "距離衰減傷害",
+   "id": "damage tergantung jarak",
+   "src": "dataset"
+  },
+  {
+   "ja": "処理落ち",
+   "en": "frame drops",
+   "zh-TW": "掉幀",
+   "id": "lag grafis",
+   "src": "curated"
+  },
+  {
+   "ja": "ギミック",
+   "en": "mechanic",
+   "zh-TW": "機制",
+   "id": "mekanik",
+   "src": "dataset"
+  },
+  {
+   "ja": "ギミック処理",
+   "en": "handling mechanics",
+   "zh-TW": "處理機制",
+   "id": "menangani mekanik",
+   "src": "curated"
+  },
+  {
+   "ja": "カータライズ",
+   "en": "divebomb",
+   "zh-TW": "俯衝",
+   "id": "serangan menukik",
+   "src": "dataset"
+  },
+  {
+   "ja": "ランタゲ",
+   "en": "random target",
+   "zh-TW": "隨機目標",
+   "id": "target acak",
+   "src": "dataset"
+  },
+  {
+   "ja": "スキスピ",
+   "en": "skill speed",
+   "zh-TW": "技能速度",
+   "id": "Skill Speed",
+   "src": "dataset"
+  },
+  {
+   "ja": "スペスピ",
+   "en": "spell speed",
+   "zh-TW": "詠唱速度",
+   "id": "Spell Speed",
+   "src": "dataset"
+  },
+  {
+   "ja": "アビ",
+   "en": "ability",
+   "zh-TW": "能力技",
+   "id": "kemampuan",
+   "src": "dataset"
   },
   {
    "ja": "食事",
    "en": "food",
+   "zh-TW": "食物",
+   "id": "makanan",
    "src": "dataset"
   },
   {
    "ja": "食事効果",
    "en": "food buff",
+   "zh-TW": "食物效果",
+   "id": "efek makanan",
    "src": "dataset"
   },
   {
    "ja": "薬",
    "en": "pot",
+   "zh-TW": "爆發藥",
+   "id": "ramuan",
    "src": "dataset"
   },
   {
    "ja": "飯",
    "en": "food",
+   "zh-TW": "食物",
+   "id": "makanan",
    "src": "dataset"
   },
   {
    "ja": "ご飯",
    "en": "a meal",
+   "zh-TW": "吃飯",
+   "id": "makan",
    "src": "curated"
   },
   {
    "ja": "飯落ち",
    "en": "AFK for a meal",
+   "zh-TW": "去吃飯",
+   "id": "pergi makan",
    "src": "curated"
   },
   {
    "ja": "ヒラ",
    "en": "healer",
+   "zh-TW": "治療",
+   "id": "penyembuh",
    "src": "dataset"
   },
   {
    "ja": "ピュアヒーラー",
    "en": "pure healer",
+   "zh-TW": "純治療",
+   "id": "penyembuh murni",
    "src": "curated"
   },
   {
    "ja": "ピュアヒラ",
    "en": "pure healer",
+   "zh-TW": "純治療",
+   "id": "penyembuh murni",
    "src": "curated"
   },
   {
    "ja": "純ヒラ",
    "en": "pure healer",
+   "zh-TW": "純治療",
+   "id": "penyembuh murni",
    "src": "curated"
   },
   {
    "ja": "バリアヒーラー",
    "en": "shield healer",
+   "zh-TW": "盾治療",
+   "id": "penyembuh perisai",
    "src": "curated"
   },
   {
    "ja": "バリアヒラ",
    "en": "shield healer",
+   "zh-TW": "盾治療",
+   "id": "penyembuh perisai",
    "src": "curated"
   },
   {
    "ja": "近接",
    "en": "melee",
+   "zh-TW": "近戰",
+   "id": "jarak dekat",
    "src": "dataset"
   },
   {
    "ja": "遠隔",
    "en": "ranged",
+   "zh-TW": "遠程",
+   "id": "jarak jauh",
    "src": "dataset"
   },
   {
    "ja": "物理遠隔",
    "en": "physical ranged",
+   "zh-TW": "遠程物理",
+   "id": "jarak jauh fisik",
    "src": "curated"
   },
   {
    "ja": "魔法遠隔",
    "en": "caster",
+   "zh-TW": "法系",
+   "id": "penyihir",
    "src": "curated"
   },
   {
    "ja": "キャス",
    "en": "caster",
+   "zh-TW": "法系",
+   "id": "penyihir",
    "src": "dataset"
   },
   {
    "ja": "レンジ",
    "en": "ranged",
+   "zh-TW": "遠程",
+   "id": "jarak jauh",
    "src": "dataset"
   },
   {
    "ja": "メイン盾",
    "en": "main tank",
+   "zh-TW": "主坦",
+   "id": "tank utama",
    "src": "curated"
   },
   {
    "ja": "初見",
    "en": "first-timer",
+   "zh-TW": "第一次打的人",
+   "id": "pemain pertama kali",
    "src": "dataset"
   },
   {
    "ja": "初見さん",
    "en": "first-timers",
+   "zh-TW": "第一次打的人",
+   "id": "pemain pertama kali",
    "src": "curated"
   },
   {
    "ja": "初見殺し",
    "en": "first-timer trap",
+   "zh-TW": "初見殺",
+   "id": "jebakan pemain baru",
    "src": "curated"
   },
   {
    "ja": "初見未予習",
    "en": "blind (no prep)",
+   "zh-TW": "完全沒看攻略",
+   "id": "tanpa persiapan sama sekali",
    "src": "dataset"
   },
   {
    "ja": "未予習",
    "en": "no prep",
+   "zh-TW": "沒看攻略",
+   "id": "belum belajar strategi",
    "src": "curated"
   },
   {
    "ja": "予習済",
    "en": "studied the fight",
+   "zh-TW": "已看過攻略",
+   "id": "sudah belajar strategi",
    "src": "dataset"
   },
   {
    "ja": "予習済み",
    "en": "studied the fight",
+   "zh-TW": "已看過攻略",
+   "id": "sudah belajar strategi",
    "src": "curated"
   },
   {
    "ja": "練習PT",
    "en": "practice party",
+   "zh-TW": "練習隊",
+   "id": "party latihan",
    "src": "dataset"
   },
   {
    "ja": "クリ目",
    "en": "clear party",
+   "zh-TW": "通關隊",
+   "id": "party target tamat",
    "src": "dataset"
   },
   {
    "ja": "クリア目的",
    "en": "aiming to clear",
+   "zh-TW": "以通關為目標",
+   "id": "bertujuan menamatkan",
    "src": "dataset"
   },
   {
    "ja": "クリパ",
    "en": "clear party",
+   "zh-TW": "通關隊",
+   "id": "party target tamat",
    "src": "curated"
   },
   {
    "ja": "クリパー",
    "en": "clear party",
+   "zh-TW": "通關隊",
+   "id": "party target tamat",
    "src": "dataset"
   },
   {
    "ja": "消化",
    "en": "weekly reclear",
+   "zh-TW": "每週通關",
+   "id": "tamat ulang mingguan",
    "src": "dataset"
   },
   {
    "ja": "消化PT",
    "en": "weekly reclear party",
+   "zh-TW": "每週通關隊",
+   "id": "party tamat ulang mingguan",
    "src": "dataset"
   },
   {
    "ja": "未消化",
    "en": "not cleared this week yet",
+   "zh-TW": "本週還沒通關",
+   "id": "belum tamat minggu ini",
    "src": "dataset"
   },
   {
    "ja": "消化済",
    "en": "already cleared this week",
+   "zh-TW": "本週已通關",
+   "id": "sudah tamat minggu ini",
    "src": "curated"
   },
   {
    "ja": "消化済み",
    "en": "already cleared this week",
+   "zh-TW": "本週已通關",
+   "id": "sudah tamat minggu ini",
    "src": "curated"
   },
   {
    "ja": "コン済",
    "en": "already cleared",
+   "zh-TW": "已通關",
+   "id": "sudah tamat",
    "src": "dataset"
   },
   {
    "ja": "周回",
    "en": "farming",
+   "zh-TW": "刷本",
+   "id": "main ulang",
    "src": "dataset"
   },
   {
    "ja": "断章",
    "en": "book run",
+   "zh-TW": "刷書",
+   "id": "main ulang demi buku",
    "src": "dataset"
   },
   {
    "ja": "ログ回収",
    "en": "book run",
+   "zh-TW": "刷書",
+   "id": "main ulang demi buku",
    "src": "dataset"
   },
   {
    "ja": "傭兵",
    "en": "merc",
+   "zh-TW": "傭兵",
+   "id": "tentara bayaran",
    "src": "dataset"
   },
   {
    "ja": "出荷",
    "en": "carry",
+   "zh-TW": "帶人",
+   "id": "gendong",
    "src": "dataset"
   },
   {
    "ja": "介護",
    "en": "carry",
+   "zh-TW": "帶人",
+   "id": "gendong",
    "src": "curated"
   },
   {
    "ja": "寄生",
    "en": "leeching",
+   "zh-TW": "蹭車",
+   "id": "numpang",
    "src": "curated"
   },
   {
    "ja": "練度上げ",
    "en": "skill-up runs",
+   "zh-TW": "練熟練度",
+   "id": "latihan biar lancar",
    "src": "dataset"
   },
   {
    "ja": "早期攻略",
    "en": "early prog",
+   "zh-TW": "早期開荒",
+   "id": "progres awal",
    "src": "dataset"
   },
   {
    "ja": "早期攻略組",
    "en": "early prog group",
+   "zh-TW": "早期開荒團",
+   "id": "grup progres awal",
    "src": "dataset"
   },
   {
    "ja": "固定",
    "en": "static",
+   "zh-TW": "固定隊",
+   "id": "grup tetap",
    "src": "dataset"
   },
   {
    "ja": "固定PT",
    "en": "static",
+   "zh-TW": "固定隊",
+   "id": "grup tetap",
    "src": "dataset"
   },
   {
    "ja": "固定募集",
    "en": "static recruitment",
+   "zh-TW": "固定隊招募",
+   "id": "rekrutmen grup tetap",
    "src": "dataset"
   },
   {
    "ja": "固定メンバー",
    "en": "static members",
+   "zh-TW": "固定隊成員",
+   "id": "anggota grup tetap",
    "src": "curated"
   },
   {
    "ja": "固定メン",
    "en": "static members",
+   "zh-TW": "固定隊成員",
+   "id": "anggota grup tetap",
    "src": "curated"
   },
   {
    "ja": "固定解散",
    "en": "static disbanded",
+   "zh-TW": "固定隊解散",
+   "id": "grup tetap bubar",
    "src": "dataset"
   },
   {
    "ja": "野良",
    "en": "PUG",
+   "zh-TW": "野團",
+   "id": "party acak",
    "src": "dataset"
   },
   {
    "ja": "野良PT",
    "en": "PUG party",
+   "zh-TW": "野團",
+   "id": "party acak",
    "src": "curated"
   },
   {
    "ja": "身内",
    "en": "friends",
+   "zh-TW": "熟人",
+   "id": "teman sendiri",
    "src": "dataset"
   },
   {
    "ja": "身内PT",
    "en": "friends' party",
+   "zh-TW": "熟人團",
+   "id": "party teman sendiri",
    "src": "curated"
   },
   {
    "ja": "フレ",
    "en": "friend",
+   "zh-TW": "好友",
+   "id": "teman",
    "src": "dataset"
   },
   {
    "ja": "フレ申請",
    "en": "friend request",
+   "zh-TW": "好友申請",
+   "id": "permintaan pertemanan",
    "src": "curated"
   },
   {
    "ja": "募集主",
    "en": "party leader",
+   "zh-TW": "團長",
+   "id": "ketua party",
    "src": "dataset"
   },
   {
    "ja": "募集文",
    "en": "PF description",
+   "zh-TW": "招募說明",
+   "id": "deskripsi rekrutmen",
    "src": "curated"
   },
   {
    "ja": "〆",
    "en": "taken",
+   "zh-TW": "已滿",
+   "id": "sudah terisi",
    "src": "dataset"
   },
   {
    "ja": "〆切",
    "en": "deadline",
+   "zh-TW": "截止",
+   "id": "batas waktu",
    "src": "curated"
   },
   {
    "ja": "〆切り",
    "en": "deadline",
+   "zh-TW": "截止",
+   "id": "batas waktu",
    "src": "curated"
   },
   {
    "ja": "済×",
    "en": "no cleared players",
+   "zh-TW": "不收已通關者",
+   "id": "tanpa pemain yang sudah tamat",
    "src": "dataset"
   },
   {
    "ja": "クリア済",
    "en": "already cleared",
+   "zh-TW": "已通關",
+   "id": "sudah tamat",
    "src": "dataset"
   },
   {
    "ja": "クリア済み",
    "en": "already cleared",
+   "zh-TW": "已通關",
+   "id": "sudah tamat",
    "src": "curated"
   },
   {
    "ja": "未クリア",
    "en": "not cleared yet",
+   "zh-TW": "未通關",
+   "id": "belum tamat",
    "src": "dataset"
   },
   {
    "ja": "今週未クリアのみ",
    "en": "only players who haven't cleared this week",
+   "zh-TW": "僅限本週未通關者",
+   "id": "hanya yang belum tamat minggu ini",
    "src": "dataset"
   },
   {
    "ja": "滅解散",
    "en": "wipes, then disband",
+   "zh-TW": "次團滅後解散",
+   "id": "kali gagal lalu bubar",
    "src": "curated"
   },
   {
    "ja": "3滅解散",
    "en": "disband after 3 wipes",
+   "zh-TW": "團滅3次後解散",
+   "id": "bubar setelah 3 kali gagal",
    "src": "dataset"
   },
   {
    "ja": "1飯ごとRC",
    "en": "ready check every food (30 min)",
+   "zh-TW": "每30分鐘（一次食物）確認是否繼續",
+   "id": "cek kesiapan tiap 30 menit (1 makanan)",
    "src": "dataset"
   },
   {
    "ja": "飯ごとRC",
    "en": "ready check every food (30 min)",
+   "zh-TW": "每30分鐘（一次食物）確認是否繼續",
+   "id": "cek kesiapan tiap 30 menit (1 makanan)",
    "src": "curated"
   },
   {
    "ja": "飯RC",
    "en": "food ready check",
+   "zh-TW": "食物時間確認",
+   "id": "cek kesiapan makanan",
    "src": "dataset"
   },
   {
    "ja": "継続RC",
    "en": "ready check to continue",
+   "zh-TW": "確認是否繼續",
+   "id": "cek kesiapan untuk lanjut",
    "src": "dataset"
   },
   {
    "ja": "RC",
    "en": "ready check",
+   "zh-TW": "準備確認",
+   "id": "cek kesiapan",
    "src": "curated"
   },
   {
    "ja": "CF",
    "en": "Duty Finder",
+   "zh-TW": "任務搜尋器",
+   "id": "Duty Finder",
    "src": "dataset"
   },
   {
    "ja": "コンテンツファインダー",
    "en": "Duty Finder",
+   "zh-TW": "任務搜尋器",
+   "id": "Duty Finder",
    "src": "curated"
   },
   {
    "ja": "PT",
    "en": "party",
+   "zh-TW": "隊伍",
+   "id": "party",
    "src": "dataset"
   },
   {
    "ja": "ルレ",
    "en": "roulette",
+   "zh-TW": "隨機任務",
+   "id": "roulette",
    "src": "dataset"
   },
   {
    "ja": "エキルレ",
    "en": "expert roulette",
+   "zh-TW": "專家隨機任務",
+   "id": "roulette expert",
    "src": "dataset"
   },
   {
    "ja": "レベルレ",
    "en": "leveling roulette",
+   "zh-TW": "練級隨機任務",
+   "id": "roulette leveling",
    "src": "curated"
   },
   {
    "ja": "レベリングルレ",
    "en": "leveling roulette",
+   "zh-TW": "練級隨機任務",
+   "id": "roulette leveling",
    "src": "curated"
   },
   {
    "ja": "メインルレ",
    "en": "MSQ roulette",
+   "zh-TW": "主線隨機任務",
+   "id": "roulette MSQ",
    "src": "curated"
   },
   {
    "ja": "アラルレ",
    "en": "alliance raid roulette",
+   "zh-TW": "同盟團隊隨機任務",
+   "id": "roulette alliance raid",
    "src": "curated"
   },
   {
    "ja": "討滅ルレ",
    "en": "trial roulette",
+   "zh-TW": "討伐戰隨機任務",
+   "id": "roulette trial",
    "src": "curated"
   },
   {
    "ja": "ノマルレ",
    "en": "normal raid roulette",
+   "zh-TW": "普通大型任務隨機任務",
+   "id": "roulette normal raid",
    "src": "curated"
   },
   {
    "ja": "メンタールレ",
    "en": "mentor roulette",
+   "zh-TW": "指導者隨機任務",
+   "id": "roulette mentor",
    "src": "curated"
   },
   {
    "ja": "零式",
    "en": "Savage",
+   "zh-TW": "零式",
+   "id": "Savage",
    "src": "dataset"
   },
   {
    "ja": "1層",
    "en": "floor 1",
+   "zh-TW": "1層",
+   "id": "lantai 1",
    "src": "curated"
   },
   {
    "ja": "2層",
    "en": "floor 2",
+   "zh-TW": "2層",
+   "id": "lantai 2",
    "src": "curated"
   },
   {
    "ja": "3層",
    "en": "floor 3",
+   "zh-TW": "3層",
+   "id": "lantai 3",
    "src": "curated"
   },
   {
    "ja": "4層",
    "en": "floor 4",
+   "zh-TW": "4層",
+   "id": "lantai 4",
    "src": "curated"
   },
   {
    "ja": "絶",
    "en": "Ultimate",
+   "zh-TW": "絕",
+   "id": "Ultimate",
    "next": "katakana",
    "src": "dataset"
   },
   {
    "ja": "極",
    "en": "Extreme",
+   "zh-TW": "極",
+   "id": "Extreme",
    "next": "katakana",
    "src": "curated"
   },
   {
    "ja": "幻",
    "en": "Unreal",
+   "zh-TW": "幻",
+   "id": "Unreal",
    "next": "katakana",
    "src": "dataset"
   },
   {
    "ja": "討滅戦",
    "en": "trial",
+   "zh-TW": "討伐戰",
+   "id": "trial",
    "src": "curated"
   },
   {
    "ja": "極討滅戦",
    "en": "Extreme trial",
+   "zh-TW": "極神討伐戰",
+   "id": "trial Extreme",
    "src": "curated"
   },
   {
    "ja": "幻討滅戦",
    "en": "Unreal trial",
+   "zh-TW": "幻巧戰",
+   "id": "trial Unreal",
    "src": "dataset"
   },
   {
    "ja": "蛮神",
    "en": "primal",
+   "zh-TW": "蠻神",
+   "id": "primal",
    "src": "dataset"
   },
   {
    "ja": "極蛮神",
    "en": "Extreme primal",
+   "zh-TW": "極神",
+   "id": "primal Extreme",
    "src": "curated"
   },
   {
    "ja": "絶バハ",
    "en": "UCoB",
+   "zh-TW": "絕巴哈",
+   "id": "UCoB",
    "src": "curated"
   },
   {
    "ja": "絶アルテマ",
    "en": "UWU",
+   "zh-TW": "絕神兵",
+   "id": "UWU",
    "src": "curated"
   },
   {
    "ja": "絶アレキ",
    "en": "TEA",
+   "zh-TW": "絕亞歷山大",
+   "id": "TEA",
    "src": "curated"
   },
   {
    "ja": "絶竜詩",
    "en": "DSR",
+   "zh-TW": "絕龍詩",
+   "id": "DSR",
    "src": "curated"
   },
   {
    "ja": "絶オメガ",
    "en": "TOP",
+   "zh-TW": "絕歐米茄",
+   "id": "TOP",
    "src": "curated"
   },
   {
    "ja": "絶エデン",
    "en": "FRU",
+   "zh-TW": "絕伊甸",
+   "id": "FRU",
    "src": "curated"
   },
   {
    "ja": "絶もうひとつの未来",
    "en": "FRU",
+   "zh-TW": "絕伊甸",
+   "id": "FRU",
    "src": "curated"
   },
   {
    "ja": "死者の宮殿",
    "en": "Palace of the Dead",
+   "zh-TW": "死者宮殿",
+   "id": "Palace of the Dead",
    "src": "dataset"
   },
   {
    "ja": "アメノミハシラ",
    "en": "Heaven-on-High",
+   "zh-TW": "天之御柱",
+   "id": "Heaven-on-High",
    "src": "curated"
   },
   {
    "ja": "オルト・エウレカ",
    "en": "Eureka Orthos",
+   "zh-TW": "正統優雷卡",
+   "id": "Eureka Orthos",
    "src": "curated"
   },
   {
    "ja": "ボズヤ",
    "en": "Bozja",
+   "zh-TW": "博茲雅",
+   "id": "Bozja",
    "src": "curated"
   },
   {
    "ja": "南方ボズヤ戦線",
    "en": "Bozjan Southern Front",
+   "zh-TW": "南方博茲雅戰線",
+   "id": "Bozjan Southern Front",
    "src": "curated"
   },
   {
    "ja": "クリタワ",
    "en": "Crystal Tower",
+   "zh-TW": "水晶塔",
+   "id": "Crystal Tower",
    "src": "dataset"
   },
   {
    "ja": "ギャザクラ",
    "en": "gatherers and crafters",
+   "zh-TW": "採集與製作職業",
+   "id": "pengumpul dan pengrajin",
    "src": "curated"
   },
   {
    "ja": "ギャザ",
    "en": "gatherer",
+   "zh-TW": "採集職業",
+   "id": "pengumpul",
    "src": "curated"
   },
   {
    "ja": "ギャザラー",
    "en": "gatherer",
+   "zh-TW": "採集職業",
+   "id": "pengumpul",
    "src": "curated"
   },
   {
    "ja": "モブハン",
    "en": "hunts",
+   "zh-TW": "怪物狩獵",
+   "id": "perburuan monster",
    "src": "dataset"
   },
   {
    "ja": "モブハント",
    "en": "hunts",
+   "zh-TW": "怪物狩獵",
+   "id": "perburuan monster",
    "src": "curated"
   },
   {
    "ja": "トレハン",
    "en": "treasure hunt",
+   "zh-TW": "挖寶",
+   "id": "berburu harta karun",
    "src": "dataset"
   },
   {
    "ja": "ミラプリ",
    "en": "glamour",
+   "zh-TW": "幻化",
+   "id": "ubah tampilan",
    "src": "dataset"
   },
   {
    "ja": "マケボ",
    "en": "market board",
+   "zh-TW": "市場布告板",
+   "id": "papan pasar",
    "src": "dataset"
   },
   {
    "ja": "リテ",
    "en": "retainer",
+   "zh-TW": "雇員",
+   "id": "asisten",
    "src": "curated"
   },
   {
    "ja": "テル",
    "en": "tell",
+   "zh-TW": "悄悄話",
+   "id": "pesan pribadi",
    "src": "dataset"
   },
   {
    "ja": "テレポ",
    "en": "teleport",
+   "zh-TW": "傳送",
+   "id": "teleportasi",
    "src": "curated"
   },
   {
    "ja": "デジョン",
    "en": "Return",
+   "zh-TW": "返回",
+   "id": "Return",
    "src": "curated"
   },
   {
    "ja": "シャキる",
    "en": "the queue pops",
+   "zh-TW": "排到了",
+   "id": "antrean muncul",
    "src": "dataset"
   },
   {
    "ja": "シャキった",
    "en": "the queue popped",
+   "zh-TW": "排到了",
+   "id": "antreannya sudah muncul",
    "src": "curated"
   },
   {
    "ja": "シャキッた",
    "en": "the queue popped",
+   "zh-TW": "排到了",
+   "id": "antreannya sudah muncul",
    "src": "curated"
   },
   {
    "ja": "即抜け",
    "en": "leaving right away",
+   "zh-TW": "秒退",
+   "id": "langsung keluar",
    "src": "dataset"
   },
   {
    "ja": "途中抜け",
    "en": "leaving partway",
+   "zh-TW": "中途退出",
+   "id": "keluar di tengah jalan",
    "src": "curated"
   },
   {
    "ja": "途中参加",
    "en": "joining partway",
+   "zh-TW": "中途加入",
+   "id": "ikut di tengah jalan",
    "src": "curated"
   },
   {
    "ja": "回線",
    "en": "connection",
+   "zh-TW": "網路",
+   "id": "koneksi",
    "src": "dataset"
   },
   {
    "ja": "回線落ち",
    "en": "disconnect",
+   "zh-TW": "斷線",
+   "id": "koneksi putus",
    "src": "dataset"
   },
   {
    "ja": "回線悪い",
    "en": "bad connection",
+   "zh-TW": "網路很差",
+   "id": "koneksi jelek",
    "src": "dataset"
   },
   {
    "ja": "回線不安定",
    "en": "unstable connection",
+   "zh-TW": "網路不穩",
+   "id": "koneksi tidak stabil",
    "src": "dataset"
   },
   {
    "ja": "鯖",
    "en": "server",
+   "zh-TW": "伺服器",
+   "id": "server",
    "src": "dataset"
   },
   {
    "ja": "鯖落ち",
    "en": "server crash",
+   "zh-TW": "伺服器當機",
+   "id": "server mati",
    "src": "curated"
   },
   {
    "ja": "鯖移動",
    "en": "server transfer",
+   "zh-TW": "轉伺服器",
+   "id": "pindah server",
    "src": "curated"
   },
   {
    "ja": "同鯖",
    "en": "same server",
+   "zh-TW": "同伺服器",
+   "id": "server yang sama",
    "src": "curated"
   },
   {
    "ja": "過疎鯖",
    "en": "low-pop server",
+   "zh-TW": "人少的伺服器",
+   "id": "server sepi",
    "src": "dataset"
   },
   {
    "ja": "過密鯖",
    "en": "high-pop server",
+   "zh-TW": "人多的伺服器",
+   "id": "server ramai",
    "src": "dataset"
   },
   {
    "ja": "外人鯖",
    "en": "non-Japanese server",
+   "zh-TW": "非日本伺服器",
+   "id": "server non-Jepang",
    "src": "dataset"
   },
   {
    "ja": "イフ鯖",
    "en": "Ifrit server",
+   "zh-TW": "伊弗利特伺服器",
+   "id": "server Ifrit",
    "src": "dataset"
   },
   {
    "ja": "ウニ鯖",
    "en": "Unicorn server",
+   "zh-TW": "獨角獸伺服器",
+   "id": "server Unicorn",
    "src": "dataset"
   },
   {
    "ja": "鞄鯖",
    "en": "Carbuncle server",
+   "zh-TW": "卡邦庫爾伺服器",
+   "id": "server Carbuncle",
    "src": "dataset"
   },
   {
    "ja": "聖鯖",
    "en": "Alexander server",
+   "zh-TW": "亞歷山大伺服器",
+   "id": "server Alexander",
    "src": "dataset"
   },
   {
    "ja": "バハ鯖",
    "en": "Bahamut server",
+   "zh-TW": "巴哈姆特伺服器",
+   "id": "server Bahamut",
    "src": "dataset"
   },
   {
    "ja": "垢",
    "en": "account",
+   "zh-TW": "帳號",
+   "id": "akun",
    "src": "dataset"
   },
   {
    "ja": "サブ垢",
    "en": "alt account",
+   "zh-TW": "小號",
+   "id": "akun kedua",
    "src": "curated"
   },
   {
    "ja": "メイン垢",
    "en": "main account",
+   "zh-TW": "大號",
+   "id": "akun utama",
    "src": "curated"
   },
   {
    "ja": "複垢",
    "en": "multiple accounts",
+   "zh-TW": "多個帳號",
+   "id": "banyak akun",
    "src": "curated"
   },
   {
    "ja": "垢BAN",
    "en": "account ban",
+   "zh-TW": "封號",
+   "id": "akun diblokir",
    "src": "curated"
   },
   {
    "ja": "離席",
    "en": "AFK",
+   "zh-TW": "暫離",
+   "id": "AFK",
    "src": "curated"
   },
   {
    "ja": "トイレ",
    "en": "bathroom",
+   "zh-TW": "廁所",
+   "id": "kamar mandi",
    "src": "curated"
   },
   {
    "ja": "地雷",
    "en": "problem player",
+   "zh-TW": "雷包",
+   "id": "pemain bermasalah",
    "src": "dataset"
   },
   {
    "ja": "晒し",
    "en": "public callout",
+   "zh-TW": "公開掛人",
+   "id": "mempermalukan di publik",
    "src": "curated"
   },
   {
    "ja": "テロ",
    "en": "wipe-causing mistake",
+   "zh-TW": "害團滅的失誤",
+   "id": "kesalahan yang bikin semua mati",
    "src": "dataset"
   },
   {
    "ja": "戦犯",
    "en": "the one who caused the wipe",
+   "zh-TW": "戰犯",
+   "id": "biang kerok",
    "src": "curated"
   },
   {
    "ja": "害悪",
    "en": "toxic",
+   "zh-TW": "毒瘤",
+   "id": "meresahkan",
    "src": "curated"
   },
   {
    "ja": "エアプ",
    "en": "armchair expert who never played it",
+   "zh-TW": "雲玩家",
+   "id": "sok tahu padahal nggak pernah main",
    "src": "curated"
   },
   {
    "ja": "姫ちゃん",
    "en": "e-princess",
+   "zh-TW": "公主病玩家",
+   "id": "putri manja",
    "src": "dataset"
   },
   {
    "ja": "ネカマ",
    "en": "guy playing a girl character",
+   "zh-TW": "人妖",
+   "id": "cowok yang main karakter cewek",
    "src": "dataset"
   },
   {
    "ja": "直結",
    "en": "creep looking for a date",
+   "zh-TW": "求偶狂",
+   "id": "buaya darat",
    "src": "dataset"
   },
   {
    "ja": "直結厨",
    "en": "creep looking for a date",
+   "zh-TW": "求偶狂",
+   "id": "buaya darat",
    "src": "curated"
   },
   {
    "ja": "ちゃH",
    "en": "ERP",
+   "zh-TW": "文愛",
+   "id": "chat mesum",
    "src": "dataset"
   },
   {
    "ja": "中の人",
    "en": "the player behind the character",
+   "zh-TW": "中之人",
+   "id": "orang di balik karakter",
    "src": "dataset"
   },
   {
    "ja": "ヒカセン",
    "en": "Warrior of Light",
+   "zh-TW": "光之戰士",
+   "id": "Warrior of Light",
    "src": "dataset"
   },
   {
    "ja": "ヤミセン",
    "en": "Warrior of Darkness",
+   "zh-TW": "暗之戰士",
+   "id": "Warrior of Darkness",
    "src": "dataset"
   },
   {
    "ja": "吉P",
    "en": "Yoshi-P",
+   "zh-TW": "吉P",
+   "id": "Yoshi-P",
    "src": "curated"
   },
   {
    "ja": "廃人",
    "en": "no-lifer",
+   "zh-TW": "肝帝",
+   "id": "maniak game",
    "src": "dataset"
   },
   {
    "ja": "ガチ勢",
    "en": "hardcore players",
+   "zh-TW": "硬核玩家",
+   "id": "pemain serius",
    "src": "curated"
   },
   {
    "ja": "エンジョイ勢",
    "en": "casual players",
+   "zh-TW": "休閒玩家",
+   "id": "pemain santai",
    "src": "curated"
   },
   {
    "ja": "ライト勢",
    "en": "casual players",
+   "zh-TW": "休閒玩家",
+   "id": "pemain santai",
    "src": "dataset"
   },
   {
    "ja": "復帰勢",
    "en": "returning players",
+   "zh-TW": "回鍋玩家",
+   "id": "pemain yang kembali",
    "src": "curated"
   },
   {
    "ja": "復帰者",
    "en": "returning player",
+   "zh-TW": "回鍋玩家",
+   "id": "pemain yang kembali",
    "src": "dataset"
   },
   {
    "ja": "若葉",
    "en": "sprout (new player)",
+   "zh-TW": "新手",
+   "id": "pemula",
    "src": "dataset"
   },
   {
    "ja": "カンスト",
    "en": "max level",
+   "zh-TW": "滿級",
+   "id": "level maksimal",
    "src": "dataset"
   },
   {
    "ja": "緩和",
    "en": "nerf",
+   "zh-TW": "削弱",
+   "id": "dilemahkan",
    "src": "dataset"
   },
   {
    "ja": "上方修正",
    "en": "buff",
+   "zh-TW": "加強",
+   "id": "diperkuat",
    "src": "curated"
   },
   {
    "ja": "下方修正",
    "en": "nerf",
+   "zh-TW": "削弱",
+   "id": "dilemahkan",
    "src": "curated"
   },
   {
    "ja": "エオ婚",
    "en": "in-game marriage",
+   "zh-TW": "遊戲內結婚",
+   "id": "nikah di game",
    "src": "dataset"
   },
   {
    "ja": "エタバン",
    "en": "Eternal Bond",
+   "zh-TW": "永結同心",
+   "id": "Eternal Bond",
    "src": "dataset"
   },
   {
    "ja": "エオ彼",
    "en": "in-game partner",
+   "zh-TW": "遊戲內的另一半",
+   "id": "pacar di game",
    "src": "dataset"
   },
   {
    "ja": "初クリア",
    "en": "first clear",
+   "zh-TW": "首次通關",
+   "id": "tamat pertama kali",
    "src": "curated"
   },
   {
    "ja": "まったり",
    "en": "casual",
+   "zh-TW": "悠閒",
+   "id": "santai",
    "src": "dataset"
   },
   {
    "ja": "誤爆",
    "en": "wrong-channel message",
+   "zh-TW": "發錯頻道",
+   "id": "salah kirim ke kanal lain",
    "src": "dataset"
   },
   {
    "ja": "取り抜け",
    "en": "loot-and-leave",
+   "zh-TW": "拿一件就退",
+   "id": "ambil satu lalu keluar",
    "src": "dataset"
   },
   {
    "ja": "取りぬけ",
    "en": "loot-and-leave",
+   "zh-TW": "拿一件就退",
+   "id": "ambil satu lalu keluar",
    "src": "dataset"
   },
   {
    "ja": "左から取り抜け",
    "en": "loot-and-leave from left to right",
+   "zh-TW": "從左到右輪流拿一件就退",
+   "id": "urut dari kiri, ambil satu lalu keluar",
    "src": "dataset"
   },
   {
    "ja": "左取り抜け",
    "en": "left-to-right loot-and-leave",
+   "zh-TW": "從左到右輪流拿一件就退",
+   "id": "urut dari kiri, ambil satu lalu keluar",
    "src": "dataset"
   },
   {
    "ja": "上から取り抜け",
    "en": "loot-and-leave from the top",
+   "zh-TW": "從上到下輪流拿一件就退",
+   "id": "urut dari atas, ambil satu lalu keluar",
    "src": "curated"
   },
   {
    "ja": "希望制",
    "en": "loot reservation",
+   "zh-TW": "預約裝備制",
+   "id": "sistem pesan barang",
    "src": "dataset"
   },
   {
    "ja": "武器希望制",
    "en": "weapon reservation",
+   "zh-TW": "預約武器制",
+   "id": "sistem pesan senjata",
    "src": "dataset"
   },
   {
    "ja": "希望制あり",
    "en": "loot reservations allowed",
+   "zh-TW": "可預約裝備",
+   "id": "boleh pesan barang",
    "src": "dataset"
   },
   {
    "ja": "フリロ",
    "en": "free loot",
+   "zh-TW": "自由擲骰",
+   "id": "bebas roll",
    "src": "dataset"
   },
   {
    "ja": "フリーロット",
    "en": "free loot",
+   "zh-TW": "自由擲骰",
+   "id": "bebas roll",
    "src": "dataset"
   },
   {
    "ja": "ロットフリー",
    "en": "free loot",
+   "zh-TW": "自由擲骰",
+   "id": "bebas roll",
    "src": "dataset"
   },
   {
    "ja": "ロット自由",
    "en": "free loot",
+   "zh-TW": "自由擲骰",
+   "id": "bebas roll",
    "src": "dataset"
   },
   {
    "ja": "グリ制",
    "en": "greed only",
+   "zh-TW": "只能選貪婪",
+   "id": "hanya Greed",
    "src": "dataset"
   },
   {
    "ja": "ぐリ制",
    "en": "greed only",
+   "zh-TW": "只能選貪婪",
+   "id": "hanya Greed",
    "src": "dataset"
   },
   {
    "ja": "グリパ",
    "en": "greed party",
+   "zh-TW": "貪婪隊",
+   "id": "party Greed",
    "src": "curated"
   },
   {
    "ja": "グリパー",
    "en": "greed party",
+   "zh-TW": "貪婪隊",
+   "id": "party Greed",
    "src": "dataset"
   },
   {
    "ja": "先ロット禁止",
    "en": "no rolling ahead",
+   "zh-TW": "禁止提前擲骰",
+   "id": "dilarang roll duluan",
    "src": "dataset"
   },
   {
    "ja": "ロット",
    "en": "roll",
+   "zh-TW": "擲骰",
+   "id": "roll",
    "src": "dataset"
   },
   {
    "ja": "ニード",
    "en": "Need",
+   "zh-TW": "需求",
+   "id": "Need",
    "src": "dataset"
   },
   {
    "ja": "グリード",
    "en": "Greed",
+   "zh-TW": "貪婪",
+   "id": "Greed",
    "src": "dataset"
   },
   {
    "ja": "パス",
    "en": "pass",
+   "zh-TW": "放棄",
+   "id": "Pass",
    "src": "dataset"
   },
   {
    "ja": "箱",
    "en": "coffer",
+   "zh-TW": "裝備箱",
+   "id": "peti",
    "src": "curated"
   },
   {
    "ja": "武器箱",
    "en": "weapon coffer",
+   "zh-TW": "武器箱",
+   "id": "peti senjata",
    "src": "curated"
   },
   {
    "ja": "胴箱",
    "en": "body coffer",
+   "zh-TW": "身體裝備箱",
+   "id": "peti baju",
    "src": "curated"
   },
   {
    "ja": "頭箱",
    "en": "head coffer",
+   "zh-TW": "頭部裝備箱",
+   "id": "peti kepala",
    "src": "curated"
   },
   {
    "ja": "手箱",
    "en": "hands coffer",
+   "zh-TW": "手部裝備箱",
+   "id": "peti tangan",
    "src": "curated"
   },
   {
    "ja": "脚箱",
    "en": "legs coffer",
+   "zh-TW": "腿部裝備箱",
+   "id": "peti celana",
    "src": "curated"
   },
   {
    "ja": "足箱",
    "en": "feet coffer",
+   "zh-TW": "腳部裝備箱",
+   "id": "peti sepatu",
    "src": "curated"
   },
   {
    "ja": "アクセ箱",
    "en": "accessory coffer",
+   "zh-TW": "首飾箱",
+   "id": "peti aksesori",
    "src": "curated"
   },
   {
    "ja": "宝箱",
    "en": "treasure chest",
+   "zh-TW": "寶箱",
+   "id": "peti harta",
    "src": "curated"
   },
   {
    "ja": "強化素材",
    "en": "upgrade materials",
+   "zh-TW": "強化素材",
+   "id": "bahan penguat",
    "src": "curated"
   },
   {
    "ja": "新式",
    "en": "crafted gear",
+   "zh-TW": "生產裝備",
+   "id": "perlengkapan buatan pengrajin",
    "src": "dataset"
   },
   {
    "ja": "新式装備",
    "en": "crafted gear",
+   "zh-TW": "生產裝備",
+   "id": "perlengkapan buatan pengrajin",
    "src": "dataset"
   },
   {
    "ja": "最終装備",
    "en": "BiS",
+   "zh-TW": "畢業裝",
+   "id": "perlengkapan terbaik",
    "src": "dataset"
   },
   {
    "ja": "禁断",
    "en": "overmeld",
+   "zh-TW": "禁斷鑲嵌",
+   "id": "pasang materia ekstra",
    "src": "dataset"
   },
   {
    "ja": "禁断必須",
    "en": "overmelds required",
+   "zh-TW": "必須禁斷鑲嵌",
+   "id": "wajib pasang materia ekstra",
    "src": "dataset"
   },
   {
    "ja": "穴あき",
    "en": "unmelded",
+   "zh-TW": "沒鑲魔晶石",
+   "id": "materia belum dipasang",
    "src": "curated"
   },
   {
    "ja": "穴空き",
    "en": "unmelded",
+   "zh-TW": "沒鑲魔晶石",
+   "id": "materia belum dipasang",
    "src": "dataset"
   },
   {
    "ja": "穴あき不可",
    "en": "no unmelded gear",
+   "zh-TW": "不接受沒鑲魔晶石",
+   "id": "materia wajib terpasang",
    "src": "dataset"
   },
   {
    "ja": "下限",
    "en": "min ilvl",
+   "zh-TW": "最低裝等",
+   "id": "ilvl minimum",
    "src": "dataset"
   },
   {
    "ja": "IL下限",
    "en": "min ilvl",
+   "zh-TW": "最低裝等",
+   "id": "ilvl minimum",
    "src": "curated"
   },
   {
    "ja": "制限解除",
    "en": "unsynced",
+   "zh-TW": "解除限制",
+   "id": "tanpa sinkronisasi",
    "src": "dataset"
   },
   {
    "ja": "詩学",
    "en": "Poetics",
+   "zh-TW": "詩學神典石",
+   "id": "Poetics",
    "src": "curated"
   },
   {
    "ja": "軍票",
    "en": "company seals",
+   "zh-TW": "軍票",
+   "id": "Company Seal",
    "src": "dataset"
   },
   {
    "ja": "譜面",
    "en": "orchestrion roll",
+   "zh-TW": "樂譜",
+   "id": "gulungan orchestrion",
    "src": "dataset"
   },
   {
    "ja": "ナイト",
    "en": "Paladin",
+   "zh-TW": "騎士",
+   "id": "Paladin",
    "src": "dataset"
   },
   {
    "ja": "暗黒騎士",
    "en": "Dark Knight",
+   "zh-TW": "暗黑騎士",
+   "id": "Dark Knight",
    "src": "dataset"
   },
   {
    "ja": "暗黒",
    "en": "Dark Knight",
+   "zh-TW": "暗黑騎士",
+   "id": "Dark Knight",
    "src": "dataset"
   },
   {
    "ja": "ガンブレイカー",
    "en": "Gunbreaker",
+   "zh-TW": "絕槍戰士",
+   "id": "Gunbreaker",
    "src": "dataset"
   },
   {
    "ja": "ガンブレ",
    "en": "Gunbreaker",
+   "zh-TW": "絕槍戰士",
+   "id": "Gunbreaker",
    "src": "dataset"
   },
   {
    "ja": "白魔道士",
    "en": "White Mage",
+   "zh-TW": "白魔法師",
+   "id": "White Mage",
    "src": "dataset"
   },
   {
    "ja": "白魔",
    "en": "White Mage",
+   "zh-TW": "白魔法師",
+   "id": "White Mage",
    "src": "curated"
   },
   {
    "ja": "占星術師",
    "en": "Astrologian",
+   "zh-TW": "占星術士",
+   "id": "Astrologian",
    "src": "dataset"
   },
   {
    "ja": "占星",
    "en": "Astrologian",
+   "zh-TW": "占星術士",
+   "id": "Astrologian",
    "src": "curated"
   },
   {
    "ja": "竜騎士",
    "en": "Dragoon",
+   "zh-TW": "龍騎士",
+   "id": "Dragoon",
    "src": "dataset"
   },
   {
    "ja": "竜騎",
    "en": "Dragoon",
+   "zh-TW": "龍騎士",
+   "id": "Dragoon",
    "src": "curated"
   },
   {
    "ja": "吟遊詩人",
    "en": "Bard",
+   "zh-TW": "吟遊詩人",
+   "id": "Bard",
    "src": "dataset"
   },
   {
    "ja": "詩人",
    "en": "Bard",
+   "zh-TW": "吟遊詩人",
+   "id": "Bard",
    "src": "dataset"
   },
   {
    "ja": "機工士",
    "en": "Machinist",
+   "zh-TW": "機工士",
+   "id": "Machinist",
    "src": "dataset"
   },
   {
    "ja": "機工",
    "en": "Machinist",
+   "zh-TW": "機工士",
+   "id": "Machinist",
    "src": "curated"
   },
   {
    "ja": "黒魔道士",
    "en": "Black Mage",
+   "zh-TW": "黑魔法師",
+   "id": "Black Mage",
    "src": "dataset"
   },
   {
    "ja": "黒魔",
    "en": "Black Mage",
+   "zh-TW": "黑魔法師",
+   "id": "Black Mage",
    "src": "curated"
   },
   {
    "ja": "召喚士",
    "en": "Summoner",
+   "zh-TW": "召喚師",
+   "id": "Summoner",
    "src": "dataset"
   },
   {
    "ja": "赤魔道士",
    "en": "Red Mage",
+   "zh-TW": "赤魔法師",
+   "id": "Red Mage",
    "src": "dataset"
   },
   {
    "ja": "赤魔",
    "en": "Red Mage",
+   "zh-TW": "赤魔法師",
+   "id": "Red Mage",
    "src": "curated"
   },
   {
    "ja": "ピクトマンサー",
    "en": "Pictomancer",
+   "zh-TW": "繪靈法師",
+   "id": "Pictomancer",
    "src": "dataset"
   },
   {
    "ja": "ピクト",
    "en": "Pictomancer",
+   "zh-TW": "繪靈法師",
+   "id": "Pictomancer",
    "src": "curated"
   },
   {
    "ja": "青魔道士",
    "en": "Blue Mage",
+   "zh-TW": "青魔法師",
+   "id": "Blue Mage",
    "src": "dataset"
   },
   {
    "ja": "青魔",
    "en": "Blue Mage",
+   "zh-TW": "青魔法師",
+   "id": "Blue Mage",
    "src": "dataset"
   },
   {
    "ja": "木工師",
    "en": "Carpenter",
+   "zh-TW": "刻木匠",
+   "id": "Carpenter",
    "src": "dataset"
   },
   {
    "ja": "鍛冶師",
    "en": "Blacksmith",
+   "zh-TW": "鍛鐵匠",
+   "id": "Blacksmith",
    "src": "dataset"
   },
   {
    "ja": "甲冑師",
    "en": "Armorer",
+   "zh-TW": "鑄甲匠",
+   "id": "Armorer",
    "src": "dataset"
   },
   {
    "ja": "彫金師",
    "en": "Goldsmith",
+   "zh-TW": "雕金匠",
+   "id": "Goldsmith",
    "src": "dataset"
   },
   {
    "ja": "革細工師",
    "en": "Leatherworker",
+   "zh-TW": "製革匠",
+   "id": "Leatherworker",
    "src": "dataset"
   },
   {
    "ja": "裁縫師",
    "en": "Weaver",
+   "zh-TW": "裁衣匠",
+   "id": "Weaver",
    "src": "dataset"
   },
   {
    "ja": "錬金術師",
    "en": "Alchemist",
+   "zh-TW": "煉金術士",
+   "id": "Alchemist",
    "src": "dataset"
   },
   {
    "ja": "調理師",
    "en": "Culinarian",
+   "zh-TW": "烹調師",
+   "id": "Culinarian",
    "src": "dataset"
   },
   {
    "ja": "園芸師",
    "en": "Botanist",
+   "zh-TW": "園藝工",
+   "id": "Botanist",
    "src": "dataset"
   },
   {
    "ja": "漁師",
    "en": "Fisher",
+   "zh-TW": "捕魚人",
+   "id": "Fisher",
    "src": "dataset"
   },
   {
    "ja": "採掘師",
    "en": "Miner",
+   "zh-TW": "採礦工",
+   "id": "Miner",
    "src": "dataset"
   },
   {
    "ja": "ナ〆",
    "en": "PLD taken",
+   "zh-TW": "騎士已滿",
+   "id": "PLD sudah terisi",
    "src": "curated"
   },
   {
    "ja": "戦〆",
    "en": "WAR taken",
+   "zh-TW": "戰士已滿",
+   "id": "WAR sudah terisi",
    "src": "curated"
   },
   {
    "ja": "暗〆",
    "en": "DRK taken",
+   "zh-TW": "暗黑騎士已滿",
+   "id": "DRK sudah terisi",
    "src": "curated"
   },
   {
    "ja": "ガ〆",
    "en": "GNB taken",
+   "zh-TW": "絕槍戰士已滿",
+   "id": "GNB sudah terisi",
    "src": "curated"
   },
   {
    "ja": "白〆",
    "en": "WHM taken",
+   "zh-TW": "白魔法師已滿",
+   "id": "WHM sudah terisi",
    "src": "curated"
   },
   {
    "ja": "学〆",
    "en": "SCH taken",
+   "zh-TW": "學者已滿",
+   "id": "SCH sudah terisi",
    "src": "curated"
   },
   {
    "ja": "占〆",
    "en": "AST taken",
+   "zh-TW": "占星術士已滿",
+   "id": "AST sudah terisi",
    "src": "curated"
   },
   {
    "ja": "賢〆",
    "en": "SGE taken",
+   "zh-TW": "賢者已滿",
+   "id": "SGE sudah terisi",
    "src": "curated"
   },
   {
    "ja": "モ〆",
    "en": "MNK taken",
+   "zh-TW": "武僧已滿",
+   "id": "MNK sudah terisi",
    "src": "curated"
   },
   {
    "ja": "竜〆",
    "en": "DRG taken",
+   "zh-TW": "龍騎士已滿",
+   "id": "DRG sudah terisi",
    "src": "curated"
   },
   {
    "ja": "忍〆",
    "en": "NIN taken",
+   "zh-TW": "忍者已滿",
+   "id": "NIN sudah terisi",
    "src": "curated"
   },
   {
    "ja": "侍〆",
    "en": "SAM taken",
+   "zh-TW": "武士已滿",
+   "id": "SAM sudah terisi",
    "src": "curated"
   },
   {
    "ja": "リ〆",
    "en": "RPR taken",
+   "zh-TW": "釤鐮客已滿",
+   "id": "RPR sudah terisi",
    "src": "curated"
   },
   {
    "ja": "ヴ〆",
    "en": "VPR taken",
+   "zh-TW": "蝰蛇劍士已滿",
+   "id": "VPR sudah terisi",
    "src": "curated"
   },
   {
    "ja": "詩〆",
    "en": "BRD taken",
+   "zh-TW": "吟遊詩人已滿",
+   "id": "BRD sudah terisi",
    "src": "curated"
   },
   {
    "ja": "機〆",
    "en": "MCH taken",
+   "zh-TW": "機工士已滿",
+   "id": "MCH sudah terisi",
    "src": "curated"
   },
   {
    "ja": "踊〆",
    "en": "DNC taken",
+   "zh-TW": "舞者已滿",
+   "id": "DNC sudah terisi",
    "src": "curated"
   },
   {
    "ja": "黒〆",
    "en": "BLM taken",
+   "zh-TW": "黑魔法師已滿",
+   "id": "BLM sudah terisi",
    "src": "curated"
   },
   {
    "ja": "召〆",
    "en": "SMN taken",
+   "zh-TW": "召喚師已滿",
+   "id": "SMN sudah terisi",
    "src": "curated"
   },
   {
    "ja": "赤〆",
    "en": "RDM taken",
+   "zh-TW": "赤魔法師已滿",
+   "id": "RDM sudah terisi",
    "src": "curated"
   },
   {
    "ja": "ピ〆",
    "en": "PCT taken",
+   "zh-TW": "繪靈法師已滿",
+   "id": "PCT sudah terisi",
    "src": "curated"
   },
   {
    "ja": "青〆",
    "en": "BLU taken",
+   "zh-TW": "青魔法師已滿",
+   "id": "BLU sudah terisi",
    "src": "curated"
   },
   {
    "ja": "ララフェル",
    "en": "Lalafell",
+   "zh-TW": "拉拉菲爾族",
+   "id": "Lalafell",
    "src": "dataset"
   },
   {
    "ja": "ララ",
    "en": "Lalafell",
+   "zh-TW": "拉拉菲爾族",
+   "id": "Lalafell",
    "src": "curated"
   },
   {
    "ja": "ミコッテ",
    "en": "Miqo'te",
+   "zh-TW": "貓魅族",
+   "id": "Miqo'te",
    "src": "dataset"
   },
   {
    "ja": "ルガディン",
    "en": "Roegadyn",
+   "zh-TW": "魯加族",
+   "id": "Roegadyn",
    "src": "dataset"
   },
   {
    "ja": "ルガ",
    "en": "Roegadyn",
+   "zh-TW": "魯加族",
+   "id": "Roegadyn",
    "src": "curated"
   },
   {
    "ja": "アウラ",
    "en": "Au Ra",
+   "zh-TW": "敖龍族",
+   "id": "Au Ra",
    "src": "dataset"
   },
   {
    "ja": "ヴィエラ",
    "en": "Viera",
+   "zh-TW": "維埃拉族",
+   "id": "Viera",
    "src": "dataset"
   },
   {
    "ja": "ビエラ",
    "en": "Viera",
+   "zh-TW": "維埃拉族",
+   "id": "Viera",
    "src": "dataset"
   },
   {
    "ja": "ロスガル",
    "en": "Hrothgar",
+   "zh-TW": "硌獅族",
+   "id": "Hrothgar",
    "src": "dataset"
   },
   {
    "ja": "エレゼン",
    "en": "Elezen",
+   "zh-TW": "精靈族",
+   "id": "Elezen",
    "src": "dataset"
   },
   {
    "ja": "ヒューラン",
    "en": "Hyur",
+   "zh-TW": "人族",
+   "id": "Hyur",
    "src": "curated"
   },
   {
    "ja": "ヒュラン",
    "en": "Hyur",
+   "zh-TW": "人族",
+   "id": "Hyur",
    "src": "dataset"
   },
   {
    "ja": "オスッテ",
    "en": "male Miqo'te",
+   "zh-TW": "男貓魅",
+   "id": "Miqo'te cowok",
    "src": "dataset"
   },
   {
    "ja": "メスッテ",
    "en": "female Miqo'te",
+   "zh-TW": "女貓魅",
+   "id": "Miqo'te cewek",
    "src": "dataset"
   },
   {
    "ja": "オスラ",
    "en": "male Au Ra",
+   "zh-TW": "男敖龍",
+   "id": "Au Ra cowok",
    "src": "dataset"
   },
   {
    "ja": "メスラ",
    "en": "female Au Ra",
+   "zh-TW": "女敖龍",
+   "id": "Au Ra cewek",
    "src": "dataset"
   },
   {
    "ja": "オスララ",
    "en": "male Lalafell",
+   "zh-TW": "男拉拉菲爾",
+   "id": "Lalafell cowok",
    "src": "dataset"
   },
   {
    "ja": "メスララ",
    "en": "female Lalafell",
+   "zh-TW": "女拉拉菲爾",
+   "id": "Lalafell cewek",
    "src": "dataset"
   },
   {
    "ja": "エレオス",
    "en": "male Elezen",
+   "zh-TW": "男精靈",
+   "id": "Elezen cowok",
    "src": "dataset"
   },
   {
    "ja": "エレメス",
    "en": "female Elezen",
+   "zh-TW": "女精靈",
+   "id": "Elezen cewek",
    "src": "dataset"
   },
   {
    "ja": "ルガ姉",
    "en": "female Roegadyn",
+   "zh-TW": "魯加族女性",
+   "id": "Roegadyn cewek",
    "src": "dataset"
   },
   {
    "ja": "新生エオルゼア",
    "en": "A Realm Reborn",
+   "zh-TW": "重生之境",
+   "id": "A Realm Reborn",
    "src": "dataset"
   },
   {
    "ja": "蒼天のイシュガルド",
    "en": "Heavensward",
+   "zh-TW": "蒼穹之禁城",
+   "id": "Heavensward",
    "src": "dataset"
   },
   {
    "ja": "蒼天",
    "en": "Heavensward",
+   "zh-TW": "蒼穹之禁城",
+   "id": "Heavensward",
    "src": "dataset"
   },
   {
    "ja": "紅蓮のリベレーター",
    "en": "Stormblood",
+   "zh-TW": "紅蓮之狂潮",
+   "id": "Stormblood",
    "src": "curated"
   },
   {
    "ja": "紅蓮",
    "en": "Stormblood",
+   "zh-TW": "紅蓮之狂潮",
+   "id": "Stormblood",
    "src": "dataset"
   },
   {
    "ja": "漆黒のヴィランズ",
    "en": "Shadowbringers",
+   "zh-TW": "暗影之逆焰",
+   "id": "Shadowbringers",
    "src": "dataset"
   },
   {
    "ja": "漆黒",
    "en": "Shadowbringers",
+   "zh-TW": "暗影之逆焰",
+   "id": "Shadowbringers",
    "src": "dataset"
   },
   {
    "ja": "暁月のフィナーレ",
    "en": "Endwalker",
+   "zh-TW": "曉月之終途",
+   "id": "Endwalker",
    "src": "curated"
   },
   {
    "ja": "暁月",
    "en": "Endwalker",
+   "zh-TW": "曉月之終途",
+   "id": "Endwalker",
    "src": "curated"
   },
   {
    "ja": "黄金のレガシー",
    "en": "Dawntrail",
+   "zh-TW": "金曦之遺輝",
+   "id": "Dawntrail",
    "src": "curated"
   },
   {
    "ja": "メインクエ",
    "en": "MSQ",
+   "zh-TW": "主線任務",
+   "id": "misi cerita utama",
    "src": "dataset"
   },
   {
    "ja": "メインクエスト",
    "en": "MSQ",
+   "zh-TW": "主線任務",
+   "id": "misi cerita utama",
    "src": "curated"
   },
   {
    "ja": "サブクエ",
    "en": "side quest",
+   "zh-TW": "支線任務",
+   "id": "misi sampingan",
    "src": "curated"
   },
   {
    "ja": "クエ",
    "en": "quest",
+   "zh-TW": "任務",
+   "id": "misi",
    "src": "curated"
   },
   {
    "ja": "蛮族",
    "en": "beast tribe",
+   "zh-TW": "友好部族",
+   "id": "suku sekutu",
    "src": "dataset"
   },
   {
    "ja": "蛮族クエ",
    "en": "beast tribe quests",
+   "zh-TW": "友好部族任務",
+   "id": "misi suku sekutu",
    "src": "curated"
   },
   {
    "ja": "蛮族クエスト",
    "en": "beast tribe quests",
+   "zh-TW": "友好部族任務",
+   "id": "misi suku sekutu",
    "src": "dataset"
   },
   {
    "ja": "リーヴ",
    "en": "levequest",
+   "zh-TW": "理符任務",
+   "id": "levequest",
    "src": "curated"
   },
   {
    "ja": "バハ",
    "en": "Bahamut",
+   "zh-TW": "巴哈姆特",
+   "id": "Bahamut",
    "src": "dataset"
+  },
+  {
+   "ja": "バハムート",
+   "en": "Bahamut",
+   "zh-TW": "巴哈姆特",
+   "id": "Bahamut",
+   "src": "dataset"
+  },
+  {
+   "ja": "シヴァ",
+   "en": "Shiva",
+   "zh-TW": "希瓦",
+   "id": "Shiva",
+   "src": "curated"
+  },
+  {
+   "ja": "イフリート",
+   "en": "Ifrit",
+   "zh-TW": "伊弗利特",
+   "id": "Ifrit",
+   "src": "dataset"
+  },
+  {
+   "ja": "タイタン",
+   "en": "Titan",
+   "zh-TW": "泰坦",
+   "id": "Titan",
+   "src": "dataset"
+  },
+  {
+   "ja": "ガルーダ",
+   "en": "Garuda",
+   "zh-TW": "迦樓羅",
+   "id": "Garuda",
+   "src": "dataset"
+  },
+  {
+   "ja": "ラムウ",
+   "en": "Ramuh",
+   "zh-TW": "拉姆",
+   "id": "Ramuh",
+   "src": "dataset"
+  },
+  {
+   "ja": "リヴァイアサン",
+   "en": "Leviathan",
+   "zh-TW": "利維坦",
+   "id": "Leviathan",
+   "src": "curated"
+  },
+  {
+   "ja": "オーディン",
+   "en": "Odin",
+   "zh-TW": "奧丁",
+   "id": "Odin",
+   "src": "curated"
   },
   {
    "ja": "アレキ",
    "en": "Alexander",
+   "zh-TW": "亞歷山大",
+   "id": "Alexander",
    "src": "dataset"
   },
   {
    "ja": "よろしくお願いします",
    "en": "Hello, let's do our best!",
+   "zh-TW": "你好，請多指教，一起加油！",
+   "id": "Halo, mohon kerja samanya ya!",
    "mode": "phrase",
    "src": "dataset"
   },
   {
    "ja": "よろしくおねがいします",
    "en": "Hello, let's do our best!",
+   "zh-TW": "你好，請多指教，一起加油！",
+   "id": "Halo, mohon kerja samanya ya!",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "よろしくお願いいたします",
    "en": "Hello, let's do our best!",
+   "zh-TW": "你好，請多指教，一起加油！",
+   "id": "Halo, mohon kerja samanya ya!",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "よろしくお願い致します",
    "en": "Hello, let's do our best!",
+   "zh-TW": "你好，請多指教，一起加油！",
+   "id": "Halo, mohon kerja samanya ya!",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "よろしくです",
    "en": "Hello, let's do our best!",
+   "zh-TW": "你好，請多指教，一起加油！",
+   "id": "Halo, mohon kerja samanya ya!",
    "mode": "phrase",
    "src": "dataset"
   },
   {
    "ja": "よろしくっす",
    "en": "Hello, let's do our best!",
+   "zh-TW": "你好，請多指教，一起加油！",
+   "id": "Halo, mohon kerja samanya ya!",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "よろしく",
    "en": "Hello, let's do our best!",
+   "zh-TW": "你好，請多指教，一起加油！",
+   "id": "Halo, mohon kerja samanya ya!",
    "mode": "phrase",
    "src": "dataset"
   },
   {
    "ja": "よろしくー",
    "en": "Hello, let's do our best!",
+   "zh-TW": "你好，請多指教，一起加油！",
+   "id": "Halo, mohon kerja samanya ya!",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "よろです",
    "en": "Hello, let's do our best!",
+   "zh-TW": "你好，請多指教，一起加油！",
+   "id": "Halo, mohon kerja samanya ya!",
    "mode": "phrase",
    "src": "dataset"
   },
   {
    "ja": "よろしゃす",
    "en": "Hello, let's do our best!",
+   "zh-TW": "你好，請多指教，一起加油！",
+   "id": "Halo, mohon kerja samanya ya!",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "よろ",
    "en": "Hello, let's do our best!",
+   "zh-TW": "你好，請多指教，一起加油！",
+   "id": "Halo, mohon kerja samanya ya!",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "よろー",
    "en": "Hello, let's do our best!",
+   "zh-TW": "你好，請多指教，一起加油！",
+   "id": "Halo, mohon kerja samanya ya!",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "初見です",
    "en": "It's my first time here.",
+   "zh-TW": "我是第一次打。",
+   "id": "Ini pertama kalinya aku di sini.",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "お疲れ様でした",
    "en": "Good work, thank you!",
+   "zh-TW": "辛苦了，謝謝！",
+   "id": "Kerja bagus, terima kasih!",
    "mode": "phrase",
    "src": "dataset"
   },
   {
    "ja": "お疲れさまでした",
    "en": "Good work, thank you!",
+   "zh-TW": "辛苦了，謝謝！",
+   "id": "Kerja bagus, terima kasih!",
    "mode": "phrase",
    "src": "dataset"
   },
   {
    "ja": "おつかれさまでした",
    "en": "Good work, thank you!",
+   "zh-TW": "辛苦了，謝謝！",
+   "id": "Kerja bagus, terima kasih!",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "おつかれでした",
    "en": "Good work, thank you!",
+   "zh-TW": "辛苦了，謝謝！",
+   "id": "Kerja bagus, terima kasih!",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "お疲れ様です",
    "en": "Hi, good work!",
+   "zh-TW": "嗨，辛苦了！",
+   "id": "Halo, kerja bagus!",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "お疲れさまです",
    "en": "Hi, good work!",
+   "zh-TW": "嗨，辛苦了！",
+   "id": "Halo, kerja bagus!",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "おつかれさまです",
    "en": "Hi, good work!",
+   "zh-TW": "嗨，辛苦了！",
+   "id": "Halo, kerja bagus!",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "お疲れ様",
    "en": "Good work!",
+   "zh-TW": "辛苦了！",
+   "id": "Kerja bagus!",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "お疲れさま",
    "en": "Good work!",
+   "zh-TW": "辛苦了！",
+   "id": "Kerja bagus!",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "おつかれさま",
    "en": "Good work!",
+   "zh-TW": "辛苦了！",
+   "id": "Kerja bagus!",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "お疲れ",
    "en": "Good work!",
+   "zh-TW": "辛苦了！",
+   "id": "Kerja bagus!",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "おつかれ",
    "en": "Good work!",
+   "zh-TW": "辛苦了！",
+   "id": "Kerja bagus!",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "おつかれー",
    "en": "Good work!",
+   "zh-TW": "辛苦了！",
+   "id": "Kerja bagus!",
    "mode": "phrase",
    "src": "dataset"
   },
   {
    "ja": "おつ",
    "en": "Good work!",
+   "zh-TW": "辛苦了！",
+   "id": "Kerja bagus!",
    "mode": "phrase",
    "src": "dataset"
   },
   {
    "ja": "おつー",
    "en": "Good work!",
+   "zh-TW": "辛苦了！",
+   "id": "Kerja bagus!",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "おつです",
    "en": "Good work!",
+   "zh-TW": "辛苦了！",
+   "id": "Kerja bagus!",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "おつでした",
    "en": "Good work!",
+   "zh-TW": "辛苦了！",
+   "id": "Kerja bagus!",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "おつおつ",
    "en": "Good work!",
+   "zh-TW": "辛苦了！",
+   "id": "Kerja bagus!",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "乙",
    "en": "Good work!",
+   "zh-TW": "辛苦了！",
+   "id": "Kerja bagus!",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "乙です",
    "en": "Good work!",
+   "zh-TW": "辛苦了！",
+   "id": "Kerja bagus!",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "ありがとうございました",
    "en": "Thank you very much!",
+   "zh-TW": "非常感謝！",
+   "id": "Terima kasih banyak!",
    "mode": "phrase",
    "src": "dataset"
   },
   {
    "ja": "ありがとうございます",
    "en": "Thank you!",
+   "zh-TW": "謝謝！",
+   "id": "Terima kasih!",
    "mode": "phrase",
    "src": "dataset"
   },
   {
    "ja": "ありがとう",
    "en": "Thanks!",
+   "zh-TW": "謝啦！",
+   "id": "Makasih!",
    "mode": "phrase",
    "src": "dataset"
   },
   {
    "ja": "ありがと",
    "en": "Thanks!",
+   "zh-TW": "謝啦！",
+   "id": "Makasih!",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "あざす",
    "en": "Thanks!",
+   "zh-TW": "謝啦！",
+   "id": "Makasih!",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "あざっす",
    "en": "Thanks!",
+   "zh-TW": "謝啦！",
+   "id": "Makasih!",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "あざます",
    "en": "Thanks!",
+   "zh-TW": "謝啦！",
+   "id": "Makasih!",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "あざーす",
    "en": "Thanks!",
+   "zh-TW": "謝啦！",
+   "id": "Makasih!",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "あざまーす",
    "en": "Thanks!",
+   "zh-TW": "謝啦！",
+   "id": "Makasih!",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "さんくす",
    "en": "Thanks!",
+   "zh-TW": "謝啦！",
+   "id": "Makasih!",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "サンクス",
    "en": "Thanks!",
+   "zh-TW": "謝啦！",
+   "id": "Makasih!",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "せんくす",
    "en": "Thanks!",
+   "zh-TW": "謝啦！",
+   "id": "Makasih!",
    "mode": "phrase",
    "src": "dataset"
   },
   {
    "ja": "PTありがとうございました",
    "en": "Thanks for grouping with me!",
+   "zh-TW": "謝謝大家一起組隊！",
+   "id": "Makasih sudah main bareng!",
    "mode": "phrase",
    "src": "dataset"
   },
   {
    "ja": "すみません",
    "en": "Sorry!",
+   "zh-TW": "抱歉！",
+   "id": "Maaf!",
    "mode": "phrase",
    "src": "dataset"
   },
   {
    "ja": "すいません",
    "en": "Sorry!",
+   "zh-TW": "抱歉！",
+   "id": "Maaf!",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "すまん",
    "en": "Sorry!",
+   "zh-TW": "抱歉！",
+   "id": "Maaf!",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "すまぬ",
    "en": "Sorry!",
+   "zh-TW": "抱歉！",
+   "id": "Maaf!",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "ごめんなさい",
    "en": "I'm sorry!",
+   "zh-TW": "對不起！",
+   "id": "Maaf ya!",
    "mode": "phrase",
    "src": "dataset"
   },
   {
    "ja": "ごめん",
    "en": "Sorry!",
+   "zh-TW": "抱歉！",
+   "id": "Maaf!",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "ごめんね",
    "en": "Sorry!",
+   "zh-TW": "抱歉！",
+   "id": "Maaf!",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "申し訳ない",
    "en": "I'm sorry.",
+   "zh-TW": "抱歉。",
+   "id": "Maaf.",
    "mode": "phrase",
    "src": "dataset"
   },
   {
    "ja": "申し訳ないです",
    "en": "I'm sorry.",
+   "zh-TW": "抱歉。",
+   "id": "Maaf.",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "申し訳ありません",
    "en": "I'm very sorry.",
+   "zh-TW": "非常抱歉。",
+   "id": "Mohon maaf sekali.",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "ミスりました",
    "en": "My bad!",
+   "zh-TW": "我的錯！",
+   "id": "Salahku!",
    "mode": "phrase",
    "src": "dataset"
   },
   {
    "ja": "ミスった",
    "en": "My bad!",
+   "zh-TW": "我的錯！",
+   "id": "Salahku!",
    "mode": "phrase",
    "src": "dataset"
   },
   {
    "ja": "ミスです",
    "en": "My bad!",
+   "zh-TW": "我的錯！",
+   "id": "Salahku!",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "ミスしました",
    "en": "My bad!",
+   "zh-TW": "我的錯！",
+   "id": "Salahku!",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "どんまい",
    "en": "Don't worry about it!",
+   "zh-TW": "別在意！",
+   "id": "Nggak apa-apa!",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "ドンマイ",
    "en": "Don't worry about it!",
+   "zh-TW": "別在意！",
+   "id": "Nggak apa-apa!",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "どんまいです",
    "en": "Don't worry about it!",
+   "zh-TW": "別在意！",
+   "id": "Nggak apa-apa!",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "ドンマイです",
    "en": "Don't worry about it!",
+   "zh-TW": "別在意！",
+   "id": "Nggak apa-apa!",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "ナイス",
    "en": "Nice!",
+   "zh-TW": "漂亮！",
+   "id": "Mantap!",
    "mode": "phrase",
    "src": "dataset"
   },
   {
    "ja": "ないす",
    "en": "Nice!",
+   "zh-TW": "漂亮！",
+   "id": "Mantap!",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "ナイスです",
    "en": "Nice!",
+   "zh-TW": "漂亮！",
+   "id": "Mantap!",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "ないすー",
    "en": "Nice!",
+   "zh-TW": "漂亮！",
+   "id": "Mantap!",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "了解",
    "en": "Got it.",
+   "zh-TW": "了解。",
+   "id": "Oke, siap.",
    "mode": "phrase",
    "src": "dataset"
   },
   {
    "ja": "了解です",
    "en": "Got it.",
+   "zh-TW": "了解。",
+   "id": "Oke, siap.",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "了解しました",
    "en": "Understood.",
+   "zh-TW": "明白了。",
+   "id": "Dimengerti.",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "承知しました",
    "en": "Understood.",
+   "zh-TW": "明白了。",
+   "id": "Dimengerti.",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "りょ",
    "en": "Got it.",
+   "zh-TW": "了解。",
+   "id": "Oke, siap.",
    "mode": "phrase",
    "src": "dataset"
   },
   {
    "ja": "りょー",
    "en": "Got it.",
+   "zh-TW": "了解。",
+   "id": "Oke, siap.",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "りょです",
    "en": "Got it.",
+   "zh-TW": "了解。",
+   "id": "Oke, siap.",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "りょうかい",
    "en": "Got it.",
+   "zh-TW": "了解。",
+   "id": "Oke, siap.",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "りょーかい",
    "en": "Got it.",
+   "zh-TW": "了解。",
+   "id": "Oke, siap.",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "おけ",
    "en": "OK!",
+   "zh-TW": "好喔！",
+   "id": "Oke!",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "おけです",
    "en": "OK!",
+   "zh-TW": "好喔！",
+   "id": "Oke!",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "おk",
    "en": "OK!",
+   "zh-TW": "好喔！",
+   "id": "Oke!",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "おっけー",
    "en": "OK!",
+   "zh-TW": "好喔！",
+   "id": "Oke!",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "おーけー",
    "en": "OK!",
+   "zh-TW": "好喔！",
+   "id": "Oke!",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "はい",
    "en": "Yes.",
+   "zh-TW": "好。",
+   "id": "Ya.",
    "mode": "phrase",
    "src": "dataset"
   },
   {
    "ja": "いいえ",
    "en": "No.",
+   "zh-TW": "不是。",
+   "id": "Tidak.",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "大丈夫です",
    "en": "It's all right.",
+   "zh-TW": "沒關係。",
+   "id": "Nggak apa-apa.",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "大丈夫ですか",
    "en": "Are you okay?",
+   "zh-TW": "你還好嗎？",
+   "id": "Kamu nggak apa-apa?",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "大丈夫ですか?",
    "en": "Are you okay?",
+   "zh-TW": "你還好嗎？",
+   "id": "Kamu nggak apa-apa?",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "戻りました",
    "en": "I'm back.",
+   "zh-TW": "我回來了。",
+   "id": "Aku sudah kembali.",
    "mode": "phrase",
    "src": "dataset"
   },
   {
    "ja": "もどりました",
    "en": "I'm back.",
+   "zh-TW": "我回來了。",
+   "id": "Aku sudah kembali.",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "ただいま",
    "en": "I'm back.",
+   "zh-TW": "我回來了。",
+   "id": "Aku sudah kembali.",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "ただいまです",
    "en": "I'm back.",
+   "zh-TW": "我回來了。",
+   "id": "Aku sudah kembali.",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "おかえり",
    "en": "Welcome back!",
+   "zh-TW": "歡迎回來！",
+   "id": "Selamat datang kembali!",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "おかえりなさい",
    "en": "Welcome back!",
+   "zh-TW": "歡迎回來！",
+   "id": "Selamat datang kembali!",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "おかえりー",
    "en": "Welcome back!",
+   "zh-TW": "歡迎回來！",
+   "id": "Selamat datang kembali!",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "落ちます",
    "en": "I'm logging off now.",
+   "zh-TW": "我先下線了。",
+   "id": "Aku keluar game dulu ya.",
    "mode": "phrase",
    "src": "dataset"
   },
   {
    "ja": "おちます",
    "en": "I'm logging off now.",
+   "zh-TW": "我先下線了。",
+   "id": "Aku keluar game dulu ya.",
    "mode": "phrase",
    "src": "dataset"
   },
   {
    "ja": "落ちますね",
    "en": "I'm logging off now.",
+   "zh-TW": "我先下線了。",
+   "id": "Aku keluar game dulu ya.",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "そろそろ落ちます",
    "en": "I'll be logging off soon.",
+   "zh-TW": "我差不多要下線了。",
+   "id": "Sebentar lagi aku keluar game.",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "おやすみなさい",
    "en": "Good night!",
+   "zh-TW": "晚安！",
+   "id": "Selamat malam!",
    "mode": "phrase",
    "src": "dataset"
   },
   {
    "ja": "おやすみ",
    "en": "Good night!",
+   "zh-TW": "晚安！",
+   "id": "Selamat malam!",
    "mode": "phrase",
    "src": "dataset"
   },
   {
    "ja": "また明日",
    "en": "See you tomorrow!",
+   "zh-TW": "明天見！",
+   "id": "Sampai besok!",
    "mode": "phrase",
    "src": "dataset"
   },
   {
    "ja": "またね",
    "en": "See you!",
+   "zh-TW": "再見！",
+   "id": "Sampai jumpa!",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "ノシ",
    "en": "Bye! (waves)",
+   "zh-TW": "掰掰！（揮手）",
+   "id": "Dadah! (melambai)",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "ノ",
    "en": "o/ (me!)",
+   "zh-TW": "o/（我！）",
+   "id": "o/ (aku!)",
    "mode": "phrase",
    "src": "dataset"
   },
   {
    "ja": "抜けます",
    "en": "I'll leave the party now.",
+   "zh-TW": "我先退出隊伍了。",
+   "id": "Aku keluar dari party dulu.",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "離席します",
    "en": "Going AFK for a moment.",
+   "zh-TW": "暫離一下。",
+   "id": "AFK sebentar ya.",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "ちょっとトイレ",
    "en": "Quick bathroom break.",
+   "zh-TW": "去一下廁所。",
+   "id": "Ke kamar mandi sebentar.",
    "mode": "phrase",
    "src": "dataset"
   },
   {
    "ja": "回線落ちました",
    "en": "I got disconnected.",
+   "zh-TW": "我斷線了。",
+   "id": "Koneksiku putus.",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "回線落ちしました",
    "en": "I got disconnected.",
+   "zh-TW": "我斷線了。",
+   "id": "Koneksiku putus.",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "次ラスト",
    "en": "The next attempt is the last one.",
+   "zh-TW": "下一把是最後一把。",
+   "id": "Percobaan berikutnya yang terakhir.",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "次でラスト",
    "en": "The next attempt is the last one.",
+   "zh-TW": "下一把是最後一把。",
+   "id": "Percobaan berikutnya yang terakhir.",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "次ラストで",
    "en": "The next attempt is the last one.",
+   "zh-TW": "下一把是最後一把。",
+   "id": "Percobaan berikutnya yang terakhir.",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "次のラストです",
    "en": "The next attempt is the last one.",
+   "zh-TW": "下一把是最後一把。",
+   "id": "Percobaan berikutnya yang terakhir.",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "次ラストです",
    "en": "The next attempt is the last one.",
+   "zh-TW": "下一把是最後一把。",
+   "id": "Percobaan berikutnya yang terakhir.",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "ラストです",
    "en": "This is the last attempt.",
+   "zh-TW": "這是最後一把。",
+   "id": "Ini percobaan terakhir.",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "ラスト",
    "en": "Last one!",
+   "zh-TW": "最後一把！",
+   "id": "Terakhir!",
    "mode": "phrase",
    "src": "dataset"
   },
   {
    "ja": "もう一回",
    "en": "One more time!",
+   "zh-TW": "再來一次！",
+   "id": "Sekali lagi!",
    "mode": "phrase",
    "src": "dataset"
   },
   {
    "ja": "もう一度",
    "en": "One more time!",
+   "zh-TW": "再來一次！",
+   "id": "Sekali lagi!",
    "mode": "phrase",
    "src": "dataset"
   },
   {
    "ja": "ギブで",
    "en": "Let's vote to abandon.",
+   "zh-TW": "我們投票放棄吧。",
+   "id": "Ayo voting menyerah.",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "ギブしましょう",
    "en": "Let's vote to abandon.",
+   "zh-TW": "我們投票放棄吧。",
+   "id": "Ayo voting menyerah.",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "ギブします",
    "en": "I'll vote to abandon.",
+   "zh-TW": "我投放棄。",
+   "id": "Aku voting menyerah.",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "解散で",
    "en": "Let's disband the party.",
+   "zh-TW": "解散隊伍吧。",
+   "id": "Ayo bubarkan party.",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "解散しましょう",
    "en": "Let's disband the party.",
+   "zh-TW": "解散隊伍吧。",
+   "id": "Ayo bubarkan party.",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "解散します",
    "en": "Disbanding the party.",
+   "zh-TW": "隊伍解散了。",
+   "id": "Party dibubarkan.",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "〇",
    "en": "Yes / ready.",
+   "zh-TW": "好／準備好了。",
+   "id": "Ya / siap.",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "○",
    "en": "Yes / ready.",
+   "zh-TW": "好／準備好了。",
+   "id": "Ya / siap.",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "◯",
    "en": "Yes / ready.",
+   "zh-TW": "好／準備好了。",
+   "id": "Ya / siap.",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "マル",
    "en": "Ready.",
+   "zh-TW": "準備好了。",
+   "id": "Siap.",
    "mode": "phrase",
    "src": "dataset"
   },
   {
    "ja": "マルです",
    "en": "Ready.",
+   "zh-TW": "準備好了。",
+   "id": "Siap.",
    "mode": "phrase",
    "src": "dataset"
   },
   {
    "ja": "×",
    "en": "No / not ready.",
+   "zh-TW": "不行／還沒準備好。",
+   "id": "Tidak / belum siap.",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "✕",
    "en": "No / not ready.",
+   "zh-TW": "不行／還沒準備好。",
+   "id": "Tidak / belum siap.",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "バツ",
    "en": "No.",
+   "zh-TW": "不行。",
+   "id": "Tidak.",
+   "mode": "phrase",
+   "src": "curated"
+  },
+  {
+   "ja": "w",
+   "en": "lol",
+   "zh-TW": "哈哈",
+   "id": "wkwk",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "草",
    "en": "lol",
+   "zh-TW": "哈哈",
+   "id": "wkwk",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "草生える",
    "en": "lol",
+   "zh-TW": "哈哈",
+   "id": "wkwk",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "草生えた",
    "en": "lol",
+   "zh-TW": "哈哈",
+   "id": "wkwk",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "草はえる",
    "en": "lol",
+   "zh-TW": "哈哈",
+   "id": "wkwk",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "大草原",
    "en": "LOL",
+   "zh-TW": "哈哈哈哈",
+   "id": "WKWKWK",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "ワロタ",
    "en": "lol",
+   "zh-TW": "哈哈",
+   "id": "wkwk",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "おめでとう",
    "en": "Congrats!",
+   "zh-TW": "恭喜！",
+   "id": "Selamat!",
    "mode": "phrase",
    "src": "dataset"
   },
   {
    "ja": "おめでとうございます",
    "en": "Congratulations!",
+   "zh-TW": "恭喜恭喜！",
+   "id": "Selamat ya!",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "おめでとー",
    "en": "Congrats!",
+   "zh-TW": "恭喜！",
+   "id": "Selamat!",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "おめ",
    "en": "Congrats!",
+   "zh-TW": "恭喜！",
+   "id": "Selamat!",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "おめー",
    "en": "Congrats!",
+   "zh-TW": "恭喜！",
+   "id": "Selamat!",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "おめおめ",
    "en": "Congrats!",
+   "zh-TW": "恭喜！",
+   "id": "Selamat!",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "やったー",
    "en": "Yay!",
+   "zh-TW": "耶！",
+   "id": "Yeay!",
    "mode": "phrase",
    "src": "dataset"
   },
   {
    "ja": "クリアおめでとう",
    "en": "Congrats on the clear!",
+   "zh-TW": "恭喜通關！",
+   "id": "Selamat sudah tamat!",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "クリアおめでとうございます",
    "en": "Congratulations on the clear!",
+   "zh-TW": "恭喜通關！",
+   "id": "Selamat sudah tamat!",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "がんばりましょう",
    "en": "Let's do our best!",
+   "zh-TW": "一起加油吧！",
+   "id": "Ayo semangat!",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "頑張りましょう",
    "en": "Let's do our best!",
+   "zh-TW": "一起加油吧！",
+   "id": "Ayo semangat!",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "がんばろう",
    "en": "Let's do our best!",
+   "zh-TW": "一起加油吧！",
+   "id": "Ayo semangat!",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "頑張ろう",
    "en": "Let's do our best!",
+   "zh-TW": "一起加油吧！",
+   "id": "Ayo semangat!",
    "mode": "phrase",
    "src": "dataset"
   },
   {
    "ja": "気楽にやりましょう",
    "en": "Let's take it easy!",
+   "zh-TW": "輕鬆打就好！",
+   "id": "Santai saja!",
    "mode": "phrase",
    "src": "dataset"
   },
   {
    "ja": "少々お待ちください",
    "en": "One moment, please.",
+   "zh-TW": "請稍等一下。",
+   "id": "Tunggu sebentar ya.",
    "mode": "phrase",
    "src": "dataset"
   },
   {
    "ja": "お待ちください",
    "en": "Please wait.",
+   "zh-TW": "請稍等。",
+   "id": "Mohon tunggu.",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "おまちを",
    "en": "One moment, please.",
+   "zh-TW": "請稍等一下。",
+   "id": "Tunggu sebentar ya.",
    "mode": "phrase",
    "src": "dataset"
   },
   {
    "ja": "お先に失礼します",
    "en": "I'll head out first. Bye!",
+   "zh-TW": "我先走了，掰掰！",
+   "id": "Aku duluan ya, dadah!",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "失礼します",
    "en": "Excuse me.",
+   "zh-TW": "打擾了。",
+   "id": "Permisi.",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "お邪魔します",
    "en": "Hi, joining you!",
+   "zh-TW": "打擾了，我加入囉！",
+   "id": "Permisi, ikut gabung ya!",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "お邪魔しました",
    "en": "Thanks for having me!",
+   "zh-TW": "打擾了，謝謝！",
+   "id": "Makasih sudah diajak!",
    "mode": "phrase",
    "src": "curated"
   },
   {
    "ja": "草",
    "en": "lol",
+   "zh-TW": "哈哈",
+   "id": "wkwk",
    "next": "end",
    "src": "curated"
   },
   {
    "ja": "笑",
    "en": "lol",
+   "zh-TW": "哈哈",
+   "id": "wkwk",
    "next": "end",
    "src": "dataset"
   }

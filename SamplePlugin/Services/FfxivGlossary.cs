@@ -14,16 +14,18 @@ namespace SamplePlugin.Services;
 /// FFXIV glossary applied to Japanese text before it reaches the translator.
 /// Google translates JP raid callouts, Party Finder shorthand and chat slang
 /// literally (消化 → "digestion", 頭割り → "head split", 野良 → "stray"), so
-/// those terms are swapped for their English community equivalents first and
-/// Google only has to translate the grammar around them.
+/// those terms are swapped for the words the community uses in the target
+/// language first and Google only has to translate the grammar around them.
 ///
 /// Entries live in <c>Data/ffxiv_jp_glossary.json</c>, embedded at build time
 /// and compiled from <c>Data/ffxiv_jp_en_dataset.json</c> plus curated
-/// additions. They come in two kinds:
+/// additions. Every entry carries a rendering per target language (en, zh-TW,
+/// id), so a Chinese or Indonesian translation never falls back to English
+/// jargon. Entries come in two kinds:
 /// <list type="bullet">
 /// <item><b>phrase</b>: a whole chat line (よろしくお願いします, おつ, 草). Used
-/// only when every segment of a message is a known entry; the English is then
-/// composed directly and Google never sees the Japanese.</item>
+/// only when every segment of a message is a known entry; the line is then
+/// composed directly in the target language and Google never sees it.</item>
 /// <item><b>term</b>: jargon injected inside a sentence, with script-boundary
 /// checks so it never fires inside a longer word (ナイト in ナイトメア, 線 in
 /// 直線).</item>
@@ -32,6 +34,7 @@ namespace SamplePlugin.Services;
 public sealed class FfxivGlossary
 {
     private const string ResourceName = "dududeshu.ffxiv_jp_glossary.json";
+    private const string English = "en";
 
     // Where a message splits into independently glossed segments. '?' is
     // deliberately absent: dropping it would answer 大丈夫? with "It's all
@@ -46,13 +49,23 @@ public sealed class FfxivGlossary
 
     // Stand-ins for glossary terms when translating into a language other
     // than English. Google carries X1, X2… through untouched and places them
-    // sensibly ("請X1", "Setelah X1 adalah X2"); without them it re-translates
-    // the injected English literally (farming → 養殖, wipe → 擦拭).
+    // sensibly ("請X1", "Setelah X1 adalah X2"), and the target-language term
+    // goes back in afterwards. Handing Google the term itself instead gets it
+    // re-translated literally (farming → 養殖, wipe → 擦拭).
     private static readonly Regex Placeholder = new(
         @"(?<![A-Za-z])X(\d{1,3})(?!\d)", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
 
+    // A space Google leaves between two CJK characters once a placeholder has
+    // been swapped back ("如果 裝備箱 則") reads as a typo in Chinese.
+    private static readonly Regex CjkGap = new(
+        @"(?<=[　-〿぀-ヿ㐀-鿿＀-￯])[ \t]+(?=[　-〿぀-ヿ㐀-鿿＀-￯])",
+        RegexOptions.CultureInvariant);
+
+    private static readonly Rendering Lol = new(new Dictionary<string, string> { [English] = "lol" });
+
     private readonly Dictionary<string, Line> lines = new(StringComparer.Ordinal);
     private readonly Dictionary<char, Term[]> termsByFirstChar;
+    private readonly Rendering laugh;
 
     public static FfxivGlossary Empty { get; } = new(Array.Empty<Entry>());
 
@@ -69,7 +82,7 @@ public sealed class FfxivGlossary
 
             // A phrase wins a tie with a term so the line keeps its sentence form.
             if (entry.IsPhrase || !lines.ContainsKey(key))
-                lines[key] = new Line(entry.English, entry.IsPhrase);
+                lines[key] = new Line(entry.Text, entry.IsPhrase);
             Count++;
 
             if (entry.IsPhrase)
@@ -77,12 +90,15 @@ public sealed class FfxivGlossary
 
             if (!terms.TryGetValue(key[0], out var bucket))
                 terms[key[0]] = bucket = new List<Term>();
-            bucket.Add(new Term(key, entry.English, entry.Next, key.Length <= 2 && key.All(IsKanji)));
+            bucket.Add(new Term(key, entry.Text, entry.Next, key.Length <= 2 && key.All(IsKanji)));
         }
 
         termsByFirstChar = terms.ToDictionary(
             pair => pair.Key,
             pair => pair.Value.OrderByDescending(term => term.Key.Length).ToArray());
+
+        // The w entry says how a laugh reads in each language (lol, 哈哈, wkwk).
+        laugh = lines.TryGetValue("w", out var w) ? w.Text : Lol;
     }
 
     public static FfxivGlossary LoadEmbedded()
@@ -99,8 +115,21 @@ public sealed class FfxivGlossary
         foreach (var row in doc.RootElement.GetProperty("entries").EnumerateArray())
         {
             var japanese = row.GetProperty("ja").GetString();
-            var english = row.GetProperty("en").GetString();
-            if (string.IsNullOrWhiteSpace(japanese) || string.IsNullOrWhiteSpace(english))
+            if (string.IsNullOrWhiteSpace(japanese))
+                continue;
+
+            // Every other string property is a rendering keyed by language code.
+            var text = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+            foreach (var property in row.EnumerateObject())
+            {
+                if (property.Name is "ja" or "mode" or "next" or "src" ||
+                    property.Value.ValueKind != JsonValueKind.String)
+                    continue;
+                var value = property.Value.GetString();
+                if (!string.IsNullOrWhiteSpace(value))
+                    text[property.Name] = value.Trim();
+            }
+            if (!text.ContainsKey(English))
                 continue;
 
             var isPhrase = row.TryGetProperty("mode", out var mode) && mode.GetString() == "phrase";
@@ -112,34 +141,33 @@ public sealed class FfxivGlossary
                     "end" => Follow.End,
                     _ => Follow.Any,
                 };
-            entries.Add(new Entry(japanese, english.Trim(), isPhrase, next));
+            entries.Add(new Entry(japanese, new Rendering(text), isPhrase, next));
         }
 
         return new FfxivGlossary(entries);
     }
 
     /// <summary>
-    /// Translates Japanese <paramref name="text"/> with the glossary applied.
-    /// Returns null when no entry matched, so the caller falls back to its
-    /// plain translation path.
+    /// Translates Japanese <paramref name="text"/> into
+    /// <paramref name="targetLang"/> with the glossary applied. Returns null
+    /// when no entry matched, so the caller falls back to its plain
+    /// translation path.
     /// </summary>
     public async Task<TranslationResult?> TranslateAsync(
         Translator translator, string text, string targetLang, CancellationToken ct)
     {
-        var plan = Prepare(text);
-        var toEnglish = string.Equals(targetLang, "en", StringComparison.OrdinalIgnoreCase);
+        var plan = Prepare(text, targetLang);
 
-        // A line built from greetings and slang reads fine translated onward
-        // from English; one built from bare jargon would be re-translated
-        // literally, so for other targets that goes through the placeholders.
-        if (plan.Composed != null && (toEnglish || plan.ComposedFromPhrases))
+        if (plan.Composed != null)
         {
             DebugLog($"[dudu的書] glossary composed {plan.Hits} line(s): '{plan.Composed}'");
-            if (toEnglish)
+            if (!plan.ComposedNeedsTranslation)
                 return new TranslationResult(plan.Composed, string.Empty, "ja");
 
+            // A target the glossary has no renderings for: the English lines
+            // still translate cleanly as whole sentences.
             var viaEnglish = await translator.TranslateAsync(
-                plan.Composed, "en", targetLang, false, ct).ConfigureAwait(false);
+                plan.Composed, English, targetLang, false, ct).ConfigureAwait(false);
             return viaEnglish == null ? null : viaEnglish with { DetectedSource = "ja" };
         }
 
@@ -150,23 +178,23 @@ public sealed class FfxivGlossary
 
         // Into English the terms go in as words, so Google can build its
         // grammar around their meaning ("stack お願いします" → "stack please").
-        if (!toEnglish && plan.Shielded != null)
+        if (!IsEnglish(targetLang) && plan.Shielded != null)
         {
             var shielded = await translator.TranslateAsync(
                 plan.Shielded, "ja", targetLang, false, ct).ConfigureAwait(false);
             var restored = shielded == null ? null : Restore(shielded.Translated, plan.Terms);
             if (restored != null)
-                return shielded! with { Translated = restored, DetectedSource = "ja" };
+                return shielded! with { Translated = Tidy(restored, targetLang), DetectedSource = "ja" };
 
             DebugLog("[dudu的書] glossary placeholders did not survive translation; using inline terms");
         }
 
         var result = await translator.TranslateAsync(
             plan.Rewritten, "ja", targetLang, false, ct).ConfigureAwait(false);
-        return result == null ? null : result with { DetectedSource = "ja" };
+        return result == null ? null : result with { Translated = Tidy(result.Translated, targetLang), DetectedSource = "ja" };
     }
 
-    public GlossaryPlan Prepare(string text)
+    public GlossaryPlan Prepare(string text, string targetLang)
     {
         if (Count == 0 || string.IsNullOrWhiteSpace(text))
             return GlossaryPlan.None;
@@ -176,9 +204,9 @@ public sealed class FfxivGlossary
         var normalized = text.Normalize(NormalizationForm.FormKC).Trim();
         var folded = normalized.ToLowerInvariant();
 
-        var composed = Compose(folded, out var lineCount, out var fromPhrases);
+        var composed = Compose(folded, targetLang, out var lineCount, out var needsTranslation);
         var terms = new List<string>();
-        var (rewritten, shielded) = Inject(normalized, folded, terms);
+        var (rewritten, shielded) = Inject(normalized, folded, targetLang, terms);
 
         // Our own X1/X2 can't be told apart from text that already has them.
         if (Placeholder.IsMatch(normalized))
@@ -187,15 +215,15 @@ public sealed class FfxivGlossary
         if (composed == null && rewritten == null)
             return GlossaryPlan.None;
 
-        return new GlossaryPlan(composed, fromPhrases, rewritten, shielded, terms,
+        return new GlossaryPlan(composed, needsTranslation, rewritten, shielded, terms,
                                 composed != null ? lineCount : terms.Count);
     }
 
-    private string? Compose(string folded, out int count, out bool fromPhrases)
+    private string? Compose(string folded, string lang, out int count, out bool needsTranslation)
     {
-        var parts = new List<string>();
+        var parts = new List<(Line Line, bool Laugh)>();
         count = 0;
-        fromPhrases = true;
+        needsTranslation = false;
 
         var start = 0;
         for (var i = 0; i <= folded.Length; i++)
@@ -208,39 +236,82 @@ public sealed class FfxivGlossary
             if (segment.Length == 0)
                 continue;
 
-            if (GlossLine(segment) is not { } line)
+            if (GlossLine(segment) is not { } part)
                 return null;
-            parts.Add(line.English);
-            fromPhrases &= line.IsPhrase;
+            parts.Add(part);
         }
 
         count = parts.Count;
         if (parts.Count == 0)
             return null;
 
-        // Sentences already end in punctuation; bare terms ("ready check",
-        // "disband after 3 wipes") need a comma or they run together.
-        var sb = new StringBuilder(parts[0]);
-        for (var i = 1; i < parts.Count; i++)
-            sb.Append(parts[i - 1][^1] is '.' or '!' or '?' ? " " : ", ").Append(parts[i]);
-        return sb.ToString();
+        if (parts.All(p => p.Line.Text.Has(lang) && (!p.Laugh || laugh.Has(lang))))
+            return Join(parts, lang);
+
+        // No rendering for this target. Whole English sentences still
+        // translate well; bare English jargon would come back literal, so a
+        // line made of terms goes through the placeholder path instead.
+        if (!parts.All(p => p.Line.IsPhrase))
+            return null;
+        needsTranslation = true;
+        return Join(parts, English);
     }
 
-    private Line? GlossLine(string segment)
+    private (Line Line, bool Laugh)? GlossLine(string segment)
     {
         if (lines.TryGetValue(segment, out var line))
-            return line;
+            return (line, false);
 
         // A laugh tacked onto a known line (おつw, 了解笑) stays a laugh.
         var core = segment.TrimEnd('w', '笑', '草');
         if (core.Length == segment.Length)
             return null;
         if (core.Length == 0)
-            return new Line("lol", true);
-        return lines.TryGetValue(core, out line) ? line with { English = $"{line.English} lol" } : null;
+            return (new Line(laugh, true), false);
+        return lines.TryGetValue(core, out line) ? (line, true) : null;
     }
 
-    private (string? Rewritten, string? Shielded) Inject(string normalized, string folded, List<string> terms)
+    private string Join(IReadOnlyList<(Line Line, bool Laugh)> parts, string lang)
+    {
+        // Chinese and Japanese run sentences together without spaces.
+        var cjk = IsCjkLanguage(lang);
+        var sb = new StringBuilder();
+        foreach (var (line, withLaugh) in parts)
+        {
+            if (sb.Length > 0)
+            {
+                // Sentences already end in punctuation; bare terms ("ready
+                // check", "disband after 3 wipes") need a comma between them.
+                sb.Append(EndsSentence(sb) ? (cjk ? "" : " ") : (cjk ? "，" : ", "));
+            }
+            sb.Append(line.Text.For(lang));
+            if (withLaugh)
+                sb.Append(cjk ? "" : " ").Append(laugh.For(lang));
+        }
+        return sb.ToString();
+    }
+
+    // "Bye! (waves)" ends a sentence; "every food (30 min)" doesn't, so a
+    // closing parenthesis counts only when the text before it does.
+    private static bool EndsSentence(StringBuilder sb)
+    {
+        var end = sb.Length - 1;
+        if (sb[end] is ')' or '）')
+        {
+            while (end >= 0 && sb[end] is not ('(' or '（'))
+                end--;
+            end--;
+            while (end >= 0 && sb[end] == ' ')
+                end--;
+            if (end < 0)
+                return false;
+        }
+
+        return sb[end] is '.' or '!' or '?' or '。' or '！' or '？';
+    }
+
+    private (string? Rewritten, string? Shielded) Inject(
+        string normalized, string folded, string lang, List<string> terms)
     {
         var rewritten = new StringBuilder(normalized.Length + 32);
         var shielded = new StringBuilder(normalized.Length + 16);
@@ -249,14 +320,14 @@ public sealed class FfxivGlossary
         var i = 0;
         while (i < folded.Length)
         {
-            string? english = null;
+            Rendering? text = null;
             var length = 0;
 
-            var laugh = folded[i] == 'w' ? LaughterLength(folded, i) : 0;
-            if (laugh > 0)
+            var laughLength = folded[i] == 'w' ? LaughterLength(folded, i) : 0;
+            if (laughLength > 0)
             {
-                english = "lol";
-                length = laugh;
+                text = laugh;
+                length = laughLength;
             }
             else if (termsByFirstChar.TryGetValue(folded[i], out var candidates))
             {
@@ -264,21 +335,23 @@ public sealed class FfxivGlossary
                 {
                     if (folded.AsSpan(i).StartsWith(term.Key) && Fits(folded, i, term))
                     {
-                        english = term.English;
+                        text = term.Text;
                         length = term.Key.Length;
                         break;
                     }
                 }
             }
 
-            if (english != null)
+            if (text != null)
             {
-                terms.Add(english);
-                // English is spaced off from any letter, Japanese included:
-                // fused, Google misreads it ("cofferあればloot-and-leave" came
-                // back as "root-and-leave"). Placeholders read more naturally
-                // fused and only need room from Latin text (MT〆 → "MT X1").
-                AppendSpaced(rewritten, english, char.IsLetterOrDigit);
+                var word = text.For(lang);
+                terms.Add(word);
+                // Inline words are spaced off from any letter, Japanese
+                // included: fused, Google misreads them ("cofferあればloot-
+                // and-leave" came back as "root-and-leave"). Placeholders read
+                // more naturally fused and only need room from Latin text
+                // (MT〆 → "MT X1").
+                AppendSpaced(rewritten, word, char.IsLetterOrDigit);
                 AppendSpaced(shielded, $"X{terms.Count}", char.IsAsciiLetterOrDigit);
                 lastWasTerm = true;
                 i += length;
@@ -307,8 +380,8 @@ public sealed class FfxivGlossary
     }
 
     /// <summary>
-    /// Swaps X1, X2… back for their English terms, or returns null when any of
-    /// them was dropped or duplicated by the translator.
+    /// Swaps X1, X2… back for their terms, or returns null when any of them
+    /// was dropped or duplicated by the translator.
     /// </summary>
     private static string? Restore(string translated, IReadOnlyList<string> terms)
     {
@@ -323,6 +396,9 @@ public sealed class FfxivGlossary
         });
         return seen.All(n => n == 1) ? restored : null;
     }
+
+    private static string Tidy(string translated, string lang) =>
+        IsCjkLanguage(lang) ? CjkGap.Replace(translated, string.Empty) : translated;
 
     private static bool Fits(string s, int start, Term term)
     {
@@ -376,6 +452,12 @@ public sealed class FfxivGlossary
 
     private static string Fold(string s) => s.Normalize(NormalizationForm.FormKC).Trim().ToLowerInvariant();
 
+    private static bool IsEnglish(string lang) => string.Equals(lang, English, StringComparison.OrdinalIgnoreCase);
+
+    private static bool IsCjkLanguage(string lang) =>
+        lang.StartsWith("zh", StringComparison.OrdinalIgnoreCase) ||
+        lang.StartsWith("ja", StringComparison.OrdinalIgnoreCase);
+
     private static bool IsSegmentBreak(char c) => char.IsWhiteSpace(c) || SegmentBreaks.Contains(c);
 
     // ・ (U+30FB) is punctuation, not part of a katakana word.
@@ -406,24 +488,37 @@ public sealed class FfxivGlossary
         End,
     }
 
-    private sealed record Entry(string Japanese, string English, bool IsPhrase, Follow Next);
+    /// <summary>One glossary meaning, written out per target language.</summary>
+    private sealed class Rendering
+    {
+        private readonly Dictionary<string, string> byLanguage;
 
-    private sealed record Term(string Key, string English, Follow Next, bool ShortKanji);
+        public Rendering(Dictionary<string, string> byLanguage) => this.byLanguage = byLanguage;
 
-    private readonly record struct Line(string English, bool IsPhrase);
+        public bool Has(string lang) => byLanguage.ContainsKey(lang);
+
+        public string For(string lang) => byLanguage.TryGetValue(lang, out var text) ? text : byLanguage[English];
+    }
+
+    private sealed record Entry(string Japanese, Rendering Text, bool IsPhrase, Follow Next);
+
+    private sealed record Term(string Key, Rendering Text, Follow Next, bool ShortKanji);
+
+    private readonly record struct Line(Rendering Text, bool IsPhrase);
 }
 
 /// <summary>
-/// What the glossary would do to one message.
-/// <see cref="Composed"/>: complete English, set when every segment is a known
-/// entry (<see cref="ComposedFromPhrases"/> when none of them is bare jargon).
-/// <see cref="Rewritten"/>: the Japanese with English terms inlined, for
-/// translating into English. <see cref="Shielded"/>: the same with X1, X2…
-/// placeholders standing in for <see cref="Terms"/>, for other targets.
+/// What the glossary would do to one message, for one target language.
+/// <see cref="Composed"/>: the whole message, set when every segment is a
+/// known entry; already in the target language unless
+/// <see cref="ComposedNeedsTranslation"/> (English for a target the glossary
+/// has no renderings for). <see cref="Rewritten"/>: the Japanese with the
+/// target-language <see cref="Terms"/> inlined. <see cref="Shielded"/>: the
+/// same with X1, X2… placeholders standing in for them.
 /// </summary>
 public sealed record GlossaryPlan(
     string? Composed,
-    bool ComposedFromPhrases,
+    bool ComposedNeedsTranslation,
     string? Rewritten,
     string? Shielded,
     IReadOnlyList<string> Terms,
