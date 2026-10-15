@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.1.24.0
 
 - **FF14 terms now follow your target language.** Translating Japanese into Chinese or Indonesian no longer leaves English jargon in the result: every glossary entry has its own Chinese and Indonesian wording, using the terms players actually use. For example:
   - 安置どこ？ → 「安全點在哪裡？」 / "Dimana titik aman?" (was 「safe spot在哪裡？」 / "Dimana safe spot?")
