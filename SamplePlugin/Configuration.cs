@@ -38,6 +38,12 @@ public class Configuration : IPluginConfiguration
     // other source language.
     public bool UseFfxivGlossary { get; set; } = true;
 
+    // When true, short Japanese chat lines the plugin translates are recorded
+    // locally (Services/GlossaryCollector.cs) so recurring ones can be reviewed
+    // and added to the user's own glossary. Off by default: it stores other
+    // players' messages, so it has to be the user's choice.
+    public bool CollectGlossaryCandidates { get; set; } = false;
+
     public string UiLanguage { get; set; } = "en";
 
     private string targetLanguage = "en";

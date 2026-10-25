@@ -15,7 +15,7 @@ public sealed class PartyFinderContextMenu : IDisposable
 
     private readonly Configuration configuration;
     private readonly Translator translator;
-    private readonly FfxivGlossary glossary;
+    private readonly Func<FfxivGlossary> glossary;
     private readonly IContextMenu contextMenu;
     private readonly IFramework framework;
     private readonly IChatGui chatGui;
@@ -25,7 +25,7 @@ public sealed class PartyFinderContextMenu : IDisposable
     public PartyFinderContextMenu(
         Configuration configuration,
         Translator translator,
-        FfxivGlossary glossary,
+        Func<FfxivGlossary> glossary,
         IContextMenu contextMenu,
         IFramework framework,
         IChatGui chatGui,
@@ -98,7 +98,7 @@ public sealed class PartyFinderContextMenu : IDisposable
             try
             {
                 var result = capturedUseGlossary
-                    ? await glossary.TranslateAsync(translator, captured, capturedTarget, ct).ConfigureAwait(false)
+                    ? await glossary().TranslateAsync(translator, captured, capturedTarget, ct).ConfigureAwait(false)
                     : null;
                 result ??= await translator.TranslateAsync(
                     captured, capturedDetected, capturedTarget, false, ct).ConfigureAwait(false);

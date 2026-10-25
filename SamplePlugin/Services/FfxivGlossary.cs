@@ -65,6 +65,7 @@ public sealed class FfxivGlossary
 
     private readonly Dictionary<string, Line> lines = new(StringComparer.Ordinal);
     private readonly Dictionary<char, Term[]> termsByFirstChar;
+    private readonly Dictionary<string, (string Japanese, string Lang)> phrasesByRendering = new(StringComparer.Ordinal);
     private readonly Rendering laugh;
 
     public static FfxivGlossary Empty { get; } = new(Array.Empty<Entry>());
@@ -76,7 +77,7 @@ public sealed class FfxivGlossary
         var terms = new Dictionary<char, List<Term>>();
         foreach (var entry in entries)
         {
-            var key = Fold(entry.Japanese).TrimEnd(SegmentBreaks.ToCharArray());
+            var key = KeyOf(entry.Japanese);
             if (key.Length == 0)
                 continue;
 
@@ -86,7 +87,14 @@ public sealed class FfxivGlossary
             Count++;
 
             if (entry.IsPhrase)
+            {
+                // Variants of one line share a rendering (よろしくお願いします,
+                // よろしくです…); the first listed is the standard form, so it
+                // is the one /jp gives back.
+                foreach (var (lang, text) in entry.Text.All)
+                    phrasesByRendering.TryAdd(ReverseKey(text), (entry.Japanese.Trim(), lang));
                 continue;
+            }
 
             if (!terms.TryGetValue(key[0], out var bucket))
                 terms[key[0]] = bucket = new List<Term>();
@@ -101,14 +109,63 @@ public sealed class FfxivGlossary
         laugh = lines.TryGetValue("w", out var w) ? w.Text : Lol;
     }
 
-    public static FfxivGlossary LoadEmbedded()
+    /// <summary>
+    /// Loads the shipped glossary. <paramref name="overrides"/> is the user's
+    /// own glossary in the same format; its entries replace any built-in entry
+    /// with the same Japanese.
+    /// </summary>
+    public static FfxivGlossary LoadEmbedded(Stream? overrides = null)
     {
         using var stream = typeof(FfxivGlossary).Assembly.GetManifestResourceStream(ResourceName)
                            ?? throw new FileNotFoundException($"Embedded resource '{ResourceName}' is missing.");
-        return Parse(stream);
+        return Parse(stream, overrides);
     }
 
-    public static FfxivGlossary Parse(Stream json)
+    public static FfxivGlossary Parse(Stream json, Stream? overrides = null)
+    {
+        var entries = ReadEntries(json);
+        if (overrides != null)
+        {
+            // A language the user left blank keeps the built-in wording, so
+            // correcting the English doesn't lose the Chinese and Indonesian.
+            var builtIn = new Dictionary<string, Entry>(StringComparer.Ordinal);
+            foreach (var entry in entries)
+                builtIn.TryAdd(KeyOf(entry.Japanese), entry);
+
+            var mine = ReadEntries(overrides)
+                .Select(e => builtIn.TryGetValue(KeyOf(e.Japanese), out var old)
+                    ? e with { Text = e.Text.Over(old.Text) }
+                    : e)
+                .ToList();
+            var keys = mine.Select(e => KeyOf(e.Japanese)).ToHashSet(StringComparer.Ordinal);
+            entries.RemoveAll(e => keys.Contains(KeyOf(e.Japanese)));
+            entries.AddRange(mine);
+        }
+
+        return new FfxivGlossary(entries);
+    }
+
+    /// <summary>The form two spellings of the same entry share (ＰＴ and pt, おつ。 and おつ).</summary>
+    public static string KeyOf(string japanese) => Fold(japanese).TrimEnd(SegmentBreaks.ToCharArray());
+
+    /// <summary>
+    /// The Japanese phrase whose English, Chinese or Indonesian rendering is
+    /// exactly <paramref name="text"/> (ignoring case, width and trailing
+    /// punctuation other than '?'), for /jp. Terms are never matched: a bare
+    /// word like "stack" or "spread" means too many things in English.
+    /// </summary>
+    public (string Japanese, string Lang)? ToJapanese(string text) =>
+        !string.IsNullOrWhiteSpace(text) && phrasesByRendering.TryGetValue(ReverseKey(text), out var hit)
+            ? hit
+            : null;
+
+    /// <summary>How a rendering is looked up: "Hey!", "hey" and "ＨＥＹ！！" are one key.</summary>
+    public static string ReverseKey(string text) => KeyOf(Regex.Replace(text, @"\s+", " "));
+
+    /// <summary>True when every segment of <paramref name="text"/> is already a known line.</summary>
+    public bool Knows(string text) => Prepare(text, English).Composed != null;
+
+    private static List<Entry> ReadEntries(Stream json)
     {
         using var doc = JsonDocument.Parse(json);
         var entries = new List<Entry>();
@@ -144,7 +201,7 @@ public sealed class FfxivGlossary
             entries.Add(new Entry(japanese, new Rendering(text), isPhrase, next));
         }
 
-        return new FfxivGlossary(entries);
+        return entries;
     }
 
     /// <summary>
@@ -497,7 +554,18 @@ public sealed class FfxivGlossary
 
         public bool Has(string lang) => byLanguage.ContainsKey(lang);
 
+        public IEnumerable<KeyValuePair<string, string>> All => byLanguage;
+
         public string For(string lang) => byLanguage.TryGetValue(lang, out var text) ? text : byLanguage[English];
+
+        /// <summary>This rendering, with any language it lacks taken from <paramref name="fallback"/>.</summary>
+        public Rendering Over(Rendering fallback)
+        {
+            var merged = new Dictionary<string, string>(fallback.byLanguage, StringComparer.OrdinalIgnoreCase);
+            foreach (var (lang, text) in byLanguage)
+                merged[lang] = text;
+            return new Rendering(merged);
+        }
     }
 
     private sealed record Entry(string Japanese, Rendering Text, bool IsPhrase, Follow Next);

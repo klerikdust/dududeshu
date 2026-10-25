@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.1.25.0
+
+- **Help the glossary grow from real chat.** New setting **Collect Japanese lines to improve the glossary** in `/ducfg`, off by default. When on, short Japanese lines that get translated are saved on your PC. Lines the glossary already knows, long sentences and your own messages are skipped. Player names are never stored and nothing is uploaded.
+- **Review collected lines** opens a new window that lists the lines several players have used, with Google's translation as a starting point. Fill in how each one should read in English, Chinese and Indonesian (or let Google fill the blanks), then add it to **your own glossary**. Your entries take effect right away and take priority over the built-in ones. A language you leave blank keeps the built-in wording.
+- **Refreshed settings window.** `/ducfg` now uses Dalamud's newer UI pieces: on/off switches instead of checkboxes, (?) markers for explanations, and tabs (General, Languages, Channels, Glossary) instead of one long list. A coloured bar at the top shows whether the translator is on. The Channels tab has **All** / **None** buttons. Both windows can be pinned and use background blur if you have it turned on in Dalamud. A book button in the title bar opens the glossary review, and a cog button there leads back to settings.
+- **Clear collected lines** now needs Ctrl held while clicking, so a stray click can't throw away what you've collected.
+- **`/jp` checks your glossary first.** When what you type is exactly the English, Chinese or Indonesian of one of your entries (or several of them, like `Hey! GG, thanks!`), that entry's Japanese is copied and Google is skipped. Then it checks the built-in FF14 phrases the same way: `/jp Good night!` → おやすみなさい, `/jp Hello, let's do our best!` → よろしくお願いします. Only exact whole lines match; jargon words like `stack` and anything else are translated by Google as before.
+- Edits made to `user_glossary.json` by hand are picked up within a couple of seconds, no plugin reload needed.
+- The settings window is now split into tabs (General, Languages, Channels, Glossary), and the book icon in its title bar opens the glossary review.
+- **Copy my glossary (JSON)** copies your entries in the built-in glossary's format, so good ones can be shared and added to the plugin for everyone.
+
 ## 0.1.24.0
 
 - **FF14 terms now follow your target language.** Translating Japanese into Chinese or Indonesian no longer leaves English jargon in the result: every glossary entry has its own Chinese and Indonesian wording, using the terms players actually use. For example:

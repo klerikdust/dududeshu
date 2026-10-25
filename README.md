@@ -16,6 +16,7 @@ dudu的書 listens to the chat channels you choose and echoes a translation back
 - `/zh <text>` -> translates into Traditional Chinese and sends it on your active channel.
 - Auto-send toggle: instead of sending, the plugin can copy the translation to your clipboard and preview it in chat so you can paste it yourself with `Ctrl+V`.
 - FFXIV Japanese glossary: when the text being translated is Japanese, raid callouts, Party Finder shorthand and JP chat slang (頭割り, 消化, 野良, クリ目, おつ, 草…) come out as the terms players use in your target language (English, Chinese or Indonesian) instead of Google's literal reading ("head split", "digestion", "stray"). Built from [`Data/ffxiv_jp_en_dataset.json`](Data/ffxiv_jp_en_dataset.json), toggleable in the settings.
+- Glossary collector (opt-in): Japanese chat lines players keep using are collected on your PC so you can review them and add your own glossary entries.
 - Source-language filter (English / Japanese / Traditional Chinese).
 - Tiny config window (`/ducfg`, `/duconfig`, or `/duduconfig`)
 
@@ -79,6 +80,7 @@ Dalamud will check the custom repo automatically on launch. To force a refresh, 
 - **Show romaji in parentheses** : append romaji to Japanese translations.
 - **Show pinyin in parentheses** : append pinyin to Chinese translations.
 - **Use FFXIV glossary for Japanese** : on by default. Japanese messages, Party Finder descriptions and `/en` `/zh` input are run through the built-in FFXIV glossary before translation. Has no effect on any other source language.
+- **Collect Japanese lines to improve the glossary** : off by default. When on, short Japanese chat lines that get translated are saved locally (`glossary_candidates.json` in the plugin config folder; player names are not stored, nothing is uploaded). **Review collected lines** lists the ones several players have used: write how each should read in English / Chinese / Indonesian and add it to your own glossary (`user_glossary.json`), which takes priority over the built-in one. `/jp` also checks your glossary first: if your text is exactly the English / Chinese / Indonesian of one of your entries, its Japanese is used instead of Google. After that it tries the built-in FF14 phrases the same way (exact whole lines only), then Google. **Copy my glossary (JSON)** exports your entries in the built-in glossary's format so they can be shared and shipped to everyone.
 - **/jp and /zh auto-send the translation** : when on, the translated text is sent immediately on your active channel. When off, it's copied to your clipboard and previewed in an Echo line so you can paste with `Ctrl+V` and confirm before pressing Enter.
 - **Translate into** : your target language (English, Japanese, Traditional Chinese).
 - **Translate messages written in** : the source languages you want to be translated. Lines in your target language are skipped automatically.

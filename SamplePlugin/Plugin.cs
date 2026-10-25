@@ -36,12 +36,33 @@ public sealed class Plugin : IDalamudPlugin
     public WindowSystem WindowSystem { get; } = new("DuduBook");
 
     private readonly ConfigWindow configWindow;
+    private readonly GlossaryReviewWindow reviewWindow;
     private readonly Translator translator;
-    private readonly FfxivGlossary glossary;
     private readonly PartyFinderContextMenu partyFinderContextMenu;
     private readonly CancellationTokenSource cts = new();
 
+    // Swapped whole when the user approves a glossary entry; readers on
+    // translation threads always see one complete glossary.
+    private volatile FfxivGlossary glossary;
+    private long userGlossaryCheckedAt;
+
+    private static readonly TimeSpan UserGlossaryCheckInterval = TimeSpan.FromSeconds(2);
+
+    /// <summary>The glossary in use, including edits made to user_glossary.json by hand.</summary>
+    private FfxivGlossary Glossary
+    {
+        get
+        {
+            RefreshUserGlossary();
+            return glossary;
+        }
+    }
+
     public string DuduImagePath { get; }
+    public Translator Translator => translator;
+    public CancellationToken Token => cts.Token;
+    public UserGlossary UserGlossary { get; }
+    public GlossaryCollector Collector { get; }
 
     public Plugin()
     {
@@ -53,11 +74,16 @@ public sealed class Plugin : IDalamudPlugin
             PluginInterface.AssemblyLocation.Directory?.FullName ?? string.Empty, "dudu.png");
 
         translator = new Translator();
-        glossary = LoadGlossary();
+        var configDirectory = PluginInterface.GetPluginConfigDirectory();
+        UserGlossary = new UserGlossary(configDirectory);
+        glossary = LoadGlossary(UserGlossary);
+        Collector = new GlossaryCollector(configDirectory, () => glossary);
         configWindow = new ConfigWindow(this);
+        reviewWindow = new GlossaryReviewWindow(this);
         WindowSystem.AddWindow(configWindow);
+        WindowSystem.AddWindow(reviewWindow);
         partyFinderContextMenu = new PartyFinderContextMenu(
-            Configuration, translator, glossary, ContextMenu, Framework, ChatGui, Log, cts.Token);
+            Configuration, translator, () => Glossary, ContextMenu, Framework, ChatGui, Log, cts.Token);
 
         for (var i = 0; i < CommandNames.Length; i++)
         {
@@ -98,6 +124,7 @@ public sealed class Plugin : IDalamudPlugin
 
         WindowSystem.RemoveAllWindows();
         configWindow.Dispose();
+        reviewWindow.Dispose();
 
         CommandManager.RemoveHandler(CommandNames[0]);
         for (var i = 1; i < CommandNames.Length; i++)
@@ -109,10 +136,36 @@ public sealed class Plugin : IDalamudPlugin
         try { cts.Cancel(); } catch { /* ignore */ }
         cts.Dispose();
         partyFinderContextMenu.Dispose();
+        Collector.Dispose();
         translator.Dispose();
     }
 
     public void ToggleConfigUi() => configWindow.Toggle();
+
+    public void ToggleReviewUi() => reviewWindow.Toggle();
+
+    /// <summary>Rebuilds the glossary after the user's own entries changed.</summary>
+    public void ReloadGlossary()
+    {
+        glossary = LoadGlossary(UserGlossary);
+        Collector.Prune();
+    }
+
+    // At most every couple of seconds: it costs a file stat.
+    public void RefreshUserGlossary()
+    {
+        var now = Environment.TickCount64;
+        var last = Interlocked.Read(ref userGlossaryCheckedAt);
+        if (now - last < UserGlossaryCheckInterval.TotalMilliseconds ||
+            Interlocked.CompareExchange(ref userGlossaryCheckedAt, now, last) != last)
+            return;
+
+        if (UserGlossary.ReloadIfChanged())
+        {
+            Log.Information("[dudu的書] user_glossary.json changed on disk; reloaded");
+            ReloadGlossary();
+        }
+    }
 
     private void OnCommand(string command, string args) => ToggleConfigUi();
 
@@ -143,37 +196,39 @@ public sealed class Plugin : IDalamudPlugin
         {
             try
             {
-                var result = await translator.TranslateAsync(
-                    text, "auto", target, false, ct).ConfigureAwait(false);
+                RefreshUserGlossary();
 
-                var translated = result?.Translated;
+                // /jp looks for an exact line first: your own entries, then the
+                // built-in phrases. A match is used as-is and never reaches Google.
+                string? translated;
+                string detectedSource;
+                (string Japanese, string Lang)? exact = null;
+                var from = string.Empty;
+                if (IsJapanese(target))
+                {
+                    if ((exact = UserGlossary.ToJapanese(text)) != null)
+                        from = "your glossary";
+                    else if ((exact = Glossary.ToJapanese(text)) != null)
+                        from = "FFXIV glossary";
+                }
+
+                if (exact is { } hit)
+                {
+                    Log.Debug($"[dudu的書] {command} from {from}: '{hit.Japanese}'");
+                    translated = hit.Japanese;
+                    detectedSource = hit.Lang;
+                }
+                else
+                {
+                    (translated, detectedSource) = await TranslateForCopyAsync(text, target, useGlossary, ct)
+                                                       .ConfigureAwait(false);
+                }
+
                 if (string.IsNullOrWhiteSpace(translated))
                 {
                     await Framework.RunOnFrameworkThread(() =>
                         ChatGui.PrintError($"{T("clipboard.prefix")}{T("clipboard.translateFailed")}{text}"));
                     return;
-                }
-
-                var detectedSource = ResolveDetectedSource(
-                    text, result!.DetectedSource, out var sourceCorrected);
-
-                var glossed = useGlossary && IsJapanese(detectedSource) && !IsJapanese(target)
-                    ? await glossary.TranslateAsync(translator, text, target, ct).ConfigureAwait(false)
-                    : null;
-                if (!string.IsNullOrWhiteSpace(glossed?.Translated))
-                {
-                    result = glossed;
-                    translated = glossed.Translated;
-                }
-                else if (sourceCorrected)
-                {
-                    var correctedResult = await translator.TranslateAsync(
-                        text, detectedSource, target, false, ct).ConfigureAwait(false);
-                    if (!string.IsNullOrWhiteSpace(correctedResult?.Translated))
-                    {
-                        result = correctedResult;
-                        translated = correctedResult.Translated;
-                    }
                 }
 
                 // Clipboard work isn't framework-thread sensitive and may block
@@ -233,6 +288,35 @@ public sealed class Plugin : IDalamudPlugin
 
     private string T(string key) => Localization.Get(Configuration.UiLanguage, key);
 
+    private async Task<(string? Translated, string DetectedSource)> TranslateForCopyAsync(
+        string text, string target, bool useGlossary, CancellationToken ct)
+    {
+        var result = await translator.TranslateAsync(
+            text, "auto", target, false, ct).ConfigureAwait(false);
+
+        var translated = result?.Translated;
+        if (string.IsNullOrWhiteSpace(translated))
+            return (null, string.Empty);
+
+        var detectedSource = ResolveDetectedSource(
+            text, result!.DetectedSource, out var sourceCorrected);
+
+        var glossed = useGlossary && IsJapanese(detectedSource) && !IsJapanese(target)
+            ? await Glossary.TranslateAsync(translator, text, target, ct).ConfigureAwait(false)
+            : null;
+        if (!string.IsNullOrWhiteSpace(glossed?.Translated))
+            translated = glossed.Translated;
+        else if (sourceCorrected)
+        {
+            var correctedResult = await translator.TranslateAsync(
+                text, detectedSource, target, false, ct).ConfigureAwait(false);
+            if (!string.IsNullOrWhiteSpace(correctedResult?.Translated))
+                translated = correctedResult.Translated;
+        }
+
+        return (translated, detectedSource);
+    }
+
     private static string ResolveDetectedSource(
         string text, string googleSource, out bool sourceCorrected)
     {
@@ -261,21 +345,45 @@ public sealed class Plugin : IDalamudPlugin
     private static bool IsJapanese(string lang) =>
         string.Equals(lang, "ja", StringComparison.OrdinalIgnoreCase);
 
-    private static FfxivGlossary LoadGlossary()
+    private static FfxivGlossary LoadGlossary(UserGlossary userGlossary)
     {
         try
         {
-            var loaded = FfxivGlossary.LoadEmbedded();
-            Log.Debug($"[dudu的書] FFXIV glossary loaded: {loaded.Count} entries");
+            using var overrides = userGlossary.ToStream();
+            var loaded = FfxivGlossary.LoadEmbedded(overrides);
+            Log.Debug($"[dudu的書] FFXIV glossary loaded: {loaded.Count} entries ({userGlossary.Count} of yours)");
             return loaded;
+        }
+        catch (Exception ex) when (userGlossary.Count > 0)
+        {
+            // A bad user entry must not take the built-in glossary down with it.
+            Log.Warning($"[dudu的書] your glossary entries could not be applied: {ex.Message}");
+            return LoadBuiltInGlossary();
         }
         catch (Exception ex)
         {
-            // A broken glossary only costs the jargon pass; translation itself
-            // keeps working through the plain Google path.
-            Log.Warning($"[dudu的書] FFXIV glossary unavailable: {ex.Message}");
-            return FfxivGlossary.Empty;
+            return GlossaryUnavailable(ex);
         }
+    }
+
+    private static FfxivGlossary LoadBuiltInGlossary()
+    {
+        try
+        {
+            return FfxivGlossary.LoadEmbedded();
+        }
+        catch (Exception ex)
+        {
+            return GlossaryUnavailable(ex);
+        }
+    }
+
+    private static FfxivGlossary GlossaryUnavailable(Exception ex)
+    {
+        // A broken glossary only costs the jargon pass; translation itself
+        // keeps working through the plain Google path.
+        Log.Warning($"[dudu的書] FFXIV glossary unavailable: {ex.Message}");
+        return FfxivGlossary.Empty;
     }
 
     private static bool SameText(string left, string right) =>
@@ -357,6 +465,8 @@ public sealed class Plugin : IDalamudPlugin
         var capturedShowRomaji = showRomaji;
         var capturedShowPinyin = showPinyin;
         var capturedUseGlossary = Configuration.UseFfxivGlossary;
+        // Decided here: ObjectTable may only be read on the framework thread.
+        var capturedCollect = Configuration.CollectGlossaryCandidates && !IsLocalPlayer(senderName);
         var ct = cts.Token;
 
         _ = Task.Run(async () =>
@@ -420,7 +530,7 @@ public sealed class Plugin : IDalamudPlugin
                                          LanguageDetector.NeedsTransliteration(capturedTarget);
 
                 var glossed = capturedUseGlossary && IsJapanese(detected)
-                    ? await glossary.TranslateAsync(translator, capturedText, capturedTarget, ct).ConfigureAwait(false)
+                    ? await Glossary.TranslateAsync(translator, capturedText, capturedTarget, ct).ConfigureAwait(false)
                     : null;
 
                 if (!string.IsNullOrWhiteSpace(glossed?.Translated))
@@ -450,6 +560,9 @@ public sealed class Plugin : IDalamudPlugin
                 Log.Debug(
                     $"[dudu的書] detected={detected} target={capturedTarget} " +
                     $"trans='{result.Translated}' translit='{translit}'");
+
+                if (capturedCollect && IsJapanese(detected))
+                    Collector.Record(capturedText, capturedSender, result.Translated, capturedTarget);
 
                 var finalResult = new TranslationResult(result.Translated, translit ?? string.Empty, detected);
                 var showTranslit = !string.IsNullOrWhiteSpace(translit);
