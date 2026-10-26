@@ -101,6 +101,15 @@ public sealed class FfxivGlossary
             bucket.Add(new Term(key, entry.Text, entry.Next, key.Length <= 2 && key.All(IsKanji)));
         }
 
+        // Aliases only fill keys no rendering claimed, so another phrase's own
+        // wording always beats an alternative spelling of this one.
+        foreach (var entry in entries.Where(e => e.IsPhrase && KeyOf(e.Japanese).Length > 0))
+        {
+            foreach (var (lang, aliases) in entry.Aliases)
+                foreach (var alias in aliases)
+                    phrasesByRendering.TryAdd(ReverseKey(alias), (entry.Japanese.Trim(), lang));
+        }
+
         termsByFirstChar = terms.ToDictionary(
             pair => pair.Key,
             pair => pair.Value.OrderByDescending(term => term.Key.Length).ToArray());
@@ -134,7 +143,7 @@ public sealed class FfxivGlossary
 
             var mine = ReadEntries(overrides)
                 .Select(e => builtIn.TryGetValue(KeyOf(e.Japanese), out var old)
-                    ? e with { Text = e.Text.Over(old.Text) }
+                    ? e with { Text = e.Text.Over(old.Text), Aliases = MergeAliases(e.Aliases, old.Aliases) }
                     : e)
                 .ToList();
             var keys = mine.Select(e => KeyOf(e.Japanese)).ToHashSet(StringComparer.Ordinal);
@@ -149,18 +158,41 @@ public sealed class FfxivGlossary
     public static string KeyOf(string japanese) => Fold(japanese).TrimEnd(SegmentBreaks.ToCharArray());
 
     /// <summary>
-    /// The Japanese phrase whose English, Chinese or Indonesian rendering is
-    /// exactly <paramref name="text"/> (ignoring case, width and trailing
-    /// punctuation other than '?'), for /jp. Terms are never matched: a bare
-    /// word like "stack" or "spread" means too many things in English.
+    /// The Japanese phrase whose English, Chinese or Indonesian rendering, or
+    /// one of its aliases, is exactly <paramref name="text"/> as
+    /// <see cref="ReverseKey"/> compares it, for /jp. Terms are never matched:
+    /// a bare word like "stack" or "spread" means too many things in English.
     /// </summary>
     public (string Japanese, string Lang)? ToJapanese(string text) =>
-        !string.IsNullOrWhiteSpace(text) && phrasesByRendering.TryGetValue(ReverseKey(text), out var hit)
+        ReverseKey(text) is { Length: > 0 } key && phrasesByRendering.TryGetValue(key, out var hit)
             ? hit
             : null;
 
-    /// <summary>How a rendering is looked up: "Hey!", "hey" and "ＨＥＹ！！" are one key.</summary>
-    public static string ReverseKey(string text) => KeyOf(Regex.Replace(text, @"\s+", " "));
+    /// <summary>
+    /// How a rendering is looked up: case, width, spaces, apostrophes and
+    /// trailing punctuation other than '?' are ignored, so "Don't worry!",
+    /// "dont worry", "Don’t worry" and "ＤＯＮＴ ＷＯＲＲＹ！！" are one key, as
+    /// are "it's okay" and "itsokay".
+    /// </summary>
+    public static string ReverseKey(string text) =>
+        KeyOf(ReverseNoise.Replace(text.Normalize(NormalizationForm.FormKC), string.Empty));
+
+    // How people mistype a line, never what tells two lines apart.
+    private static readonly Regex ReverseNoise = new(@"[\s'‘’ʼ`´]+", RegexOptions.CultureInvariant);
+
+    private static IReadOnlyDictionary<string, string[]> MergeAliases(
+        IReadOnlyDictionary<string, string[]> mine, IReadOnlyDictionary<string, string[]> builtIn)
+    {
+        var merged = new Dictionary<string, string[]>(StringComparer.OrdinalIgnoreCase);
+        foreach (var lang in mine.Keys.Concat(builtIn.Keys).Distinct(StringComparer.OrdinalIgnoreCase))
+        {
+            merged[lang] = mine.GetValueOrDefault(lang, Array.Empty<string>())
+                               .Concat(builtIn.GetValueOrDefault(lang, Array.Empty<string>()))
+                               .DistinctBy(ReverseKey)
+                               .ToArray();
+        }
+        return merged;
+    }
 
     /// <summary>True when every segment of <paramref name="text"/> is already a known line.</summary>
     public bool Knows(string text) => Prepare(text, English).Composed != null;
@@ -179,7 +211,7 @@ public sealed class FfxivGlossary
             var text = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
             foreach (var property in row.EnumerateObject())
             {
-                if (property.Name is "ja" or "mode" or "next" or "src" ||
+                if (property.Name is "ja" or "aliases" or "mode" or "next" or "src" ||
                     property.Value.ValueKind != JsonValueKind.String)
                     continue;
                 var value = property.Value.GetString();
@@ -198,10 +230,32 @@ public sealed class FfxivGlossary
                     "end" => Follow.End,
                     _ => Follow.Any,
                 };
-            entries.Add(new Entry(japanese, new Rendering(text), isPhrase, next));
+            entries.Add(new Entry(japanese, new Rendering(text), isPhrase, next, ReadAliases(row)));
         }
 
         return entries;
+    }
+
+    // "aliases": { "en": ["no worries", "dont worry about that"], "id": [...] }
+    private static IReadOnlyDictionary<string, string[]> ReadAliases(JsonElement row)
+    {
+        var aliases = new Dictionary<string, string[]>(StringComparer.OrdinalIgnoreCase);
+        if (!row.TryGetProperty("aliases", out var map) || map.ValueKind != JsonValueKind.Object)
+            return aliases;
+
+        foreach (var lang in map.EnumerateObject())
+        {
+            if (lang.Value.ValueKind != JsonValueKind.Array)
+                continue;
+            var list = lang.Value.EnumerateArray()
+                           .Where(v => v.ValueKind == JsonValueKind.String)
+                           .Select(v => v.GetString()!.Trim())
+                           .Where(v => v.Length > 0)
+                           .ToArray();
+            if (list.Length > 0)
+                aliases[lang.Name] = list;
+        }
+        return aliases;
     }
 
     /// <summary>
@@ -568,7 +622,9 @@ public sealed class FfxivGlossary
         }
     }
 
-    private sealed record Entry(string Japanese, Rendering Text, bool IsPhrase, Follow Next);
+    /// <summary><see cref="Aliases"/>: other wordings per language that /jp also recognises; never output.</summary>
+    private sealed record Entry(
+        string Japanese, Rendering Text, bool IsPhrase, Follow Next, IReadOnlyDictionary<string, string[]> Aliases);
 
     private sealed record Term(string Key, Rendering Text, Follow Next, bool ShortKanji);
 

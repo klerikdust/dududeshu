@@ -63,8 +63,9 @@ public sealed class UserGlossary
 
     /// <summary>
     /// The Japanese for <paramref name="text"/> when it is exactly the
-    /// English, Chinese or Indonesian of one of the user's entries, or a run
-    /// of such lines ("Hey! GG, thanks!"). Null when any part is unknown, so
+    /// English, Chinese or Indonesian of one of the user's entries or one of
+    /// its aliases (compared by <see cref="FfxivGlossary.ReverseKey"/>), or a
+    /// run of such lines ("Hey! GG, thanks!"). Null when any part is unknown, so
     /// the caller translates the whole text normally. Only whole lines match:
     /// a word inside a sentence ("stack" in "stack on me") can mean too many
     /// things to swap blindly.
@@ -189,18 +190,29 @@ public sealed class UserGlossary
         }
     }
 
-    // Rebuilds the /jp lookup. A later entry wins when two share a rendering.
+    // Rebuilds the /jp lookup. A later entry wins when two share a rendering,
+    // and any entry's own rendering wins over another entry's alias.
     private void Indexed()
     {
         var index = new Dictionary<string, (string, string)>(StringComparer.Ordinal);
+        void Put(string? text, string japanese, string lang)
+        {
+            if (!string.IsNullOrWhiteSpace(text) && FfxivGlossary.ReverseKey(text) is { Length: > 0 } key)
+                index[key] = (japanese, lang);
+        }
+
+        foreach (var entry in entries)
+        {
+            foreach (var (lang, aliases) in entry.Aliases ?? new())
+                foreach (var alias in aliases)
+                    Put(alias, entry.Japanese.Trim(), lang);
+        }
         foreach (var entry in entries)
         {
             var japanese = entry.Japanese.Trim();
-            foreach (var (lang, text) in new[] { ("en", entry.English), ("zh-TW", entry.Chinese), ("id", entry.Indonesian) })
-            {
-                if (!string.IsNullOrWhiteSpace(text) && FfxivGlossary.ReverseKey(text) is { Length: > 0 } key)
-                    index[key] = (japanese, lang);
-            }
+            Put(entry.English, japanese, "en");
+            Put(entry.Chinese, japanese, "zh-TW");
+            Put(entry.Indonesian, japanese, "id");
         }
         toJapanese = index;
     }
@@ -233,6 +245,13 @@ public sealed class UserGlossaryEntry
     [JsonPropertyName("id")]
     public string? Indonesian { get; set; }
 
+    /// <summary>
+    /// Other ways people type this line, per language ("no worries" for
+    /// どまです). /jp recognises them too; they are never used as a translation.
+    /// </summary>
+    [JsonPropertyName("aliases")]
+    public Dictionary<string, List<string>>? Aliases { get; set; }
+
     /// <summary>"phrase" for a whole chat line; null for a term used inside sentences.</summary>
     [JsonPropertyName("mode")]
     public string? Mode { get; set; }
@@ -243,5 +262,10 @@ public sealed class UserGlossaryEntry
     [JsonIgnore]
     public bool IsPhrase => Mode == "phrase";
 
-    public UserGlossaryEntry Clone() => (UserGlossaryEntry)MemberwiseClone();
+    public UserGlossaryEntry Clone()
+    {
+        var copy = (UserGlossaryEntry)MemberwiseClone();
+        copy.Aliases = Aliases?.ToDictionary(pair => pair.Key, pair => pair.Value.ToList());
+        return copy;
+    }
 }

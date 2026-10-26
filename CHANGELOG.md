@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.26.0
+
+- **`/jp` is more forgiving about how you type a line.** Spaces and apostrophes no longer matter when matching your glossary or the built-in phrases: `dont worry about it`, `Don’t worry about it` and `DONT WORRY ABOUT IT!!` all find the same entry, and so do `goodnight` and `Good night!`.
+- **Other ways to say it.** Each entry in the glossary review window has an **also** field under every language. List other wordings there, separated by `|` (for example `no worries | dont worry about that` on どまです, or `gapapa | santai aja` in Indonesian), and `/jp` will copy that entry's Japanese for any of them. They are only used for matching, never shown as a translation, and they are included in **Copy my glossary (JSON)**.
+
 ## 0.1.25.0
 
 - **Help the glossary grow from real chat.** New setting **Collect Japanese lines to improve the glossary** in `/ducfg`, off by default. When on, short Japanese lines that get translated are saved on your PC. Lines the glossary already knows, long sentences and your own messages are skipped. Player names are never stored and nothing is uploaded.

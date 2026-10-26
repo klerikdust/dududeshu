@@ -87,6 +87,12 @@ public static class Localization
             ["tooltip.dismiss"]           = "Remove this line and never collect it again.",
             ["review.delete"]             = "Delete",
             ["review.needEnglish"]        = "English is required.",
+            ["review.aliases"]            = "also",
+            ["review.aliasesHint"]        = "other ways to say it, separated by |",
+            ["tooltip.aliases"] =
+                "Other ways people type this line, for /jp only (like: no worries | dont worry about that).\n" +
+                "Separate them with |. Case, spaces, apostrophes and a trailing ! or . don't matter.\n" +
+                "They are never used as a translation.",
             ["enable.autoSend"]           = "/jp and /zh auto-send the translation",
             ["tooltip.autoSend"] =
                 "On: the translated text is sent on the active channel automatically.\n" +
@@ -199,6 +205,12 @@ public static class Localization
             ["tooltip.dismiss"]           = "Hapus kalimat ini dan jangan kumpulkan lagi.",
             ["review.delete"]             = "Hapus",
             ["review.needEnglish"]        = "Bahasa Inggris wajib diisi.",
+            ["review.aliases"]            = "juga",
+            ["review.aliasesHint"]        = "cara lain menulisnya, pisahkan dengan |",
+            ["tooltip.aliases"] =
+                "Cara lain orang mengetik kalimat ini, hanya untuk /jp (misalnya: gapapa | santai aja).\n" +
+                "Pisahkan dengan |. Huruf besar/kecil, spasi, apostrof, dan ! atau . di akhir tidak berpengaruh.\n" +
+                "Tidak pernah dipakai sebagai terjemahan.",
             ["enable.autoSend"]           = "Kirim otomatis terjemahan dari /jp dan /zh",
             ["tooltip.autoSend"] =
                 "Aktif: terjemahan langsung dikirim ke saluran chat yang sedang aktif.\n" +
@@ -309,6 +321,12 @@ public static class Localization
             ["tooltip.dismiss"]           = "移除這則訊息，之後也不再收集。",
             ["review.delete"]             = "刪除",
             ["review.needEnglish"]        = "必須填寫英文。",
+            ["review.aliases"]            = "其他說法",
+            ["review.aliasesHint"]        = "其他寫法，用 | 分隔",
+            ["tooltip.aliases"] =
+                "這句話的其他打法，僅供 /jp 使用（例如：沒事 | 別在意）。\n" +
+                "用 | 分隔。大小寫、空格、撇號和句尾的 ! 或 . 都不影響比對。\n" +
+                "不會被當成翻譯使用。",
             ["enable.autoSend"]           = "/jp 與 /zh 自動發送翻譯結果",
             ["tooltip.autoSend"] =
                 "開啟：翻譯後的訊息會直接送到當前頻道。\n" +

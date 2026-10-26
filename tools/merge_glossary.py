@@ -14,6 +14,8 @@ clipboard. This script folds them into Data/ffxiv_jp_glossary.json:
     jargon literally (零式消化 -> "Pencernaan tipe nol", "type-zero
     digestion"), which is the whole reason the glossary exists. Only a
     missing English is translated from the Japanese.
+  * `aliases` (other wordings /jp recognises, per language) are combined:
+    the user's first, then the built-in ones, without repeats.
   * `src` becomes "curated" on entries that changed.
 
 "Same Japanese" mirrors FfxivGlossary.KeyOf: NFKC, lower-case, trimmed, and
@@ -29,6 +31,7 @@ Review the printed changes (and `git diff Data/`) before committing.
 
 import argparse
 import json
+import re
 import subprocess
 import sys
 import time
@@ -41,13 +44,38 @@ REPO = Path(__file__).resolve().parent.parent
 GLOSSARY = REPO / "Data" / "ffxiv_jp_glossary.json"
 
 LANGS = ("en", "zh-TW", "id")
-KEY_ORDER = ("ja", "en", "zh-TW", "id", "mode", "next", "src")
+KEY_ORDER = ("ja", "en", "zh-TW", "id", "aliases", "mode", "next", "src")
 # FfxivGlossary.SegmentBreaks, plus the whitespace KeyOf trims.
 SEGMENT_BREAKS = "、,。.!~〜…♪☆★♡♥ \t\r\n"
 
 
 def key_of(japanese: str) -> str:
     return unicodedata.normalize("NFKC", japanese).strip().lower().rstrip(SEGMENT_BREAKS)
+
+
+def reverse_key(text: str) -> str:
+    """FfxivGlossary.ReverseKey: also ignores spaces and apostrophes ("dont" == "don't")."""
+    return key_of(re.sub(r"[\s'‘’ʼ`´]+", "", unicodedata.normalize("NFKC", text)))
+
+
+def merge_aliases(mine, built_in, renderings: dict) -> dict:
+    """Per language: the user's aliases, then the built-in ones; no repeats, no copy of the rendering."""
+    merged = {}
+    for source in (mine, built_in):
+        if not isinstance(source, dict):
+            continue
+        for lang, aliases in source.items():
+            if isinstance(aliases, str):
+                aliases = [aliases]
+            if not isinstance(aliases, list):
+                continue
+            target = merged.setdefault(lang, [])
+            seen = {reverse_key(a) for a in target} | {reverse_key(clean(renderings.get(lang)))}
+            for alias in map(clean, aliases):
+                if alias and reverse_key(alias) and reverse_key(alias) not in seen:
+                    target.append(alias)
+                    seen.add(reverse_key(alias))
+    return {lang: aliases for lang, aliases in merged.items() if aliases}
 
 
 def clean(value) -> str:
@@ -138,6 +166,11 @@ def main() -> None:
         for lang in LANGS:
             if clean(item.get(lang)):
                 merged[lang] = clean(item[lang])
+        aliases = merge_aliases(item.get("aliases"), merged.get("aliases"), merged)
+        if aliases:
+            merged["aliases"] = aliases
+        else:
+            merged.pop("aliases", None)
         # The export always says what kind of entry it is: "phrase" or absent (term).
         if clean(item.get("mode")) == "phrase":
             merged["mode"] = "phrase"
@@ -171,6 +204,8 @@ def main() -> None:
             print(f"  + {japanese} ({kind})")
             for lang in LANGS:
                 print(f"      {lang:5} {merged.get(lang, '')}{'   ← Google' if lang in filled else ''}")
+            for lang, aliases in merged.get("aliases", {}).items():
+                print(f"      also {lang:5} {' | '.join(aliases)}")
         elif merged == ordered(existing):
             unchanged += 1
             continue
@@ -183,6 +218,8 @@ def main() -> None:
                 if before != after:
                     note = "   ← Google" if field in filled else ""
                     print(f"      {field:5} {before or '∅'}  →  {after or '∅'}{note}")
+            if existing.get("aliases") != merged.get("aliases"):
+                print(f"      also  {existing.get('aliases') or '∅'}  →  {merged.get('aliases') or '∅'}")
         if filled:
             to_review.append(f"{japanese}: {', '.join(filled)}")
 

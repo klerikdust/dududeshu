@@ -22,6 +22,8 @@ namespace SamplePlugin.Windows;
 public sealed class GlossaryReviewWindow : Window, IDisposable
 {
     private const int MaxFieldLength = 256;
+    private const int MaxAliasesLength = 512;
+    private const char AliasSeparator = '|';
     private static readonly TimeSpan RefreshInterval = TimeSpan.FromSeconds(2);
 
     private readonly Plugin plugin;
@@ -40,6 +42,10 @@ public sealed class GlossaryReviewWindow : Window, IDisposable
     private string english = string.Empty;
     private string chinese = string.Empty;
     private string indonesian = string.Empty;
+    // Other wordings /jp should also recognise, '|'-separated as typed.
+    private string englishAliases = string.Empty;
+    private string chineseAliases = string.Empty;
+    private string indonesianAliases = string.Empty;
     private bool phrase = true;
     private string hint = string.Empty;
     private string status = string.Empty;
@@ -237,8 +243,11 @@ public sealed class GlossaryReviewWindow : Window, IDisposable
                 ImGui.TableSetupColumn("value", ImGuiTableColumnFlags.WidthStretch);
                 Field(T("review.japanese"), "##ja", ref japanese);
                 Field(T("lang.en"), "##en", ref english);
+                AliasField("##enAliases", ref englishAliases);
                 Field(T("lang.zh-TW"), "##zh", ref chinese);
+                AliasField("##zhAliases", ref chineseAliases);
                 Field(T("lang.id"), "##id", ref indonesian);
+                AliasField("##idAliases", ref indonesianAliases);
             }
         }
 
@@ -295,6 +304,19 @@ public sealed class GlossaryReviewWindow : Window, IDisposable
         ImGui.TableNextColumn();
         ImGui.SetNextItemWidth(-1);
         ImGui.InputText(id, ref value, MaxFieldLength);
+    }
+
+    private void AliasField(string id, ref string value)
+    {
+        ImGui.TableNextRow();
+        ImGui.TableNextColumn();
+        ImGui.AlignTextToFramePadding();
+        ImGui.TextColored(ImGuiColors.DalamudGrey3, T("review.aliases"));
+        ImGui.TableNextColumn();
+        ImGui.SetNextItemWidth(-1);
+        ImGui.InputTextWithHint(id, T("review.aliasesHint"), ref value, MaxAliasesLength);
+        if (ImGui.IsItemHovered())
+            ImGui.SetTooltip(T("tooltip.aliases"));
     }
 
     /// <summary>The semantic backgrounds are translucent; buttons need more body on hover/press.</summary>
@@ -377,6 +399,9 @@ public sealed class GlossaryReviewWindow : Window, IDisposable
         english = entry.English;
         chinese = entry.Chinese ?? string.Empty;
         indonesian = entry.Indonesian ?? string.Empty;
+        englishAliases = JoinAliases(entry, "en");
+        chineseAliases = JoinAliases(entry, "zh-TW");
+        indonesianAliases = JoinAliases(entry, "id");
         phrase = entry.IsPhrase;
     }
 
@@ -386,6 +411,7 @@ public sealed class GlossaryReviewWindow : Window, IDisposable
         originalJapanese = original;
         editingMine = isMine;
         english = chinese = indonesian = hint = status = string.Empty;
+        englishAliases = chineseAliases = indonesianAliases = string.Empty;
     }
 
     private void Deselect()
@@ -394,6 +420,37 @@ public sealed class GlossaryReviewWindow : Window, IDisposable
         originalJapanese = null;
         editingMine = false;
         japanese = english = chinese = indonesian = hint = status = string.Empty;
+        englishAliases = chineseAliases = indonesianAliases = string.Empty;
+    }
+
+    private static string JoinAliases(UserGlossaryEntry entry, string lang) =>
+        entry.Aliases?.GetValueOrDefault(lang) is { Count: > 0 } list
+            ? string.Join($" {AliasSeparator} ", list)
+            : string.Empty;
+
+    /// <summary>
+    /// The typed aliases per language, minus blanks, repeats and the entry's
+    /// own rendering. Null when there are none, so the file stays as before.
+    /// </summary>
+    private Dictionary<string, List<string>>? ParseAliases()
+    {
+        var aliases = new Dictionary<string, List<string>>();
+        foreach (var (lang, typed, rendering) in new[]
+                 {
+                     ("en", englishAliases, english),
+                     ("zh-TW", chineseAliases, chinese),
+                     ("id", indonesianAliases, indonesian),
+                 })
+        {
+            var own = FfxivGlossary.ReverseKey(rendering);
+            var list = typed.Split(AliasSeparator, StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries)
+                            .Where(a => FfxivGlossary.ReverseKey(a) is { Length: > 0 } key && key != own)
+                            .DistinctBy(FfxivGlossary.ReverseKey)
+                            .ToList();
+            if (list.Count > 0)
+                aliases[lang] = list;
+        }
+        return aliases.Count > 0 ? aliases : null;
     }
 
     private void Commit()
@@ -410,6 +467,7 @@ public sealed class GlossaryReviewWindow : Window, IDisposable
             English = english.Trim(),
             Chinese = NullIfBlank(chinese),
             Indonesian = NullIfBlank(indonesian),
+            Aliases = ParseAliases(),
             Mode = phrase ? "phrase" : null,
         };
 
